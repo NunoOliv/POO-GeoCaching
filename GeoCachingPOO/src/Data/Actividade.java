@@ -7,7 +7,7 @@ package Data;
 
 /**
  *
- * @author Rafael
+ * @author Nuno Oliveira
  */
 class Actividade {
     
