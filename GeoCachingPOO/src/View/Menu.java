@@ -2,7 +2,10 @@ package View;
 
 import Business.Core;
 import Exceptions.CamposInvalidosException;
+import Exceptions.DataInvalidaException;
 import Exceptions.EmailInvalidoException;
+import Exceptions.EmailJaExisteException;
+import Exceptions.GeneroInvalidoException;
 import Exceptions.PasswordMissmatchException;
 import Exceptions.UserNaoExisteException;
 import java.io.PrintStream;
@@ -78,7 +81,7 @@ public class Menu {
     private void login() {
         String user;
         String pass;
-        
+
         clearScreen();
         out.println("*** Login ***");
         out.println();
@@ -119,6 +122,78 @@ public class Menu {
     private void register() {
         String mail;
         String pass;
+        String nome;
+        String genero;
+        String morada;
+        int dia;
+        int mes;
+        int ano;
+
+        clearScreen();
+        out.println("*** Registar ***");
+        out.println();
+        out.println("Introduza os seus dados:");
+        out.print("Email: ");
+        mail = in.nextLine();
+        try {
+            core.checkMail(mail);
+        } catch (EmailInvalidoException ex) {
+            out.println("Email inválido!");
+            in.nextLine();
+            clearScreen();
+            return;
+        }
+        out.print("Password: ");
+        pass = in.nextLine();
+        out.print("Nome: ");
+        nome = in.nextLine();
+        out.print("Género (M/F): ");
+        genero = in.nextLine();
+        out.print("Morada: ");
+        morada = in.nextLine();
+        try {
+            out.println("Data de Nascimento: ");
+            out.print("- Dia (1 até 31): ");
+            dia = Integer.parseInt(in.nextLine());
+            out.print("- Mês (1 até 12): ");
+            mes = Integer.parseInt(in.nextLine());
+            out.print("- Ano: ");
+            ano = Integer.parseInt(in.nextLine());
+        } catch (Exception e) {
+            out.print("Data de Nascimento introduzida inválida!");
+            in.nextLine();
+            clearScreen();
+            return;
+        }
+
+        try {
+            core.registar(mail, pass, nome, genero, morada, dia, mes, ano);
+        } catch (CamposInvalidosException ex) {
+            out.println("Um ou mais campos foram introduzidos de forma inválida!");
+            in.nextLine();
+            clearScreen();
+        } catch (EmailJaExisteException ex) {
+            out.println("Email introduzido já se encontra em utilização!");
+            in.nextLine();
+            clearScreen();
+            return;
+        } catch (GeneroInvalidoException ex) {
+            out.println("Género inválido!");
+            in.nextLine();
+            clearScreen();
+            return;
+        } catch (DataInvalidaException ex) {
+            out.println("Data de Nascimento inválida!");
+            in.nextLine();
+            clearScreen();
+            return;
+        } catch (EmailInvalidoException ex) {
+            out.println("Email inválido!");
+            in.nextLine();
+            clearScreen();
+            return;
+        }
+
     }
 
 }
