@@ -139,4 +139,10 @@ public class Core {
         sessao.setPw(x);
     }
 
+    public User getInfo() {
+        User u = new User(sessao);
+        u.setPw("");
+        return u;
+    }
+
 }

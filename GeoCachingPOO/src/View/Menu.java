@@ -1,6 +1,7 @@
 package View;
 
 import Business.Core;
+import Data.User;
 import Exceptions.*;
 import java.io.PrintStream;
 import java.util.Scanner;
@@ -78,6 +79,9 @@ public class Menu {
         }
     }
 
+    /**
+     *
+     */
     private void login() {
         String user;
         String pass;
@@ -115,6 +119,9 @@ public class Menu {
         }
     }
 
+    /**
+     * Menu principal.
+     */
     private void menu2() {
         int opcao;
 
@@ -122,11 +129,12 @@ public class Menu {
         while (true) {
             out.println("*** GeoCachingPOO ***");
             out.println();
-            out.println("*** Menu Principal***");
+            out.println("*** Menu Principal***");//falta: Gravar dados...
             out.println();
-            out.println("1-Alterar informações de conta");
-            out.println("2-Adicionar actividade");
-            out.println("3-Amigos");
+            out.println("1-Ver informações de conta");
+            out.println("2-Alterar informações de conta");
+            out.println("3-Adicionar actividade");
+            out.println("4-Amigos");
             out.println("0-Sair");
             out.println();
 
@@ -140,7 +148,7 @@ public class Menu {
                 continue;
             }
 
-            if (opcao > 3 || opcao < 0) {
+            if (opcao > 4 || opcao < 0) {
                 out.println("Intruduza uma opção válida!");
                 in.nextLine();
                 clearScreen();
@@ -152,11 +160,24 @@ public class Menu {
                     clearScreen();
                     return;
                 case (1):
-                    menuConta();
+                    clearScreen();
+                    User u = core.getInfo();
+                    out.println("*** Ver Informações de Conta ***");
+                    out.println();
+                    out.println("Email: " + u.getMail());
+                    out.println("Nome: " + u.getNome());
+                    out.println("Género: " + u.getGenero());
+                    out.println("Morada: " + u.getMorada());
+                    out.println("Data de Nascimento: " + u.getDn().toString());
+                    in.nextLine();
+                    clearScreen();
                     break;
                 case (2):
+                    menuConta();
                     break;
                 case (3):
+                    break;
+                case (4):
                     break;
 
             }
@@ -327,7 +348,7 @@ public class Menu {
                     clearScreen();
                     out.println("*** Alterar Data de Nascimento ***");
                     out.println();
-                    out.print("Intruduza a nova data de nascimento: ");
+                    out.println("Intruduza a nova data de nascimento: ");
                     try {
                         out.print("- Dia (1 até 31): ");
                         dia = Integer.parseInt(in.nextLine());
@@ -360,8 +381,8 @@ public class Menu {
                     out.print("Intruduza a password antiga: ");
                     x = in.nextLine();
 
-                    if (core.checkPass(x)) {
-                        out.print("Password errada!");
+                    if (!core.checkPass(x)) {
+                        out.println("Password errada!");
                         in.nextLine();
                         clearScreen();
                         break;
