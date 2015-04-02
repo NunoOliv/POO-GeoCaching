@@ -7,6 +7,6 @@ package Exceptions;
  * @author Nuno Oliveira
  * @author Rui Pereira
  */
-public class AmigoNaoExisteException extends Exception{
+public class PasswordMissmatchException extends Exception{
     
 }

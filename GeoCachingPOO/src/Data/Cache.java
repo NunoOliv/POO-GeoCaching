@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Data;
 
 import java.util.HashMap;
@@ -10,21 +6,23 @@ import java.util.Objects;
 
 /**
  *
+ * @author Rafael Antunes
  * @author Nuno Oliveira
+ * @author Rui Pereira
  */
-public abstract class Cache {
-    
+public class Cache {
+
     private Coords coords;
-    private HashMap Assinantes;
-    private String Descricao;
+    private HashMap<String, User> assinantes;
+    private String descricao;
     private int dificuldade;
 
     public Cache(Coords coords, HashMap Assinantes, String Descricao, int Dificuldade) {
         this.coords = coords;
-        this.Assinantes = Assinantes;
-        this.Descricao = Descricao;
+        this.assinantes = Assinantes;
+        this.descricao = Descricao;
         this.dificuldade = Dificuldade;
-    }    
+    }
 
     public int getDificuldade() {
         return dificuldade;
@@ -33,7 +31,7 @@ public abstract class Cache {
     public void setDificuldade(int dificuldade) {
         this.dificuldade = dificuldade;
     }
-    
+
     public Coords getCoords() {
         return coords;
     }
@@ -43,27 +41,27 @@ public abstract class Cache {
     }
 
     public HashMap getAssinantes() {
-        return Assinantes;
+        return assinantes;
     }
 
     public void setAssinantes(HashMap Assinantes) {
-        this.Assinantes = Assinantes;
+        this.assinantes = Assinantes;
     }
 
     public String getDescricao() {
-        return Descricao;
+        return descricao;
     }
 
     public void setDescricao(String Descricao) {
-        this.Descricao = Descricao;
+        this.descricao = Descricao;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 79 * hash + Objects.hashCode(this.coords);
-        hash = 79 * hash + Objects.hashCode(this.Assinantes);
-        hash = 79 * hash + Objects.hashCode(this.Descricao);
+        hash = 79 * hash + Objects.hashCode(this.assinantes);
+        hash = 79 * hash + Objects.hashCode(this.descricao);
         hash = 79 * hash + this.dificuldade;
         return hash;
     }
@@ -80,10 +78,10 @@ public abstract class Cache {
         if (!Objects.equals(this.coords, other.coords)) {
             return false;
         }
-        if (!Objects.equals(this.Assinantes, other.Assinantes)) {
+        if (!Objects.equals(this.assinantes, other.assinantes)) {
             return false;
         }
-        if (!Objects.equals(this.Descricao, other.Descricao)) {
+        if (!Objects.equals(this.descricao, other.descricao)) {
             return false;
         }
         if (this.dificuldade != other.dificuldade) {
@@ -92,7 +90,4 @@ public abstract class Cache {
         return true;
     }
 
-    
-    
-    
 }

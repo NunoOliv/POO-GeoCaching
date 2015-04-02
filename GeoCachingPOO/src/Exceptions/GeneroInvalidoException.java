@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Data;
+package Exceptions;
 
 /**
  *
+ * @author Rafael Antunes
  * @author Nuno Oliveira
+ * @author Rui Pereira
  */
-class Actividade {
+public class GeneroInvalidoException extends Exception {
     
 }

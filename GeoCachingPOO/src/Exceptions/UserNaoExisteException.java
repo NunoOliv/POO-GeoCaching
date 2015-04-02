@@ -7,7 +7,9 @@ package Exceptions;
 
 /**
  *
- * @author Rafael
+ * @author Rafael Antunes
+ * @author Nuno Oliveira
+ * @author Rui Pereira
  */
 public class UserNaoExisteException extends Exception{
     
