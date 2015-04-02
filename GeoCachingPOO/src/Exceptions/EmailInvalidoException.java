@@ -11,6 +11,6 @@ package Exceptions;
  * @author Nuno Oliveira
  * @author Rui Pereira
  */
-public class PedidoNaoExisteException extends Exception {
+public class EmailInvalidoException extends Exception{
     
 }

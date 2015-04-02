@@ -1,5 +1,5 @@
 
-package Exceptions;
+package Data;
 
 /**
  *
@@ -7,6 +7,10 @@ package Exceptions;
  * @author Nuno Oliveira
  * @author Rui Pereira
  */
-public class AmigoNaoExisteException extends Exception{
-    
+class Atividade {
+
+    public Atividade() {
+
+    }
+
 }

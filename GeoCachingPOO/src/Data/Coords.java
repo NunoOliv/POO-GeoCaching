@@ -1,23 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Data;
 
 /**
  *
+ * @author Rafael Antunes
  * @author Nuno Oliveira
+ * @author Rui Pereira
  */
 public class Coords {
+
+    private float latitude;
+    private float longitude;
 
     public Coords(float latitude, float longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
-    
-    private float latitude;
-    private float longitude;
 
     /**
      * @return the latitude
@@ -47,7 +45,6 @@ public class Coords {
         this.longitude = longitude;
     }
 
-    
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -65,6 +62,13 @@ public class Coords {
         }
         return true;
     }
-    
-    
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 59 * hash + Float.floatToIntBits(this.latitude);
+        hash = 59 * hash + Float.floatToIntBits(this.longitude);
+        return hash;
+    }
+
 }

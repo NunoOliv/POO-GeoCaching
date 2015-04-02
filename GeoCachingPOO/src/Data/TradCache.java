@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Data;
 
 import java.util.HashMap;
@@ -10,20 +6,22 @@ import java.util.HashSet;
 
 /**
  *
+ * @author Rafael Antunes
  * @author Nuno Oliveira
+ * @author Rui Pereira
  */
 public class TradCache extends Cache {
     
     private HashSet tesouros;
     
 
-    public TradCache(Coords coords, HashMap Assinantes, String Descricao, int Dificuldade) {
-        super(coords, Assinantes, Descricao, Dificuldade);
+    public TradCache(Coords coords, HashMap assinantes, String descricao, int dificuldade) {
+        super(coords, assinantes, descricao, dificuldade);
         tesouros= new HashSet<String>();
     }
 
-    public TradCache(HashSet tesouros, Coords coords, HashMap Assinantes, String Descricao, int Dificuldade) {
-        super(coords, Assinantes, Descricao, Dificuldade);
+    public TradCache(HashSet tesouros, Coords coords, HashMap assinantes, String descricao, int dificuldade) {
+        super(coords, assinantes, descricao, dificuldade);
         this.tesouros = tesouros;
     }
 
@@ -37,6 +35,7 @@ public class TradCache extends Cache {
     
     /**
      *
+     * @param tesouro
      * @return
      */
     public Boolean takeTesouro(String tesouro) {
