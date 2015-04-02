@@ -92,4 +92,51 @@ public class Core {
         return LocalDate.of(ano, mes, dia);
     }
 
+    public void updateName(String name) throws NomeInvalidoException {
+        if (name == null) {
+            throw new NomeInvalidoException();
+        }
+        if (name.equals("")) {
+            throw new NomeInvalidoException();
+        }
+        sessao.setNome(name);
+    }
+
+    public void updateMorada(String x) throws MoradaInvalidaException {
+        if (x == null) {
+            throw new MoradaInvalidaException();
+        }
+        if (x.equals("")) {
+            throw new MoradaInvalidaException();
+        }
+        sessao.setMorada(x);
+    }
+
+    public void trocaGenero() {
+        String g = sessao.getGenero();
+        if (g.equals("Masculino")) {
+            sessao.setGenero("Feminino");
+        } else {
+            sessao.setGenero("Masculino");
+        }
+    }
+
+    public void updateDN(int dia, int mes, int ano) throws CamposInvalidosException {
+        sessao.setDn(buildDate(dia, mes, ano));
+    }
+
+    public boolean checkPass(String x) {
+       return sessao.checkPass(x);
+    }
+
+    public void updatePass(String x) throws PasswordInvalidaException {
+        if (x == null) {
+            throw new PasswordInvalidaException();
+        }
+        if (x.equals("")) {
+            throw new PasswordInvalidaException();
+        }
+        sessao.setPw(x);
+    }
+
 }

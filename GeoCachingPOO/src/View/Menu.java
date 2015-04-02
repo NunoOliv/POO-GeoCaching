@@ -1,13 +1,7 @@
 package View;
 
 import Business.Core;
-import Exceptions.CamposInvalidosException;
-import Exceptions.DataInvalidaException;
-import Exceptions.EmailInvalidoException;
-import Exceptions.EmailJaExisteException;
-import Exceptions.GeneroInvalidoException;
-import Exceptions.PasswordMissmatchException;
-import Exceptions.UserNaoExisteException;
+import Exceptions.*;
 import java.io.PrintStream;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -122,7 +116,7 @@ public class Menu {
     }
 
     private void menu2() {
-        int opcao = -1;
+        int opcao;
 
         out.println();
         while (true) {
@@ -143,7 +137,6 @@ public class Menu {
                 out.println("Intruduza uma opção válida!");
                 in.nextLine();
                 clearScreen();
-                opcao = -1;
                 continue;
             }
 
@@ -151,7 +144,6 @@ public class Menu {
                 out.println("Intruduza uma opção válida!");
                 in.nextLine();
                 clearScreen();
-                opcao = -1;
                 continue;
             }
 
@@ -160,7 +152,7 @@ public class Menu {
                     clearScreen();
                     return;
                 case (1):
-
+                    menuConta();
                     break;
                 case (2):
                     break;
@@ -245,6 +237,151 @@ public class Menu {
             clearScreen();
         }
 
+    }
+
+    private void menuConta() {
+        int opcao = -1;
+
+        out.println();
+        while (true) {
+            out.println("*** GeoCachingPOO ***");
+            out.println();
+            out.println("*** Alterar Informações de Conta ***");
+            out.println();
+            out.println("1-Nome");
+            out.println("2-Morada");
+            out.println("3-Genero");
+            out.println("4-Data de Nascimento");
+            out.println("5-Password");
+            out.println("0-Voltar");
+            out.println();
+            out.print("Opção: ");
+
+            try {
+                opcao = Integer.parseInt(in.nextLine());
+            } catch (Exception e) {
+                out.println("Intruduza uma opção válida!");
+                in.nextLine();
+                clearScreen();
+                opcao = -1;
+                continue;
+            }
+
+            if (opcao > 5 || opcao < 0) {
+                out.println("Intruduza uma opção válida!");
+                in.nextLine();
+                clearScreen();
+                opcao = -1;
+                continue;
+            }
+
+            String x;
+            int dia, mes, ano;
+            switch (opcao) {
+                case (0):
+                    clearScreen();
+                    return;
+                case (1):
+                    clearScreen();
+                    out.println("*** Alterar Nome ***");
+                    out.println();
+                    out.print("Intruduza o novo nome: ");
+                    x = in.nextLine();
+                    try {
+                        core.updateName(x);
+                        out.print("Nome alterado com sucesso!");
+                        in.nextLine();
+                        clearScreen();
+                    } catch (NomeInvalidoException ex) {
+                        out.print("Nome introduzido inválido!");
+                        in.nextLine();
+                        clearScreen();
+                    }
+                    break;
+                case (2):
+                    clearScreen();
+                    out.println("*** Alterar Morada ***");
+                    out.println();
+                    out.print("Intruduza a nova morada: ");
+                    x = in.nextLine();
+                    try {
+                        core.updateMorada(x);
+                        out.print("Morada alterada com sucesso!");
+                        in.nextLine();
+                        clearScreen();
+                    } catch (MoradaInvalidaException ex) {
+                        out.print("Morada introduzida inválida!");
+                        in.nextLine();
+                        clearScreen();
+                    }
+                    break;
+                case (3):
+                    out.println();
+                    out.println("A alterar género...");
+                    core.trocaGenero();
+                    out.println("Género alterado com sucesso!");
+                    in.nextLine();
+                    clearScreen();
+                    break;
+                case (4):
+                    clearScreen();
+                    out.println("*** Alterar Data de Nascimento ***");
+                    out.println();
+                    out.print("Intruduza a nova data de nascimento: ");
+                    try {
+                        out.print("- Dia (1 até 31): ");
+                        dia = Integer.parseInt(in.nextLine());
+                        out.print("- Mês (1 até 12): ");
+                        mes = Integer.parseInt(in.nextLine());
+                        out.print("- Ano: ");
+                        ano = Integer.parseInt(in.nextLine());
+                    } catch (Exception e) {
+                        out.print("Data de Nascimento introduzida inválida!");
+                        in.nextLine();
+                        clearScreen();
+                        break;
+                    }
+
+                    try {
+                        core.updateDN(dia, mes, ano);
+                        out.print("Data de Nascimento alterada com sucesso!");
+                        in.nextLine();
+                        clearScreen();
+                    } catch (CamposInvalidosException ex) {
+                        out.print("Data de Nascimento introduzida inválida!");
+                        in.nextLine();
+                        clearScreen();
+                    }
+                    break;
+                case (5):
+                    clearScreen();
+                    out.println("*** Alterar Password ***");
+                    out.println();
+                    out.print("Intruduza a password antiga: ");
+                    x = in.nextLine();
+
+                    if (core.checkPass(x)) {
+                        out.print("Password errada!");
+                        in.nextLine();
+                        clearScreen();
+                        break;
+                    }
+                    out.print("Intruduza a nova password: ");
+                    x = in.nextLine();
+                    try {
+                        core.updatePass(x);
+                        out.print("Password alterada com sucesso!");
+                        in.nextLine();
+                        clearScreen();
+                    } catch (PasswordInvalidaException e) {
+                        out.print("Password introduzida inválida!");
+                        in.nextLine();
+                        clearScreen();
+                    }
+                    break;
+
+            }
+        }
     }
 
 }
