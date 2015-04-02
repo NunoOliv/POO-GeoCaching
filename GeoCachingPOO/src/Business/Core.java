@@ -74,7 +74,7 @@ public class Core {
         if (mail.equals("")) {
             throw new EmailInvalidoException();
         }
-        if (!mail.matches("(.+)@(.+)\\.(.+)")) {
+        if (!mail.matches("[a-z]+@[a-z]+\\.[a-z]+")) {
             throw new EmailInvalidoException();
         }
     }

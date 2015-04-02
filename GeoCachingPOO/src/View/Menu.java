@@ -47,12 +47,16 @@ public class Menu {
                 opcao = Integer.parseInt(in.nextLine());
             } catch (Exception e) {
                 out.println("Intruduza uma opção válida!");
+                in.nextLine();
+                clearScreen();
                 opcao = -1;
                 continue;
             }
 
             if (opcao > 2 || opcao < 0) {
                 out.println("Intruduza uma opção válida!");
+                in.nextLine();
+                clearScreen();
                 opcao = -1;
                 continue;
             }
@@ -168,6 +172,9 @@ public class Menu {
 
         try {
             core.registar(mail, pass, nome, genero, morada, dia, mes, ano);
+            out.println("Registado com sucesso!");
+            in.nextLine();
+            clearScreen();
         } catch (CamposInvalidosException ex) {
             out.println("Um ou mais campos foram introduzidos de forma inválida!");
             in.nextLine();
@@ -176,22 +183,18 @@ public class Menu {
             out.println("Email introduzido já se encontra em utilização!");
             in.nextLine();
             clearScreen();
-            return;
         } catch (GeneroInvalidoException ex) {
             out.println("Género inválido!");
             in.nextLine();
             clearScreen();
-            return;
         } catch (DataInvalidaException ex) {
             out.println("Data de Nascimento inválida!");
             in.nextLine();
             clearScreen();
-            return;
         } catch (EmailInvalidoException ex) {
             out.println("Email inválido!");
             in.nextLine();
             clearScreen();
-            return;
         }
 
     }
