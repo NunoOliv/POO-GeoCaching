@@ -34,10 +34,12 @@ public class Menu {
     public void start() {
         int opcao = -1;
 
-        out.print("\n*** GeoCachingPOO ***\n\n");
+        out.println();
         while (true) {
-            out.print("*** Menu ***\n\n");
-
+            out.println("*** GeoCachingPOO ***");
+            out.println();
+            out.println("*** Menu Principal ***");
+            out.println();
             out.println("1-Login");
             out.println("2-Registar");
             out.println("0-Sair\n");
@@ -120,7 +122,53 @@ public class Menu {
     }
 
     private void menu2() {
+        int opcao = -1;
 
+        out.println();
+        while (true) {
+            out.println("*** GeoCachingPOO ***");
+            out.println();
+            out.println("*** Menu Principal***");
+            out.println();
+            out.println("1-Alterar informações de conta");
+            out.println("2-Adicionar actividade");
+            out.println("3-Amigos");
+            out.println("0-Sair");
+            out.println();
+
+            out.print("Opção: ");
+            try {
+                opcao = Integer.parseInt(in.nextLine());
+            } catch (Exception e) {
+                out.println("Intruduza uma opção válida!");
+                in.nextLine();
+                clearScreen();
+                opcao = -1;
+                continue;
+            }
+
+            if (opcao > 3 || opcao < 0) {
+                out.println("Intruduza uma opção válida!");
+                in.nextLine();
+                clearScreen();
+                opcao = -1;
+                continue;
+            }
+
+            switch (opcao) {
+                case (0):
+                    clearScreen();
+                    return;
+                case (1):
+
+                    break;
+                case (2):
+                    break;
+                case (3):
+                    break;
+
+            }
+        }
     }
 
     private void register() {
