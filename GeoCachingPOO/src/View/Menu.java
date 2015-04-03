@@ -453,12 +453,15 @@ public class Menu {
                     printAmigos();
                     break;
                 case (2):
-                    
+                    printPedidos();
                     break;
                 case (3):
+                    pedirAmigo();
                     break;
                 case (4):
-                    
+
+                    break;
+                case (5):
                     break;
 
             }
@@ -470,14 +473,41 @@ public class Menu {
         User u = core.getInfo();
         out.println("*** Ver Amigos ***");
         out.println();
-        HashMap<String,User> a = u.verAmigos();
-        for(String e:a.keySet()){
-            u=a.get(e);
-            out.println("Mail: "+e);
-            out.println("Nome: "+u.getNome());
+        HashMap<String, User> a = u.verAmigos();
+        for (String e : a.keySet()) {
+            u = a.get(e);
+            out.println("Mail: " + e);
+            out.println("Nome: " + u.getNome());
             out.println();
         }
         in.nextLine();
+        clearScreen();
+    }
+
+    private void printPedidos() {
+        clearScreen();
+        User u = core.getInfo();
+        out.println("*** Ver Pedidos de Amizade ***");
+        out.println();
+        HashMap<String, User> a = u.verPedidosAmizade();
+        for (String e : a.keySet()) {
+            u = a.get(e);
+            out.println("Mail: " + e);
+            out.println("Nome: " + u.getNome());
+            out.println();
+        }
+        in.nextLine();
+        clearScreen();
+    }
+
+    private void pedirAmigo() {
+        clearScreen();
+        User u = core.getInfo();
+        out.println("*** Pedir em Amizade ***");
+        out.println();
+        out.println("Intruduza o email da pessoa a quem quer enviar o pedido:");
+        String m=in.nextLine();
+        core.pedeAmigo(m);
         clearScreen();
     }
 

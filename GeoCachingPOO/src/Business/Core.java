@@ -67,6 +67,12 @@ public class Core {
         userL.addUser(mail, pass, nome, genero, morada, dn);
     }
 
+    /**
+     * Verifica se o email dado está na forma correta.
+     *
+     * @param mail Email a verificar.
+     * @throws EmailInvalidoException
+     */
     public void checkMail(String mail) throws EmailInvalidoException {
         if (mail == null) {
             throw new EmailInvalidoException();
@@ -79,6 +85,14 @@ public class Core {
         }
     }
 
+    /**
+     *Dado um dia, mes e ano constroí o respetivo LocalDate.
+     * @param dia
+     * @param mes
+     * @param ano
+     * @return  LocalDate respetivo.
+     * @throws CamposInvalidosException
+     */
     public LocalDate buildDate(int dia, int mes, int ano) throws CamposInvalidosException {
         if (dia > 31 || dia < 1) {
             throw new CamposInvalidosException();
@@ -126,7 +140,7 @@ public class Core {
     }
 
     public boolean checkPass(String x) {
-       return sessao.checkPass(x);
+        return sessao.checkPass(x);
     }
 
     public void updatePass(String x) throws PasswordInvalidaException {
@@ -143,6 +157,10 @@ public class Core {
         User u = new User(sessao);
         u.setPw("");
         return u;
+    }
+
+    public void pedeAmigo(String m) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
