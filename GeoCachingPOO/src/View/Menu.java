@@ -507,8 +507,25 @@ public class Menu {
         out.println();
         out.println("Intruduza o email da pessoa a quem quer enviar o pedido:");
         String m=in.nextLine();
-        core.pedeAmigo(m);
-        clearScreen();
+        try {
+            core.pedeAmigo(m);
+            out.println("Pedido enviado com sucesso!");
+            in.nextLine();
+            clearScreen();
+        } catch (EmailInvalidoException ex) {
+            out.println("Email introduzido inválido inválido!");
+            in.nextLine();
+            clearScreen();
+        } catch (UserNaoExisteException ex) {
+            out.println("Email não corresponde a nenhum utilizador!");
+            in.nextLine();
+            clearScreen();
+        } catch (JaEAmigoException ex) {
+            out.println("Já é amigo desse utilizador");
+            in.nextLine();
+            clearScreen();
+        }
+        
     }
 
 }

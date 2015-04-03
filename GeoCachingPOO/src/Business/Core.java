@@ -86,11 +86,12 @@ public class Core {
     }
 
     /**
-     *Dado um dia, mes e ano constroí o respetivo LocalDate.
+     * Dado um dia, mes e ano constroí o respetivo LocalDate.
+     *
      * @param dia
      * @param mes
      * @param ano
-     * @return  LocalDate respetivo.
+     * @return LocalDate respetivo.
      * @throws CamposInvalidosException
      */
     public LocalDate buildDate(int dia, int mes, int ano) throws CamposInvalidosException {
@@ -106,6 +107,12 @@ public class Core {
         return LocalDate.of(ano, mes, dia);
     }
 
+    /**
+     * Altera do nome do utilizador com a sessão iniciada.
+     *
+     * @param name Novo nome a utilizar.
+     * @throws NomeInvalidoException
+     */
     public void updateName(String name) throws NomeInvalidoException {
         if (name == null) {
             throw new NomeInvalidoException();
@@ -116,6 +123,12 @@ public class Core {
         sessao.setNome(name);
     }
 
+    /**
+     * Altera a morada do utilizador com sessão iniciar.
+     *
+     * @param x Nova morada a registar.
+     * @throws MoradaInvalidaException
+     */
     public void updateMorada(String x) throws MoradaInvalidaException {
         if (x == null) {
             throw new MoradaInvalidaException();
@@ -126,6 +139,9 @@ public class Core {
         sessao.setMorada(x);
     }
 
+    /**
+     * Troca o género do utilizador com sessão inciada.
+     */
     public void trocaGenero() {
         String g = sessao.getGenero();
         if (g.equals("Masculino")) {
@@ -135,14 +151,36 @@ public class Core {
         }
     }
 
+    /**
+     * Altera a data de nascimento do utilizador com sessão iniciada.
+     *
+     * @param dia Novo dia a registar.
+     * @param mes Novo mês a registar.
+     * @param ano Novo ano a registar.
+     * @throws CamposInvalidosException
+     */
     public void updateDN(int dia, int mes, int ano) throws CamposInvalidosException {
         sessao.setDn(buildDate(dia, mes, ano));
     }
 
+    /**
+     * Verifica se a palavra-passe dada corresponde à palavra pass do utilizador
+     * com sessão iniciada.
+     *
+     * @param x Palavra-passe dada.
+     * @return True se a palavra-passe dada corresponde à palavra passe do
+     * utilizador, False caso contrário.
+     */
     public boolean checkPass(String x) {
         return sessao.checkPass(x);
     }
 
+    /**
+     * Altera a palavra passe do utilizador com sessão inciada.
+     *
+     * @param x Nova palavra-passe a registar.
+     * @throws PasswordInvalidaException
+     */
     public void updatePass(String x) throws PasswordInvalidaException {
         if (x == null) {
             throw new PasswordInvalidaException();
@@ -153,14 +191,22 @@ public class Core {
         sessao.setPw(x);
     }
 
+    /**
+     * Cria uma cópia do utilizador com sessão iniciada, menos a sua
+     * palavra-passe.
+     *
+     * @return Devolve a cópia.
+     */
     public User getInfo() {
         User u = new User(sessao);
         u.setPw("");
         return u;
     }
-
-    public void pedeAmigo(String m) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    public void pedeAmigo(String m) throws EmailInvalidoException, UserNaoExisteException, JaEAmigoException {
+        checkMail(m);
+        User u=userL.getUser(m);
+        u.addPedido(sessao);
     }
 
 }
