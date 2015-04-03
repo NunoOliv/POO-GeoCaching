@@ -134,7 +134,7 @@ public class Menu {
             out.println();
             out.println("1-Ver informações de conta");
             out.println("2-Alterar informações de conta");
-            out.println("3-Adicionar actividade");
+            out.println("3-Adicionar actividade WIP");
             out.println("4-Amigos");
             out.println("0-Sair");
             out.println();
@@ -424,7 +424,7 @@ public class Menu {
             out.println("2-Ver lista de pedidos de amizade");
             out.println("3-Adicionar amigo");
             out.println("4-Aceitar pedido de amizade");
-            out.println("5-Ver atividades recentes de um amigo");
+            out.println("5-Ver atividades recentes de um amigo WIP");
             out.println("0-Voltar");
             out.println();
 
@@ -459,7 +459,7 @@ public class Menu {
                     pedirAmigo();
                     break;
                 case (4):
-
+                    aceitarAmigo();
                     break;
                 case (5):
                     break;
@@ -526,6 +526,37 @@ public class Menu {
             clearScreen();
         }
         
+    }
+
+    private void aceitarAmigo() {
+        clearScreen();
+        User u = core.getInfo();
+        out.println("*** Aceitar pedido de amizade ***");
+        out.println();
+        out.println("Intruduza o email da pessoa que quer aceitar o pedido:");
+        String m=in.nextLine();
+        try {
+            core.aceitaAmigo(m);
+            out.println("Pedido enviado com sucesso!");
+            in.nextLine();
+            clearScreen();
+        } catch (EmailInvalidoException ex) {
+            out.println("Email introduzido inválido inválido!");
+            in.nextLine();
+            clearScreen();
+        } catch (UserNaoExisteException ex) {
+            out.println("Email não corresponde a nenhum utilizador!");
+            in.nextLine();
+            clearScreen();
+        } catch (PedidoNaoExisteException ex) {
+            out.println("Esse utilizador não lhe pediu amizade!");
+            in.nextLine();
+            clearScreen();
+        } catch (JaEAmigoException ex) {
+            out.println("Já é amigo desse utilizador");
+            in.nextLine();
+            clearScreen();
+        }
     }
 
 }

@@ -202,11 +202,34 @@ public class Core {
         u.setPw("");
         return u;
     }
-    
+
+    /**
+     * Permite pedir outro utilizador em amizade.
+     *
+     * @param m Email do utilizador a quem se pretende pedir.
+     * @throws EmailInvalidoException
+     * @throws UserNaoExisteException
+     * @throws JaEAmigoException
+     */
     public void pedeAmigo(String m) throws EmailInvalidoException, UserNaoExisteException, JaEAmigoException {
         checkMail(m);
-        User u=userL.getUser(m);
+        User u = userL.getUser(m);
         u.addPedido(sessao);
+    }
+
+    /**
+     * Acita um pedido de amizade, remove-o da lista de pedidos.
+     *
+     * @param m Email do utilizador a quem se pretende aceitar.
+     * @throws EmailInvalidoException
+     * @throws UserNaoExisteException
+     * @throws PedidoNaoExisteException
+     */
+    public void aceitaAmigo(String m) throws EmailInvalidoException, UserNaoExisteException, PedidoNaoExisteException, JaEAmigoException {
+        checkMail(m);
+        User u = userL.getUser(m);
+        sessao.aceitaPedido(u);
+        u.addAmigo(sessao);
     }
 
 }

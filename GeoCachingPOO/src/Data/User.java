@@ -231,9 +231,12 @@ public class User {
      * @param mail Email do utilizador a mover para a lista de amigos.
      * @throws PedidoNaoExisteException
      */
-    public void aceitaPedido(String mail) throws PedidoNaoExisteException {
+    public void aceitaPedido(String mail) throws PedidoNaoExisteException, JaEAmigoException {
         if (!pedidosAmigo.containsKey(mail)) {
             throw new PedidoNaoExisteException();
+        }
+        if(amigos.containsKey(mail)){
+            throw new JaEAmigoException();
         }
         User amigo = pedidosAmigo.get(mail);
         pedidosAmigo.remove(mail);
@@ -246,10 +249,14 @@ public class User {
      *
      * @param u Utilizador a mover para a lista de amigos.
      * @throws PedidoNaoExisteException
+     * @throws JaEAmigoException
      */
-    public void aceitaPedido(User u) throws PedidoNaoExisteException {
+    public void aceitaPedido(User u) throws PedidoNaoExisteException, JaEAmigoException {
         if (!pedidosAmigo.containsValue(u)) {
             throw new PedidoNaoExisteException();
+        }
+        if(amigos.containsValue(u)){
+            throw new JaEAmigoException();
         }
         pedidosAmigo.remove(u.getMail());
         amigos.put(u.getMail(), u);
