@@ -4,6 +4,7 @@ import Business.Core;
 import Data.User;
 import Exceptions.*;
 import java.io.PrintStream;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -160,17 +161,7 @@ public class Menu {
                     clearScreen();
                     return;
                 case (1):
-                    clearScreen();
-                    User u = core.getInfo();
-                    out.println("*** Ver Informações de Conta ***");
-                    out.println();
-                    out.println("Email: " + u.getMail());
-                    out.println("Nome: " + u.getNome());
-                    out.println("Género: " + u.getGenero());
-                    out.println("Morada: " + u.getMorada());
-                    out.println("Data de Nascimento: " + u.getDn().toString());
-                    in.nextLine();
-                    clearScreen();
+                    printInfo();
                     break;
                 case (2):
                     menuConta();
@@ -178,10 +169,25 @@ public class Menu {
                 case (3):
                     break;
                 case (4):
+                    menuAmigos();
                     break;
 
             }
         }
+    }
+
+    private void printInfo() {
+        clearScreen();
+        User u = core.getInfo();
+        out.println("*** Ver Informações de Conta ***");
+        out.println();
+        out.println("Email: " + u.getMail());
+        out.println("Nome: " + u.getNome());
+        out.println("Género: " + u.getGenero());
+        out.println("Morada: " + u.getMorada());
+        out.println("Data de Nascimento: " + u.getDn().toString());
+        in.nextLine();
+        clearScreen();
     }
 
     private void register() {
@@ -403,6 +409,76 @@ public class Menu {
 
             }
         }
+    }
+
+    private void menuAmigos() {
+        int opcao;
+
+        out.println();
+        while (true) {
+            out.println("*** GeoCachingPOO ***");
+            out.println();
+            out.println("*** Amigos ***");
+            out.println();
+            out.println("1-Ver lista de amigos");
+            out.println("2-Ver lista de pedidos de amizade");
+            out.println("3-Adicionar amigo");
+            out.println("4-Aceitar pedido de amizade");
+            out.println("5-Ver atividades recentes de um amigo");
+            out.println("0-Voltar");
+            out.println();
+
+            out.print("Opção: ");
+            try {
+                opcao = Integer.parseInt(in.nextLine());
+            } catch (Exception e) {
+                out.println("Intruduza uma opção válida!");
+                in.nextLine();
+                clearScreen();
+                continue;
+            }
+
+            if (opcao > 5 || opcao < 0) {
+                out.println("Intruduza uma opção válida!");
+                in.nextLine();
+                clearScreen();
+                continue;
+            }
+
+            switch (opcao) {
+                case (0):
+                    clearScreen();
+                    return;
+                case (1):
+                    printAmigos();
+                    break;
+                case (2):
+                    
+                    break;
+                case (3):
+                    break;
+                case (4):
+                    
+                    break;
+
+            }
+        }
+    }
+
+    private void printAmigos() {
+        clearScreen();
+        User u = core.getInfo();
+        out.println("*** Ver Amigos ***");
+        out.println();
+        HashMap<String,User> a = u.verAmigos();
+        for(String e:a.keySet()){
+            u=a.get(e);
+            out.println("Mail: "+e);
+            out.println("Nome: "+u.getNome());
+            out.println();
+        }
+        in.nextLine();
+        clearScreen();
     }
 
 }
