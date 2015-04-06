@@ -1,6 +1,7 @@
 
 package Data;
 
+import Exceptions.DificuldadeInvalidaException;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -16,14 +17,17 @@ public class TradCache extends Cache {
     private HashSet<TravelBug> bugs;
     
 // Construtores 
-    
-    public TradCache(Coords coords, HashMap assinantes, String descricao, int dificuldade) {
-        super(coords, assinantes, descricao, dificuldade);
-        tesouros= new HashSet<>();
-    }
 
-    public TradCache(HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, HashMap Assinantes, String Descricao, int Dificuldade) {
-        super(coords, Assinantes, Descricao, Dificuldade);
+    public TradCache(Coords coords, HashMap<String, User> assinantes, String descricao, int dificuldade, Clima clima) throws DificuldadeInvalidaException {
+        super(coords, assinantes, descricao, dificuldade, clima);
+        tesouros = new HashSet<>();
+        bugs = new HashSet<>();
+    }
+    
+   
+
+    public TradCache(HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, HashMap Assinantes, String Descricao, int dificuldade, Clima clima) throws DificuldadeInvalidaException {
+        super(coords, Assinantes, Descricao, dificuldade, clima);
         this.tesouros = tesouros;
         this.bugs = bugs;
     }
@@ -100,6 +104,11 @@ public class TradCache extends Cache {
     public void putBug(TravelBug bug) {
         bugs.add(bug);
         bug.addCache(this);
+    }
+
+    @Override
+    public int getPoints() {
+        return getDificuldade()+this.getClima().getPontosExt();
     }
     
     
