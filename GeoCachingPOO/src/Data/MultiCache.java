@@ -6,6 +6,7 @@
 package Data;
 
 import Exceptions.DificuldadeInvalidaException;
+import Exceptions.PontosExtraInvalidosException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Objects;
@@ -31,7 +32,7 @@ public class MultiCache extends TradCache {
         this.setTesouros(new HashSet<String>());
         this.setBugs(new HashSet<TravelBug>());
         this.pontosIntermedios= new HashMap<>();
-        this.pontosExtra=0;
+        this.pontosExtra=1;
     }
     /**
      * 
@@ -46,7 +47,7 @@ public class MultiCache extends TradCache {
     public MultiCache(HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, HashMap Assinantes, String Descricao, int dificuldade, Clima clima) throws DificuldadeInvalidaException {
         super(tesouros, bugs, coords, Assinantes, Descricao, dificuldade, clima);
         this.pontosIntermedios= new HashMap<>();
-        this.pontosExtra = 0;
+        this.pontosExtra = 1;
     }
 
     /**
@@ -60,8 +61,10 @@ public class MultiCache extends TradCache {
      * @param dificuldade
      * @param clima 
      */
-    public MultiCache(int pontosExtra, HashMap<Integer, Coords> pontosIntermedios, HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, HashMap Assinantes, String Descricao, int dificuldade, Clima clima) throws DificuldadeInvalidaException {
+    public MultiCache(int pontosExtra, HashMap<Integer, Coords> pontosIntermedios, HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, HashMap Assinantes, String Descricao, int dificuldade, Clima clima) throws DificuldadeInvalidaException, PontosExtraInvalidosException {
+        
         super(tesouros, bugs, coords, Assinantes, Descricao, dificuldade, clima);
+        if (pontosExtra<1 || pontosExtra>5) {throw new PontosExtraInvalidosException();}
         this.pontosIntermedios = pontosIntermedios;
         this.pontosExtra = pontosExtra;
     }
