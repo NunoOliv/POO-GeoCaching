@@ -6,6 +6,7 @@
 package Data;
 
 import Exceptions.DificuldadeInvalidaException;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -82,7 +83,23 @@ public class CacheList {
         return caches.remove(t);
     }
     
+    /**
+     * 
+     * @param organizadores
+     * @param dataEvento
+     * @param pontosExtra
+     * @param coords
+     * @param assinantes
+     * @param descricao
+     * @param dificuldade
+     * @return
+     * @throws DificuldadeInvalidaException 
+     */
+    public boolean addCacheEvento(HashSet<User> organizadores, GregorianCalendar dataEvento, int pontosExtra, Coords coords, HashMap<String, User> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+        return caches.add(new CacheEvento( organizadores, dataEvento, pontosExtra, coords, assinantes, descricao, dificuldade));
+    }
     
-    
-    
+    public boolean addCacheEvento(Coords coords, HashMap<String, User> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+        return caches.add(new CacheEvento(coords, assinantes, descricao, dificuldade));
+    }
 }

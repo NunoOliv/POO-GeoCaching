@@ -34,6 +34,16 @@ public class CacheEvento extends Cache{
         this.pontosExtra = 0;
     }
 
+    public CacheEvento(CacheEvento c) throws DificuldadeInvalidaException {
+        super(c.getCoords(), c.getAssinantes(), c.getDescricao(), c.getDificuldade());
+        this.setDataEvento(c.getDataEvento());
+        this.setOrganizadores(c.getOrganizadores());
+        this.setPontosExtra(this.getPontosExtra());
+    }
+
+    
+    
+
     /**
      * @return the organizadores
      */
