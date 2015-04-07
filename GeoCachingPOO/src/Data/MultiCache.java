@@ -27,8 +27,8 @@ public class MultiCache extends TradCache {
      * @param dificuldade
      * @param clima 
      */
-    public MultiCache(Coords coords, HashMap<String, User> assinantes, String descricao, int dificuldade, Clima clima) throws DificuldadeInvalidaException {
-        super(coords, assinantes, descricao, dificuldade, clima);
+    public MultiCache(Coords coords, HashMap<String, User> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+        super(coords, assinantes, descricao, dificuldade);
         this.setTesouros(new HashSet<String>());
         this.setBugs(new HashSet<TravelBug>());
         this.pontosIntermedios= new HashMap<>();
@@ -44,8 +44,8 @@ public class MultiCache extends TradCache {
      * @param dificuldade
      * @param clima 
      */
-    public MultiCache(HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, HashMap Assinantes, String Descricao, int dificuldade, Clima clima) throws DificuldadeInvalidaException {
-        super(tesouros, bugs, coords, Assinantes, Descricao, dificuldade, clima);
+    public MultiCache(HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, HashMap Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
+        super(tesouros, bugs, coords, Assinantes, Descricao, dificuldade);
         this.pontosIntermedios= new HashMap<>();
         this.pontosExtra = 1;
     }
@@ -61,9 +61,9 @@ public class MultiCache extends TradCache {
      * @param dificuldade
      * @param clima 
      */
-    public MultiCache(int pontosExtra, HashMap<Integer, Coords> pontosIntermedios, HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, HashMap Assinantes, String Descricao, int dificuldade, Clima clima) throws DificuldadeInvalidaException, PontosExtraInvalidosException {
+    public MultiCache(int pontosExtra, HashMap<Integer, Coords> pontosIntermedios, HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, HashMap Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException, PontosExtraInvalidosException {
         
-        super(tesouros, bugs, coords, Assinantes, Descricao, dificuldade, clima);
+        super(tesouros, bugs, coords, Assinantes, Descricao, dificuldade);
         if (pontosExtra<1 || pontosExtra>5) {throw new PontosExtraInvalidosException();}
         this.pontosIntermedios = pontosIntermedios;
         this.pontosExtra = pontosExtra;

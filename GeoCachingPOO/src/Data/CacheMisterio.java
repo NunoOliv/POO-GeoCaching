@@ -18,20 +18,20 @@ public class CacheMisterio extends TradCache {
     private String DescPuzzle;
     private int pontosExtra;
 
-    public CacheMisterio(Coords coords, HashMap<String, User> assinantes, String descricao, int dificuldade, Clima clima) throws DificuldadeInvalidaException {
-        super(coords, assinantes, descricao, dificuldade, clima);
+    public CacheMisterio(Coords coords, HashMap<String, User> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+        super(coords, assinantes, descricao, dificuldade);
         this.DescPuzzle = new String();
         this.pontosExtra = 0;
     }
 
-    public CacheMisterio(HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, HashMap Assinantes, String Descricao, int dificuldade, Clima clima) throws DificuldadeInvalidaException {
-        super(tesouros, bugs, coords, Assinantes, Descricao, dificuldade, clima);
+    public CacheMisterio(HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, HashMap Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
+        super(tesouros, bugs, coords, Assinantes, Descricao, dificuldade);
         this.DescPuzzle = new String();
         this.pontosExtra = 0;
     }
 
-    public CacheMisterio(String DescPuzzle, int pontosExtra, HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, HashMap Assinantes, String Descricao, int dificuldade, Clima clima) throws DificuldadeInvalidaException {
-        super(tesouros, bugs, coords, Assinantes, Descricao, dificuldade, clima);
+    public CacheMisterio(String DescPuzzle, int pontosExtra, HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, HashMap Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
+        super(tesouros, bugs, coords, Assinantes, Descricao, dificuldade);
         this.DescPuzzle = DescPuzzle;
         this.pontosExtra = pontosExtra;
     }

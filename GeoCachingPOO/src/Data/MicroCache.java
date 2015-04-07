@@ -18,13 +18,13 @@ public class MicroCache extends Cache {
 
     private static final int DifExtra = 2;
     
-    public MicroCache(Coords coords, HashMap<String, User> assinantes, String descricao, int dificuldade, Clima clima) throws DificuldadeInvalidaException {
-        super(coords, assinantes, descricao, dificuldade, clima);
+    public MicroCache(Coords coords, HashMap<String, User> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+        super(coords, assinantes, descricao, dificuldade);
     }
 
     @Override
     public int getPoints() {
-        return this.getDificuldade()+this.getClima().getPontosExt()+DifExtra;
+        return this.getDificuldade()+DifExtra;
     }
     
 }

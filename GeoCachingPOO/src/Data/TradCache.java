@@ -18,22 +18,36 @@ public class TradCache extends Cache {
     
 // Construtores 
 
-    public TradCache(Coords coords, HashMap<String, User> assinantes, String descricao, int dificuldade, Clima clima) throws DificuldadeInvalidaException {
-        super(coords, assinantes, descricao, dificuldade, clima);
+    public TradCache(Coords coords, HashMap<String, User> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+        super(coords, assinantes, descricao, dificuldade);
         tesouros = new HashSet<>();
         bugs = new HashSet<>();
     }
     
    
 
-    public TradCache(HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, HashMap Assinantes, String Descricao, int dificuldade, Clima clima) throws DificuldadeInvalidaException {
-        super(coords, Assinantes, Descricao, dificuldade, clima);
+    public TradCache(HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, HashMap Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
+        super(coords, Assinantes, Descricao, dificuldade);
         this.tesouros = tesouros;
         this.bugs = bugs;
     }
 
-    
-    
+    public TradCache(Coords coords, String descricao, int dificuldade) {
+        super(coords, descricao, dificuldade);
+        tesouros = new HashSet<>();
+        bugs = new HashSet<>();
+    }
+
+    public TradCache(TradCache t) throws DificuldadeInvalidaException {
+        super(t.getCoords(),t.getAssinantes(),t.getDescricao(),t.getDificuldade());
+        this.tesouros = t.getTesouros();
+        this.bugs = t.getBugs();
+        this.setAssinantes(t.getAssinantes());
+        this.setCoords(t.getCoords());
+        this.setDescricao(t.getDescricao());
+        this.setDificuldade(t.getDificuldade());
+    }
+  
     //Getters e Setters
 
     public HashSet getTesouros() {
@@ -108,7 +122,7 @@ public class TradCache extends Cache {
 
     @Override
     public int getPoints() {
-        return getDificuldade()+this.getClima().getPontosExt();
+        return getDificuldade();
     }
     
     

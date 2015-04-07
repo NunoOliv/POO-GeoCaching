@@ -20,10 +20,10 @@ public abstract class Cache {
     private HashMap<String, User> assinantes;
     private String descricao;
     private int dificuldade;
-    private Clima clima;
+    
     
 
-    public Cache(Coords coords, HashMap<String, User> assinantes, String descricao, int dificuldade, Clima clima) throws DificuldadeInvalidaException {
+    public Cache(Coords coords, HashMap<String, User> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         
         if(dificuldade>5 || dificuldade <1) throw new DificuldadeInvalidaException();
         
@@ -31,9 +31,16 @@ public abstract class Cache {
         this.assinantes = assinantes;
         this.descricao = descricao;
         this.dificuldade = dificuldade;
-        this.clima = clima;
-        
     }
+
+    public Cache(Coords coords, String descricao, int dificuldade) {
+        this.coords = coords;
+        this.descricao = descricao;
+        this.dificuldade = dificuldade;
+        this.assinantes = new HashMap<>();
+    }
+    
+    
 
     /**
      * @return the coords
@@ -91,22 +98,10 @@ public abstract class Cache {
         this.dificuldade = dificuldade;
     }
 
-    /**
-     * @return the tempo
-     */
-    public Clima getClima() {
-        return clima;
-    }
-
-    /**
-     * @param tempo the tempo to set
-     */
-    public void setTempo(Clima clima) {
-        this.clima = clima;
-    }
+   
     
     public int getPoints() {
-        return dificuldade+clima.getPontosExt();
+        return dificuldade;
     }
 
     @Override
@@ -116,7 +111,7 @@ public abstract class Cache {
         hash = 23 * hash + Objects.hashCode(this.assinantes);
         hash = 23 * hash + Objects.hashCode(this.descricao);
         hash = 23 * hash + this.dificuldade;
-        hash = 23 * hash + Objects.hashCode(this.clima);
+        
         return hash;
     }
 
@@ -139,9 +134,6 @@ public abstract class Cache {
             return false;
         }
         if (this.dificuldade != other.dificuldade) {
-            return false;
-        }
-        if (!Objects.equals(this.clima, other.clima)) {
             return false;
         }
         return true;
