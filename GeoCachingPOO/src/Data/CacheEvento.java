@@ -41,6 +41,15 @@ public class CacheEvento extends Cache{
         this.setPontosExtra(this.getPontosExtra());
     }
 
+    public CacheEvento(Coords coords, String descricao, int dificuldade) {
+        super(coords, descricao, dificuldade);
+        this.organizadores = new HashSet<>();
+        this.dataEvento = new GregorianCalendar();
+        this.pontosExtra = 0;
+    }
+    
+    
+
     
     
 

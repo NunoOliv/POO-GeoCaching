@@ -36,6 +36,18 @@ public class CacheMisterio extends TradCache {
         this.pontosExtra = pontosExtra;
     }
 
+    public CacheMisterio(String DescPuzzle, int pontosExtra, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+        super(coords, descricao, dificuldade);
+        this.DescPuzzle = DescPuzzle;
+        this.pontosExtra = pontosExtra;
+    }
+
+    public CacheMisterio(CacheMisterio c) throws DificuldadeInvalidaException {
+        super(c.getTesouros(), c.getBugs(), c.getCoords(), c.getAssinantes(), c.getDescricao(), c.getDificuldade());
+        this.DescPuzzle = c.getDescPuzzle();
+        this.pontosExtra = c.getPontosExtra();
+    }
+
     /**
      * @return the DescPuzzle
      */
