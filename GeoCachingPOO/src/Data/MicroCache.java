@@ -18,16 +18,16 @@ public class MicroCache extends Cache {
 
     private static final int DifExtra = 2;
     
-    public MicroCache(Coords coords, HashMap<String, User> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
-        super(coords, assinantes, descricao, dificuldade);
+    public MicroCache(String ref, Coords coords, HashMap<String, User> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+        super(ref, coords, assinantes, descricao, dificuldade);
     }
 
-    public MicroCache(Coords coords, String descricao, int dificuldade) {
-        super(coords, descricao, dificuldade);
+    public MicroCache(String ref, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException  {
+        super(ref, coords, descricao, dificuldade);
     }
     
     public MicroCache(MicroCache m) throws DificuldadeInvalidaException {
-        super(m.getCoords(), m.getAssinantes(), m.getDescricao(), m.getDificuldade());
+        super(m.getRef(), m.getCoords(), m.getAssinantes(), m.getDescricao(), m.getDificuldade());
     }
     
     

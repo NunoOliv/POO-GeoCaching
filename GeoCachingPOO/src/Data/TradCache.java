@@ -18,28 +18,28 @@ public class TradCache extends Cache {
     
 // Construtores 
 
-    public TradCache(Coords coords, HashMap<String, User> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
-        super(coords, assinantes, descricao, dificuldade);
+    public TradCache(String ref, Coords coords, HashMap<String, User> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+        super(ref, coords, assinantes, descricao, dificuldade);
         tesouros = new HashSet<>();
         bugs = new HashSet<>();
     }
     
    
 
-    public TradCache(HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, HashMap Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
-        super(coords, Assinantes, Descricao, dificuldade);
+    public TradCache(String ref, HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, HashMap Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
+        super(ref, coords, Assinantes, Descricao, dificuldade);
         this.tesouros = tesouros;
         this.bugs = bugs;
     }
 
-    public TradCache(Coords coords, String descricao, int dificuldade) {
-        super(coords, descricao, dificuldade);
+    public TradCache(String ref, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+        super(ref, coords, descricao, dificuldade);
         tesouros = new HashSet<>();
         bugs = new HashSet<>();
     }
 
     public TradCache(TradCache t) throws DificuldadeInvalidaException {
-        super(t.getCoords(),t.getAssinantes(),t.getDescricao(),t.getDificuldade());
+        super(t.getRef(), t.getCoords(),t.getAssinantes(),t.getDescricao(),t.getDificuldade());
         this.tesouros = t.getTesouros();
         this.bugs = t.getBugs();
         this.setAssinantes(t.getAssinantes());

@@ -20,29 +20,29 @@ public class CacheEvento extends Cache{
     private GregorianCalendar dataEvento;
     private int pontosExtra;
 
-    public CacheEvento(HashSet<User> organizadores, GregorianCalendar dataEvento, int pontosExtra, Coords coords, HashMap<String, User> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
-        super(coords, assinantes, descricao, dificuldade);
+    public CacheEvento(String ref, HashSet<User> organizadores, GregorianCalendar dataEvento, int pontosExtra, Coords coords, HashMap<String, User> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+        super(ref, coords, assinantes, descricao, dificuldade);
         this.organizadores = organizadores;
         this.dataEvento = dataEvento;
         this.pontosExtra = pontosExtra;
     }
 
-    public CacheEvento(Coords coords, HashMap<String, User> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
-        super(coords, assinantes, descricao, dificuldade);
+    public CacheEvento(String ref, Coords coords, HashMap<String, User> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+        super(ref, coords, assinantes, descricao, dificuldade);
         this.organizadores = new HashSet<>();
         this.dataEvento = new GregorianCalendar();
         this.pontosExtra = 0;
     }
 
     public CacheEvento(CacheEvento c) throws DificuldadeInvalidaException {
-        super(c.getCoords(), c.getAssinantes(), c.getDescricao(), c.getDificuldade());
+        super(c.getRef(), c.getCoords(), c.getAssinantes(), c.getDescricao(), c.getDificuldade());
         this.setDataEvento(c.getDataEvento());
         this.setOrganizadores(c.getOrganizadores());
         this.setPontosExtra(this.getPontosExtra());
     }
 
-    public CacheEvento(Coords coords, String descricao, int dificuldade) {
-        super(coords, descricao, dificuldade);
+    public CacheEvento(String ref, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+        super(ref, coords, descricao, dificuldade);
         this.organizadores = new HashSet<>();
         this.dataEvento = new GregorianCalendar();
         this.pontosExtra = 0;

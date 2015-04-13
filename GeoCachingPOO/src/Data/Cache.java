@@ -15,7 +15,7 @@ import java.util.Objects;
  * @author Rui Pereira
  */
 public abstract class Cache {
-
+    private String ref;
     private Coords coords;
     private HashMap<String, User> assinantes;
     private String descricao;
@@ -23,23 +23,32 @@ public abstract class Cache {
     
     
 
-    public Cache(Coords coords, HashMap<String, User> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public Cache(String ref, Coords coords, HashMap<String, User> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         
         if(dificuldade>5 || dificuldade <1) throw new DificuldadeInvalidaException();
-        
+        this.ref = ref;
         this.coords = coords;
         this.assinantes = assinantes;
         this.descricao = descricao;
         this.dificuldade = dificuldade;
     }
 
-    public Cache(Coords coords, String descricao, int dificuldade) {
+    public Cache(String ref, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+         if(dificuldade>5 || dificuldade <1) throw new DificuldadeInvalidaException();
+        this.ref = ref;
         this.coords = coords;
         this.descricao = descricao;
         this.dificuldade = dificuldade;
         this.assinantes = new HashMap<>();
     }
-    
+
+    public String getRef() {
+        return ref;
+    }
+
+    public void setRef(String ref) {
+        this.ref = ref;
+    }
     
 
     /**
