@@ -20,14 +20,14 @@ public class CacheEvento extends Cache{
     private GregorianCalendar dataEvento;
     private int pontosExtra;
 
-    public CacheEvento(String ref, HashSet<User> organizadores, GregorianCalendar dataEvento, int pontosExtra, Coords coords, HashMap<String, User> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public CacheEvento(String ref, HashSet<User> organizadores, GregorianCalendar dataEvento, int pontosExtra, Coords coords, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         super(ref, coords, assinantes, descricao, dificuldade);
         this.organizadores = organizadores;
         this.dataEvento = dataEvento;
         this.pontosExtra = pontosExtra;
     }
 
-    public CacheEvento(String ref, Coords coords, HashMap<String, User> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public CacheEvento(String ref, Coords coords, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         super(ref, coords, assinantes, descricao, dificuldade);
         this.organizadores = new HashSet<>();
         this.dataEvento = new GregorianCalendar();

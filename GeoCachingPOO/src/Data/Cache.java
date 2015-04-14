@@ -4,6 +4,7 @@ package Data;
 import Exceptions.DificuldadeInvalidaException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Objects;
 
 
@@ -17,13 +18,13 @@ import java.util.Objects;
 public abstract class Cache {
     private String ref;
     private Coords coords;
-    private HashMap<String, User> assinantes;
+    private HashSet<String> assinantes;
     private String descricao;
     private int dificuldade;
     
     
 
-    public Cache(String ref, Coords coords, HashMap<String, User> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public Cache(String ref, Coords coords, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         
         if(dificuldade>5 || dificuldade <1) throw new DificuldadeInvalidaException();
         this.ref = ref;
@@ -39,7 +40,7 @@ public abstract class Cache {
         this.coords = coords;
         this.descricao = descricao;
         this.dificuldade = dificuldade;
-        this.assinantes = new HashMap<>();
+        this.assinantes = new HashSet<>();
     }
 
     public String getRef() {
@@ -55,7 +56,7 @@ public abstract class Cache {
      * @return the coords
      */
     public Coords getCoords() {
-        return coords;
+        return coords.clone();
     }
 
     /**
@@ -68,17 +69,29 @@ public abstract class Cache {
     /**
      * @return the assinantes
      */
-    public HashMap<String, User> getAssinantes() {
+    public HashSet<String> getAssinantes() {
         return assinantes;
     }
 
+    public HashSet<String> listaAssinantes() {
+        return (HashSet<String>)assinantes.clone();
+    }
+    
     /**
      * @param assinantes the assinantes to set
      */
-    public void setAssinantes(HashMap<String, User> assinantes) {
+    public void setAssinantes(HashSet<String> assinantes) {
         this.assinantes = assinantes;
     }
 
+    public boolean addAssinante(String nome) {
+        return this.assinantes.add(nome);
+    }
+    
+    public boolean remAssinante(String nome) {
+        return this.assinantes.remove(nome);
+    }
+    
     /**
      * @return the descricao
      */
@@ -103,7 +116,8 @@ public abstract class Cache {
     /**
      * @param dificuldade the dificuldade to set
      */
-    public void setDificuldade(int dificuldade) {
+    public void setDificuldade(int dificuldade) throws DificuldadeInvalidaException {
+        if (dificuldade > 5) throw new DificuldadeInvalidaException();
         this.dificuldade = dificuldade;
     }
 

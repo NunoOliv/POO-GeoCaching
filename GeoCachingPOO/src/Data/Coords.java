@@ -44,6 +44,11 @@ public class Coords {
     public void setLongitude(float longitude) {
         this.longitude = longitude;
     }
+    
+    @Override
+    public Coords clone() {
+        return new Coords(this.getLatitude(), this.getLongitude());
+    }
 
     @Override
     public boolean equals(Object obj) {

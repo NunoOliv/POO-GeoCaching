@@ -18,7 +18,7 @@ public class TradCache extends Cache {
     
 // Construtores 
 
-    public TradCache(String ref, Coords coords, HashMap<String, User> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public TradCache(String ref, Coords coords, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         super(ref, coords, assinantes, descricao, dificuldade);
         tesouros = new HashSet<>();
         bugs = new HashSet<>();
@@ -26,7 +26,7 @@ public class TradCache extends Cache {
     
    
 
-    public TradCache(String ref, HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, HashMap Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public TradCache(String ref, HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
         super(ref, coords, Assinantes, Descricao, dificuldade);
         this.tesouros = tesouros;
         this.bugs = bugs;

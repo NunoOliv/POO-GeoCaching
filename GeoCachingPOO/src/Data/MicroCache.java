@@ -7,6 +7,7 @@ package Data;
 
 import Exceptions.DificuldadeInvalidaException;
 import java.util.HashMap;
+import java.util.HashSet;
 
 
 
@@ -18,7 +19,7 @@ public class MicroCache extends Cache {
 
     private static final int DifExtra = 2;
     
-    public MicroCache(String ref, Coords coords, HashMap<String, User> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public MicroCache(String ref, Coords coords, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         super(ref, coords, assinantes, descricao, dificuldade);
     }
 
