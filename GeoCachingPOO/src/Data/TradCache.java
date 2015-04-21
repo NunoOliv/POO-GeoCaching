@@ -107,7 +107,7 @@ public class TradCache extends Cache {
      * @param tesouro
      * @return true se adicionu ou false se nao adicionou
      */
-    public Boolean putTesouros(String tesouro) {
+    public Boolean putTesouro(String tesouro) {
         if (!tesouros.contains(tesouro)) {
             this.tesouros.add(tesouro);
             return true;
@@ -130,10 +130,14 @@ public class TradCache extends Cache {
      * Adiciona um TravelBug
      * 
      * @param bug 
+     * @return  
      */
-    public void putBug(TravelBug bug) {
-        bugs.add(bug);
-        bug.addCache(this);
+    public boolean putBug(TravelBug bug) {
+        
+        if (bugs.add(bug)){
+            bug.addCache(this);
+            return true;
+        } else return false;
     }
 
     @Override

@@ -5,8 +5,11 @@
  */
 package Data;
 
+import Exceptions.CacheNaoSuportaBugsException;
+import Exceptions.CacheNaoSuportaTesourosException;
 import Exceptions.DificuldadeInvalidaException;
 import Exceptions.PontosExtraInvalidosException;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -60,6 +63,10 @@ public class CacheList {
         return this.getCache(cache).listaAssinantes();
     }
     
+    public boolean addAssinante(String nome, String refCache) {
+        return caches.get(refCache).addAssinante(nome);
+    }
+    
     public Coords getCoords(String cache) {
              return this.getCache(cache).getCoords();
     }
@@ -68,11 +75,59 @@ public class CacheList {
              this.getCache(cache).setCoords(coords);
     }
     
-    public void getListTesouros(String tradCache) {
+    public ArrayList<String> getListTesouros(String tradCache) throws CacheNaoSuportaTesourosException {
         if ( this.getCache(tradCache)instanceof TradCache) {
+            return ((TradCache)this.getCache(tradCache)).getListTesouros();
         }
+        else throw new CacheNaoSuportaTesourosException();
     }
-
+    
+    public boolean addTesouro(String tesouro, String tradCache) throws CacheNaoSuportaTesourosException {
+        
+        if ( this.getCache(tradCache)instanceof TradCache) {
+            return ((TradCache)this.getCache(tradCache)).putTesouro(tesouro);
+        } else throw new CacheNaoSuportaTesourosException();
+    }
+    
+    public boolean takeTesouro(String tesouro, String tradCache) throws CacheNaoSuportaTesourosException {
+        
+        if ( this.getCache(tradCache)instanceof TradCache) {
+            return ((TradCache)this.getCache(tradCache)).takeTesouro(tesouro);
+        } else throw new CacheNaoSuportaTesourosException();
+    }
+    
+    
+    public ArrayList<TravelBug> getListBugs(String tradCache) throws CacheNaoSuportaBugsException {
+        if ( this.getCache(tradCache)instanceof TradCache) {
+            return ((TradCache)this.getCache(tradCache)).getListBugs();
+        }
+        
+        else throw new CacheNaoSuportaBugsException();
+        
+    }
+    
+    public boolean addBug(TravelBug bug, String tradCache) throws CacheNaoSuportaBugsException {
+        
+        if ( this.getCache(tradCache)instanceof TradCache) {
+            return ((TradCache)this.getCache(tradCache)).putBug(bug);
+        } else throw new CacheNaoSuportaBugsException();
+    }
+    
+    /**
+     * 
+     * @param bug
+     * @param tradCache
+     * @return
+     * @throws CacheNaoSuportaBugsException 
+     */
+    public boolean takeBug(TravelBug bug, String tradCache) throws CacheNaoSuportaBugsException {
+        
+        if ( this.getCache(tradCache)instanceof TradCache) {
+            return ((TradCache)this.getCache(tradCache)).takeBug(bug);
+        } else throw new CacheNaoSuportaBugsException();
+    }
+    
+    
     /************************************************************
      *                       Cache Tradicional                  *
      ************************************************************/
@@ -146,9 +201,7 @@ public class CacheList {
         return true;
     }
     
-    public void addAssinante(String nome, String refCache) {
-        
-    }
+    
     
     /************************************************************
      *                       Cache Evento                       *
