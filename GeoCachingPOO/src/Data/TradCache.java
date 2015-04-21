@@ -2,6 +2,7 @@
 package Data;
 
 import Exceptions.DificuldadeInvalidaException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -58,9 +59,24 @@ public class TradCache extends Cache {
         this.tesouros = tesouros;
     }
 
-
+    public ArrayList<String> getListTesouros() {
+        ArrayList<String> ret = new ArrayList<>();
+       for(String t : tesouros) {
+           ret.add(t);
+       }
+       return ret;
+    }
+    
     public HashSet<TravelBug> getBugs() {
         return bugs;
+    }
+    
+    public ArrayList<TravelBug> getListBugs() {
+        ArrayList<TravelBug> ret = new ArrayList<>();
+       for(TravelBug t : bugs) {
+           ret.add((TravelBug)t.clone());
+       }
+       return ret;
     }
 
     public void setBugs(HashSet<TravelBug> bugs) {

@@ -17,15 +17,15 @@ import java.util.HashSet;
  */
 public class TravelBug {
     private HashSet<CacheRegBug> caches;
-    private String descrição;
+    private String descricao;
 
     
-    public String getDescrição() {
-        return descrição;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setDescrição(String descrição) {
-        this.descrição = descrição;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public HashSet getCaches() {
@@ -36,18 +36,32 @@ public class TravelBug {
         this.caches = caches;
     }
     
+    public HashSet<CacheRegBug> cloneCaches() {
+       
+       HashSet<CacheRegBug> ret = new HashSet<>();
+       for(CacheRegBug t : caches) {
+           ret.add(t);
+       }
+       return ret;
+    
+    }
+    
     //cosntrutores
     
     public TravelBug(HashSet caches, String descrição) {
         this.caches = caches;
-        this.descrição = descrição;
+        this.descricao = descrição;
     }
 
     public TravelBug(String descrição) {
-        this.descrição = descrição;
+        this.descricao = descrição;
         caches = new HashSet<CacheRegBug>();
     }
     
+    public TravelBug(TravelBug tb) {
+        this.caches = tb.cloneCaches();
+        this.descricao = tb.getDescricao();
+    }
     
     /**
      * Adiciona registo de inserção de uma cache com data.
@@ -59,6 +73,10 @@ public class TravelBug {
         date = Calendar.getInstance().getTime();
         caches.add(new CacheRegBug(cache, date));
     }
-    
+
+    @Override
+    protected Object clone() {
+        return new TravelBug(this); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

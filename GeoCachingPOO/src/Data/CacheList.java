@@ -67,6 +67,11 @@ public class CacheList {
     public void setCoords(String cache, Coords coords) {
              this.getCache(cache).setCoords(coords);
     }
+    
+    public void getListTesouros(String tradCache) {
+        if ( this.getCache(tradCache)instanceof TradCache) {
+        }
+    }
 
     /************************************************************
      *                       Cache Tradicional                  *
