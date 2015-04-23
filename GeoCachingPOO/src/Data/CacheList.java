@@ -120,7 +120,7 @@ public class CacheList {
      * @return
      * @throws CacheNaoSuportaBugsException 
      */
-    public boolean takeBug(TravelBug bug, String tradCache) throws CacheNaoSuportaBugsException {
+    public TravelBug takeBug(TravelBug bug, String tradCache) throws CacheNaoSuportaBugsException {
         
         if ( this.getCache(tradCache)instanceof TradCache) {
             return ((TradCache)this.getCache(tradCache)).takeBug(bug);
