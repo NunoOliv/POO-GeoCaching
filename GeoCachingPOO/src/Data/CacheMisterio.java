@@ -6,7 +6,6 @@
 package Data;
 
 import Exceptions.DificuldadeInvalidaException;
-import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -15,51 +14,51 @@ import java.util.HashSet;
  */
 public class CacheMisterio extends TradCache {
     
-    private String DescPuzzle;
+    private String descPuzzle;
     private int pontosExtra;
 
     public CacheMisterio(String ref, Coords coords, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         super(ref, coords, assinantes, descricao, dificuldade);
-        this.DescPuzzle = new String();
+        this.descPuzzle = new String();
         this.pontosExtra = 0;
     }
 
     public CacheMisterio(String ref, HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
         super(ref, tesouros, bugs, coords, Assinantes, Descricao, dificuldade);
-        this.DescPuzzle = new String();
+        this.descPuzzle = new String();
         this.pontosExtra = 0;
     }
 
     public CacheMisterio(String ref, String DescPuzzle, int pontosExtra, HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
         super(ref, tesouros, bugs, coords, Assinantes, Descricao, dificuldade);
-        this.DescPuzzle = DescPuzzle;
+        this.descPuzzle = DescPuzzle;
         this.pontosExtra = pontosExtra;
     }
 
     public CacheMisterio(String ref, String DescPuzzle, int pontosExtra, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         super(ref, coords, descricao, dificuldade);
-        this.DescPuzzle = DescPuzzle;
+        this.descPuzzle = DescPuzzle;
         this.pontosExtra = pontosExtra;
     }
 
     public CacheMisterio(CacheMisterio c) throws DificuldadeInvalidaException {
         super(c.getRef(),c.getTesouros(), c.getBugs(), c.getCoords(), c.getAssinantes(), c.getDescricao(), c.getDificuldade());
-        this.DescPuzzle = c.getDescPuzzle();
+        this.descPuzzle = c.getDescPuzzle();
         this.pontosExtra = c.getPontosExtra();
     }
 
     /**
-     * @return the DescPuzzle
+     * @return the descPuzzle
      */
     public String getDescPuzzle() {
-        return DescPuzzle;
+        return new String(descPuzzle);
     }
 
     /**
-     * @param DescPuzzle the DescPuzzle to set
+     * @param DescPuzzle the descPuzzle to set
      */
     public void setDescPuzzle(String DescPuzzle) {
-        this.DescPuzzle = DescPuzzle;
+        this.descPuzzle = DescPuzzle;
     }
 
     /**

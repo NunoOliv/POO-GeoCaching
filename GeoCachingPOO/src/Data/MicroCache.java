@@ -6,7 +6,6 @@
 package Data;
 
 import Exceptions.DificuldadeInvalidaException;
-import java.util.HashMap;
 import java.util.HashSet;
 
 

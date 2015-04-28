@@ -83,8 +83,14 @@ public class MultiCache extends TradCache {
      * @return the pontosIntermedios
      */
     public HashMap<Integer, Coords> getPontosIntermedios() {
-        return pontosIntermedios;
+        int i = 0;
+        HashMap<Integer, Coords> ret = new HashMap<>();
+        while(pontosIntermedios.get(i)!=null) {
+            ret.put(i,pontosIntermedios.get(i));
+        }
+        return ret;
     }
+    
 
     /**
      * @param pontosIntermedios the pontosIntermedios to set

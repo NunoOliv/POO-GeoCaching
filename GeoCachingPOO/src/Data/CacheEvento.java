@@ -6,8 +6,8 @@
 package Data;
 
 import Exceptions.DificuldadeInvalidaException;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -16,11 +16,11 @@ import java.util.HashSet;
  */
 public class CacheEvento extends Cache{
     
-    private HashSet<User> organizadores;
+    private HashSet<String> organizadores;
     private GregorianCalendar dataEvento;
     private int pontosExtra;
 
-    public CacheEvento(String ref, HashSet<User> organizadores, GregorianCalendar dataEvento, int pontosExtra, Coords coords, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public CacheEvento(String ref, HashSet<String> organizadores, GregorianCalendar dataEvento, int pontosExtra, Coords coords, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         super(ref, coords, assinantes, descricao, dificuldade);
         this.organizadores = organizadores;
         this.dataEvento = dataEvento;
@@ -56,14 +56,14 @@ public class CacheEvento extends Cache{
     /**
      * @return the organizadores
      */
-    public HashSet<User> getOrganizadores() {
+    public HashSet<String> getOrganizadores() {
         return organizadores;
     }
 
     /**
      * @param organizadores the organizadores to set
      */
-    public void setOrganizadores(HashSet<User> organizadores) {
+    public void setOrganizadores(HashSet<String> organizadores) {
         this.organizadores = organizadores;
     }
 
@@ -71,7 +71,7 @@ public class CacheEvento extends Cache{
      * @return the dataEvento
      */
     public GregorianCalendar getDataEvento() {
-        return dataEvento;
+        return (GregorianCalendar)dataEvento.clone();
     }
 
     /**
@@ -101,11 +101,11 @@ public class CacheEvento extends Cache{
       
     
     
-    public boolean addOrganizador(User user) {
+    public boolean addOrganizador(String user) {
         return this.organizadores.add(user);
     }
     
-    public boolean removeOrganizador(User user) {
+    public boolean removeOrganizador(String user) {
         return this.organizadores.remove(user);
     }
 
@@ -118,9 +118,11 @@ public class CacheEvento extends Cache{
         return super.getPoints()+getPontosExtra();
     }
 
-         
-    
-    
-
-    
+    public ArrayList<String> getListaOrg() {
+        ArrayList<String> ret = new ArrayList<>();
+       for(String t : organizadores) {
+           ret.add(t);
+       }
+       return ret;
+    }
 }

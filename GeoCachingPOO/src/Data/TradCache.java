@@ -120,10 +120,10 @@ public class TradCache extends Cache {
      * Remove um TravelBug
      * 
      * @param bug 
+     * @return  
      */
-    public void takeBug(TravelBug bug) {
-        bugs.remove(bug);
-        
+    public boolean takeBug(TravelBug bug) {
+        return bugs.remove(bug);
     }
 
     /**
