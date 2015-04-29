@@ -7,6 +7,7 @@ package Data;
 
 import Exceptions.CacheNaoSuportaBugsException;
 import Exceptions.CacheNaoSuportaEventosException;
+import Exceptions.CacheNaoSuportaFuncionalidadeException;
 import Exceptions.CacheNaoSuportaPuzzlesException;
 import Exceptions.CacheNaoSuportaTesourosException;
 import Exceptions.DificuldadeInvalidaException;
@@ -81,6 +82,10 @@ public class CacheList {
         this.getCache(cache).setDificuldade(dif);
     }
     
+    public int getDificuldade(String cache) {
+        return this.getCache(cache).getDificuldade();
+    }
+    
     /*******************************************
      Operações com coordenadas
      ******************************************/
@@ -99,25 +104,25 @@ public class CacheList {
      *Operações com tesouros
      ******************************************/
     
-    public ArrayList<String> getListTesouros(String tradCache) throws CacheNaoSuportaTesourosException {
+    public ArrayList<String> getListTesouros(String tradCache) throws CacheNaoSuportaFuncionalidadeException {
         if ( this.getCache(tradCache)instanceof TradCache) {
             return ((TradCache)this.getCache(tradCache)).getListTesouros();
         }
-        else throw new CacheNaoSuportaTesourosException();
+        else throw new CacheNaoSuportaFuncionalidadeException("Tesouros");
     }
     
-    public boolean addTesouro(String tesouro, String tradCache) throws CacheNaoSuportaTesourosException {
+    public boolean addTesouro(String tesouro, String tradCache) throws CacheNaoSuportaFuncionalidadeException {
         
         if ( this.getCache(tradCache)instanceof TradCache) {
             return ((TradCache)this.getCache(tradCache)).putTesouro(tesouro);
-        } else throw new CacheNaoSuportaTesourosException();
+        } else throw new CacheNaoSuportaFuncionalidadeException("Tesouros");
     }
     
-    public boolean takeTesouro(String tesouro, String tradCache) throws CacheNaoSuportaTesourosException {
+    public boolean takeTesouro(String tesouro, String tradCache) throws CacheNaoSuportaFuncionalidadeException {
         
         if ( this.getCache(tradCache)instanceof TradCache) {
             return ((TradCache)this.getCache(tradCache)).takeTesouro(tesouro);
-        } else throw new CacheNaoSuportaTesourosException();
+        } else throw new CacheNaoSuportaFuncionalidadeException("Tesouros");
     }
     
     
@@ -125,20 +130,26 @@ public class CacheList {
      Operações com TravelBugs
      ******************************************/
     
-    public ArrayList<TravelBug> getListBugs(String tradCache) throws CacheNaoSuportaBugsException {
+    /**
+     * 
+     * @param tradCache
+     * @return
+     * @throws Exceptions.CacheNaoSuportaFuncionalidadeException
+     */
+    public ArrayList<TravelBug> getListBugs(String tradCache) throws CacheNaoSuportaFuncionalidadeException {
         if ( this.getCache(tradCache)instanceof TradCache) {
             return ((TradCache)this.getCache(tradCache)).getListBugs();
         }
         
-        else throw new CacheNaoSuportaBugsException();
+        else throw new CacheNaoSuportaFuncionalidadeException("TravelBugs");
         
     }
     
-    public boolean addBug(TravelBug bug, String tradCache) throws CacheNaoSuportaBugsException {
+    public boolean addBug(TravelBug bug, String tradCache) throws CacheNaoSuportaFuncionalidadeException {
         
         if ( this.getCache(tradCache)instanceof TradCache) {
             return ((TradCache)this.getCache(tradCache)).putBug(bug);
-        } else throw new CacheNaoSuportaBugsException();
+        } else throw new CacheNaoSuportaFuncionalidadeException("TravelBugs");
     }
     
     /**
@@ -146,74 +157,92 @@ public class CacheList {
      * @param bug
      * @param tradCache
      * @return
-     * @throws CacheNaoSuportaBugsException 
+     * @throws Exceptions.CacheNaoSuportaFuncionalidadeException
+
      */
-    public boolean takeBug(TravelBug bug, String tradCache) throws CacheNaoSuportaBugsException {
+    public boolean takeBug(TravelBug bug, String tradCache) throws CacheNaoSuportaFuncionalidadeException {
         
         if ( this.getCache(tradCache)instanceof TradCache) {
             return ((TradCache)this.getCache(tradCache)).takeBug(bug);
-        } else throw new CacheNaoSuportaBugsException();
+        } else throw new CacheNaoSuportaFuncionalidadeException("TravelBugs");
     }
     
     
     /*******************************************
      Operações com pontos intermedios
      ******************************************/
+    public HashMap<Integer, Coords> getPontosIntermedios(String cache) throws CacheNaoSuportaFuncionalidadeException {
+        if ( this.getCache(cache)instanceof MultiCache) {
+            return ((MultiCache)this.getCache(cache)).getPontosIntermedios();
+        } else throw new CacheNaoSuportaFuncionalidadeException("Pontos Intermedios");
+    }
     
-   
+    public void setPontosIntermedios(String cache, HashMap<Integer, Coords> coords) throws CacheNaoSuportaFuncionalidadeException {
+        if ( this.getCache(cache)instanceof MultiCache) {
+            ((MultiCache)this.getCache(cache)).setPontosIntermedios(coords);
+        } else throw new CacheNaoSuportaFuncionalidadeException("Pontos Intermedios");
+    }
     
     /*******************************************
      Operações com pontos Extra
      ******************************************/
     
+    public int getPontosExtra(String cache) {
+        return this.getCache(cache).getPontosExtra();
+    }
+    
+    public void setPontosExtra(int p, String cache) {
+        this.getCache(cache).setPontosExtra();
+    }
+    
     /*******************************************
      Operações com organizadores
      ******************************************/
-    public ArrayList<String> getListaOrg(String cache) throws CacheNaoSuportaEventosException {
+    public ArrayList<String> getListaOrg(String cache) throws CacheNaoSuportaFuncionalidadeException {
         
         if ( this.getCache(cache)instanceof CacheEvento) {
             return ((CacheEvento)this.getCache(cache)).getListaOrg();
-        } else throw new CacheNaoSuportaEventosException();
+        } else throw new CacheNaoSuportaFuncionalidadeException("Eventos");
     }
      
-    public boolean addOrganizador(String user, String cache) throws CacheNaoSuportaEventosException {
+    public boolean addOrganizador(String user, String cache) throws CacheNaoSuportaFuncionalidadeException {
          if ( this.getCache(cache)instanceof CacheEvento) {
             return ((CacheEvento)this.getCache(cache)).addOrganizador(user);
-        } else throw new CacheNaoSuportaEventosException();
+        } else throw new CacheNaoSuportaFuncionalidadeException("Eventos");
      } 
      
-    public boolean remOrganizador(String user, String cache) throws CacheNaoSuportaEventosException {
+    public boolean remOrganizador(String user, String cache) throws CacheNaoSuportaFuncionalidadeException {
          if ( this.getCache(cache)instanceof CacheEvento) {
             return ((CacheEvento)this.getCache(cache)).removeOrganizador(user);
-        } else throw new CacheNaoSuportaEventosException();
+        } else throw new CacheNaoSuportaFuncionalidadeException("Eventos");
      }
     /*******************************************
      Operações com data eventos
      ******************************************/
     
-    public GregorianCalendar getDataEvento(String cache) throws CacheNaoSuportaEventosException {
+    public GregorianCalendar getDataEvento(String cache) throws CacheNaoSuportaFuncionalidadeException {
          if ( this.getCache(cache)instanceof CacheEvento) {
             return ((CacheEvento)this.getCache(cache)).getDataEvento();
-        } else throw new CacheNaoSuportaEventosException();
+        } else throw new CacheNaoSuportaFuncionalidadeException("Eventos");
      }
-    public void putDataEvento(GregorianCalendar data, String cache) throws CacheNaoSuportaEventosException{
+    public void putDataEvento(GregorianCalendar data, String cache) throws CacheNaoSuportaFuncionalidadeException{
         if ( this.getCache(cache)instanceof CacheEvento) {
             ((CacheEvento)this.getCache(cache)).setDataEvento(data);
-        } else throw new CacheNaoSuportaEventosException();
+        } else throw new CacheNaoSuportaFuncionalidadeException("Eventos");
     }
     /*******************************************
      Operações com descrição de puzzles
      ******************************************/
-    public String getPuzzle(String cache) throws CacheNaoSuportaPuzzlesException {
+    public String getPuzzle(String cache) throws CacheNaoSuportaFuncionalidadeException {
          if ( this.getCache(cache)instanceof CacheMisterio) {
             return ((CacheMisterio)this.getCache(cache)).getDescPuzzle();
-        } else throw new CacheNaoSuportaPuzzlesException();
+        } else throw new CacheNaoSuportaFuncionalidadeException("Puzzles");
      } 
      
-    public void setPuzzle(String cache, String puzzle) throws CacheNaoSuportaPuzzlesException {
+    public void setPuzzle(String cache, String puzzle) throws CacheNaoSuportaFuncionalidadeException {
          if ( this.getCache(cache)instanceof CacheMisterio) {
             ((CacheMisterio)this.getCache(cache)).setDescPuzzle(puzzle);
-        } else throw new CacheNaoSuportaPuzzlesException();
+        } else throw new CacheNaoSuportaFuncionalidadeException("Puzzles");
      } 
     
     

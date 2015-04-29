@@ -1,6 +1,7 @@
 
 package Data;
 
+import Exceptions.CacheNaoSuportaFuncionalidadeException;
 import Exceptions.DificuldadeInvalidaException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -143,6 +144,16 @@ public class TradCache extends Cache {
     @Override
     public int getPoints() {
         return getDificuldade();
+    }
+
+    @Override
+    public int getPontosExtra() {
+        return 0;
+    }
+
+    @Override
+    public void setPontosExtra(int i) throws CacheNaoSuportaFuncionalidadeException {
+        throw new CacheNaoSuportaFuncionalidadeException("Alterar Pontos de Dificuldade"); //To change body of generated methods, choose Tools | Templates.
     }
     
     

@@ -1,6 +1,7 @@
 
 package Data;
 
+import Exceptions.CacheNaoSuportaFuncionalidadeException;
 import Exceptions.DificuldadeInvalidaException;
 import java.util.Date;
 import java.util.HashMap;
@@ -126,6 +127,11 @@ public abstract class Cache {
     public int getPoints() {
         return dificuldade;
     }
+    
+    public abstract int getPontosExtra();
+    public abstract void setPontosExtra(int i) throws CacheNaoSuportaFuncionalidadeException ;
+        
+    
 
     @Override
     public int hashCode() {

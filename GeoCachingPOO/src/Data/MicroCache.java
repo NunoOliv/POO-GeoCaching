@@ -37,4 +37,9 @@ public class MicroCache extends Cache {
         return this.getDificuldade()+DifExtra;
     }
     
+    @Override
+    public int getPontosExtra() {
+        return DifExtra;
+    }
+    
 }
