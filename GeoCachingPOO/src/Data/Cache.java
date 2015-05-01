@@ -168,6 +168,11 @@ public abstract class Cache {
         return true;
     }
 
+    @Override
+    public abstract Cache clone();
+    
+    @Override
+    public abstract String toString();
     
 
  

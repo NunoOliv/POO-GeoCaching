@@ -7,6 +7,8 @@ package Data;
 
 import Exceptions.DificuldadeInvalidaException;
 import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -82,6 +84,16 @@ public class CacheMisterio extends TradCache {
     @Override
     public int getPoints() {
         return super.getPoints()+pontosExtra;
+    }
+
+    @Override
+    public Cache clone() {
+        try {
+            return new CacheMisterio(this);
+        } catch (DificuldadeInvalidaException ex) {
+            Logger.getLogger(CacheMisterio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
     

@@ -4,8 +4,10 @@ import Business.Core;
 import Data.User;
 import Exceptions.*;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -134,7 +136,7 @@ public class Menu {
             out.println();
             out.println("1-Ver informações de conta");
             out.println("2-Alterar informações de conta");
-            out.println("3-Adicionar actividade WIP");
+            out.println("3-Ver ou alterar Caches");
             out.println("4-Amigos");
             out.println("0-Sair");
             out.println();
@@ -148,7 +150,7 @@ public class Menu {
                 clearScreen();
                 continue;
             }
-
+            
             if (opcao > 4 || opcao < 0) {
                 out.println("Intruduza uma opção válida!");
                 in.nextLine();
@@ -167,6 +169,7 @@ public class Menu {
                     menuConta();
                     break;
                 case (3):
+                    menuCaches();
                     break;
                 case (4):
                     menuAmigos();
@@ -506,7 +509,7 @@ public class Menu {
         out.println("*** Pedir em Amizade ***");
         out.println();
         out.println("Intruduza o email da pessoa a quem quer enviar o pedido:");
-        String m=in.nextLine();
+        String m = in.nextLine();
         try {
             core.pedeAmigo(m);
             out.println("Pedido enviado com sucesso!");
@@ -525,7 +528,7 @@ public class Menu {
             in.nextLine();
             clearScreen();
         }
-        
+
     }
 
     private void aceitarAmigo() {
@@ -534,7 +537,7 @@ public class Menu {
         out.println("*** Aceitar pedido de amizade ***");
         out.println();
         out.println("Intruduza o email da pessoa que quer aceitar o pedido:");
-        String m=in.nextLine();
+        String m = in.nextLine();
         try {
             core.aceitaAmigo(m);
             out.println("Pedido enviado com sucesso!");
@@ -559,4 +562,135 @@ public class Menu {
         }
     }
 
+    private String mOperacoesCaches() {
+        int i = 1;
+
+        return "***Operações com Caches***\n"
+                + i + "-Ver Caches\n"
+                + (++i) + "-Ver Detalhes Cache\n"
+                + (++i) + "-Criar Cache\n"
+                + (++i) + "-Editar Cache\n"
+                + (++i) + "-Remover Cache\n\n"
+                + "0-Voltar";
+    }
+
+    private void mVerLista(ArrayList<String> lista) {
+        String m;
+        boolean exit = false;
+        int cont = 0, size = lista.size(), screensize = 20, currPage = 1, maxPages;
+
+        out.println("*** Lista de Caches***\n");
+        maxPages = size / screensize;
+        if (((float) size % screensize) >= 0) {
+            maxPages++;
+        }
+        for (String i : lista) {
+            out.println(i);
+            cont++;
+            if (cont >= screensize) {
+                out.println("Página: " + currPage + " de: " + maxPages);
+                out.println("Mostrar proxima pagina?(S/N)");
+                m = in.nextLine();
+                while (!exit && cont!=0) {
+                    switch (m) {
+                        case ("S"):
+                            cont = 0;
+                            break;
+                        case ("N"):
+                            exit = true;
+                            return;
+                        default:
+                            out.println("Opção invalida: Escreva S para sim ou N para não.");
+
+                    }
+                }
+                
+                
+                currPage++;
+            }
+            
+        }
+        out.println("Página: " + currPage + " de: " + maxPages + "\nFIM");
+        in.nextLine();
+                
+    }
+
+    private String mCriarCache() {
+        int i = 1;
+        return "*** Criar Cache ***\n"
+                + +i + "-Cache Tradicional\n"
+                + (++i) + "-Micro-Cache\n"
+                + (++i) + "-Cache Mistério\n"
+                + (++i) + "-Multi Cache\n"
+                + (++i) + "-Cache Evento\n";
+    }
+
+    // Criar Menus de criação para cada tipo de cache
+    public void menuCaches() {
+        int opcao;
+        while (true) {
+            clearScreen();
+            out.println(this.mOperacoesCaches());
+
+            out.print("Opção: ");
+            try {
+                opcao = Integer.parseInt(in.nextLine());
+            } catch (Exception e) {
+                out.println("Intruduza uma opção válida!");
+                in.nextLine();
+                clearScreen();
+                continue;
+            }
+
+
+            switch (opcao) {
+                case (0):
+                    clearScreen();
+                    return;
+                case (1):
+                    verCaches();
+                    break;
+                case (2):
+                    detCache();
+                    break;
+                case (3):
+                    criarCache();
+                    break;
+                case (4):
+                    editCache();
+                    break;
+                case (5):
+                    removeCache();
+                    break;
+                default:
+                    out.println("Intruduza uma opção válida!");
+                    in.nextLine();
+                    clearScreen();
+                    break;
+
+            }
+        }
+    }
+
+    public void verCaches() {
+        clearScreen();
+        mVerLista(core.getListaCaches());
+
+    }
+
+    private void detCache() {
+
+    }
+
+    private void criarCache() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void editCache() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void removeCache() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

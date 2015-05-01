@@ -9,13 +9,15 @@ import Exceptions.DificuldadeInvalidaException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Nuno Oliveira
  */
-public class CacheEvento extends Cache{
-    
+public class CacheEvento extends Cache {
+
     private HashSet<String> organizadores;
     private GregorianCalendar dataEvento;
     private int pontosExtra;
@@ -47,11 +49,6 @@ public class CacheEvento extends Cache{
         this.dataEvento = new GregorianCalendar();
         this.pontosExtra = 0;
     }
-    
-    
-
-    
-    
 
     /**
      * @return the organizadores
@@ -71,7 +68,7 @@ public class CacheEvento extends Cache{
      * @return the dataEvento
      */
     public GregorianCalendar getDataEvento() {
-        return (GregorianCalendar)dataEvento.clone();
+        return (GregorianCalendar) dataEvento.clone();
     }
 
     /**
@@ -80,11 +77,11 @@ public class CacheEvento extends Cache{
     public void setDataEvento(GregorianCalendar dataEvento) {
         this.dataEvento = dataEvento;
     }
-    
+
     public void setDataEvento(int dia, int mes, int ano) {
         this.dataEvento = new GregorianCalendar(ano, mes, dia);
     }
-    
+
     /**
      * @return the pontosExtra
      */
@@ -98,31 +95,40 @@ public class CacheEvento extends Cache{
     public void setPontosExtra(int pontosExtra) {
         this.pontosExtra = pontosExtra;
     }
-      
-    
-    
+
     public boolean addOrganizador(String user) {
         return this.organizadores.add(user);
     }
-    
+
     public boolean removeOrganizador(String user) {
         return this.organizadores.remove(user);
     }
 
     /**
      * Devolve pontos da Cache Evento
-     * @return 
+     *
+     * @return
      */
     @Override
     public int getPoints() {
-        return super.getPoints()+getPontosExtra();
+        return super.getPoints() + getPontosExtra();
     }
 
     public ArrayList<String> getListaOrg() {
         ArrayList<String> ret = new ArrayList<>();
-       for(String t : organizadores) {
-           ret.add(t);
-       }
-       return ret;
+        for (String t : organizadores) {
+            ret.add(t);
+        }
+        return ret;
+    }
+
+    @Override
+    public Cache clone() {
+        try {
+            return new CacheEvento(this);
+        } catch (DificuldadeInvalidaException ex) {
+            Logger.getLogger(CacheEvento.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 }

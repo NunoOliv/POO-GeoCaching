@@ -10,6 +10,8 @@ import Exceptions.PontosExtraInvalidosException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -122,5 +124,17 @@ public class MultiCache extends TradCache {
     public int getPoints() {
         return super.getPoints() + pontosExtra;
     }
+
+    @Override
+    public Cache clone() {
+        try {
+            return new MultiCache(this);
+        } catch (DificuldadeInvalidaException ex) {
+            Logger.getLogger(MultiCache.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    
 
 }

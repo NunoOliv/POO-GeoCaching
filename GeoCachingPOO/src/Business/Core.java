@@ -1,10 +1,14 @@
 package Business;
 
+import Data.CacheList;
+import Data.Coords;
 import Data.User;
 import Data.UserList;
 import Exceptions.*;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,10 +22,12 @@ public class Core {
 
     private UserList userL;
     private User sessao;
+    private CacheList cacheL;
 
     public Core() {
         userL = new UserList();
         sessao = null;
+        cacheL = new CacheList();
     }
 
     public void inicialize() {
@@ -32,6 +38,34 @@ public class Core {
             userL.addUser("rafa@mail.com", "123", "Rafael", "Masculino", "Rua da Pera", dn1);
             userL.addUser("nuno@mail.com", "123", "Nuno", "Masculino", "Rua da Laranja", dn2);
             userL.addUser("rui@mail.com", "123", "Rui", "Masculino", "Rua da Maçâ", dn3);
+            cacheL.addMicroCache("cache1", new Coords(3265,54654), "Cache teste",3);
+            cacheL.addMicroCache("cache2", new Coords(3265,54654), "Cache teste",3);
+            cacheL.addMicroCache("cache3", new Coords(3265,54654), "Cache teste",3);
+            cacheL.addMicroCache("cache4", new Coords(3265,54654), "Cache teste",3);
+            cacheL.addMicroCache("cache5", new Coords(3265,54654), "Cache teste",3);
+            cacheL.addMicroCache("cache6", new Coords(3265,54654), "Cache teste",3);
+            cacheL.addMicroCache("cache7", new Coords(3265,54654), "Cache teste",3);
+            cacheL.addMicroCache("cache8", new Coords(3265,54654), "Cache teste",3);
+            cacheL.addMicroCache("cache9", new Coords(3265,54654), "Cache teste",3);
+            cacheL.addMicroCache("cache10", new Coords(3265,54654), "Cache teste",3);
+            cacheL.addMicroCache("cache11", new Coords(3265,54654), "Cache teste",3);
+            cacheL.addMicroCache("cache12", new Coords(3265,54654), "Cache teste",3);
+            cacheL.addMicroCache("cache13", new Coords(3265,54654), "Cache teste",3);
+            cacheL.addMicroCache("cache14", new Coords(3265,54654), "Cache teste",3);
+            cacheL.addMicroCache("cache15", new Coords(3265,54654), "Cache teste",3);
+            cacheL.addMicroCache("cache16", new Coords(3265,54654), "Cache teste",3);
+            cacheL.addMicroCache("cache17", new Coords(3265,54654), "Cache teste",3);
+            cacheL.addMicroCache("cache18", new Coords(3265,54654), "Cache teste",3);
+            cacheL.addMicroCache("cache19", new Coords(3265,54654), "Cache teste",3);
+            cacheL.addMicroCache("cache20", new Coords(3265,54654), "Cache teste",3);
+            cacheL.addMicroCache("cache21", new Coords(3265,54654), "Cache teste",3);
+            cacheL.addMicroCache("cache22", new Coords(3265,54654), "Cache teste",3);
+            cacheL.addMicroCache("cache23", new Coords(3265,54654), "Cache teste",3);
+            cacheL.addMicroCache("cache24", new Coords(3265,54654), "Cache teste",3);
+            
+            
+            
+            
         } catch (EmailJaExisteException ex) {
             Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
         } catch (CamposInvalidosException ex) {
@@ -39,6 +73,8 @@ public class Core {
         } catch (GeneroInvalidoException ex) {
             Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
         } catch (DataInvalidaException ex) {
+            Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DificuldadeInvalidaException ex) {
             Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -218,7 +254,7 @@ public class Core {
     }
 
     /**
-     * Acita um pedido de amizade, remove-o da lista de pedidos.
+     * Aceita um pedido de amizade, remove-o da lista de pedidos.
      *
      * @param m Email do utilizador a quem se pretende aceitar.
      * @throws EmailInvalidoException
@@ -231,5 +267,18 @@ public class Core {
         sessao.aceitaPedido(u);
         u.addAmigo(sessao);
     }
+    
+    
+    /**
+     * Operações com Caches
+     */
+    
+    public ArrayList<String> getListaCaches() {
+        ArrayList<String> ret = cacheL.getListaCacheNames();
+        Collections.sort(ret);
+        return ret;
+    }
+    
+    
 
 }

@@ -6,6 +6,8 @@ import Exceptions.DificuldadeInvalidaException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -154,6 +156,16 @@ public class TradCache extends Cache {
     @Override
     public void setPontosExtra(int i) throws CacheNaoSuportaFuncionalidadeException {
         throw new CacheNaoSuportaFuncionalidadeException("Alterar Pontos de Dificuldade"); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Cache clone() {
+        try {
+            return new TradCache(this);
+        } catch (DificuldadeInvalidaException ex) {
+            Logger.getLogger(TradCache.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
     
