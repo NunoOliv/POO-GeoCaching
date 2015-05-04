@@ -6,6 +6,7 @@
 package Data;
 
 import Exceptions.DificuldadeInvalidaException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
@@ -131,4 +132,30 @@ public class CacheEvento extends Cache {
             return null;
         }
     }
+
+    @Override
+    public String toString() {
+        String ret = super.toString();
+        String org = "";
+        
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy"); 
+        String formattedDate = formatter.format(dataEvento.getTime());
+        
+        ret = ret.concat("Data do Evento: " + formattedDate + "\n");
+        
+        int i = 1;
+        for(String s : organizadores ) {
+            org = org.concat( s );
+            if (i != organizadores.size() -1) {
+                org = org.concat( ", " );
+            }
+        }
+        
+        ret = ret.concat("Organizadores: "+ org+ "\n");
+        ret = ret.concat("Pontos Extra: "+ pontosExtra + "\n");
+        
+        return ret;
+    }
+
+    
 }

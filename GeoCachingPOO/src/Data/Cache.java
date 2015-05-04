@@ -172,7 +172,16 @@ public abstract class Cache {
     public abstract Cache clone();
     
     @Override
-    public abstract String toString();
+    public String toString(){
+        String ret;
+        ret = "Referencia: "+ref+"\n";
+        ret = ret.concat("Coordenadas:\n   Latitude: "+coords.getLatitude()+"\n   Longitude: "+coords.getLongitude()+"\n");
+        ret = ret.concat("Descrição: " + descricao + "\n");
+        ret = ret.concat("Dificuldade: "+ dificuldade + "\n");
+        ret = ret.concat("Numero de Assinantes: " + assinantes.size());
+        
+        return ret;
+    }
     
 
  

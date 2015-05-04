@@ -4,7 +4,6 @@ package Data;
 import Exceptions.CacheNaoSuportaFuncionalidadeException;
 import Exceptions.DificuldadeInvalidaException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -167,6 +166,18 @@ public class TradCache extends Cache {
         }
         return null;
     }
+
+    @Override
+    public String toString() {
+        String ret =  super.toString(); 
+        
+        ret = ret.concat("Numero de Tesouros: "+ tesouros.size() + "\n");
+        ret = ret.concat("Numero de TravelBugs: "+ bugs.size() + "\n");
+        
+        return ret;
+    }
+    
+    
     
     
 }

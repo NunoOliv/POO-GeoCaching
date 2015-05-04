@@ -66,6 +66,7 @@ public class CacheMisterio extends TradCache {
     /**
      * @return the pontosExtra
      */
+    @Override
     public int getPontosExtra() {
         return pontosExtra;
     }
@@ -95,6 +96,18 @@ public class CacheMisterio extends TradCache {
         }
         return null;
     }
+
+    @Override
+    public String toString() {
+        String ret = super.toString();
+        
+        ret = ret.concat("Descição do Puzzle: " + descPuzzle+ "\n");
+        ret = ret.concat("Pontos Extra: " + pontosExtra + "\n");
+        
+        return ret;
+    }
+    
+    
     
     
     
