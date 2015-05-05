@@ -5,6 +5,7 @@
  */
 package Data;
 
+import Exceptions.CacheNaoExisteException;
 import Exceptions.CacheNaoSuportaFuncionalidadeException;
 import Exceptions.DificuldadeInvalidaException;
 import Exceptions.PontosExtraInvalidosException;
@@ -12,6 +13,8 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -28,7 +31,7 @@ public class CacheList {
     public CacheList(HashMap<String, Cache> caches) {
         this.caches = caches;
     }
-    
+
     public CacheList() {
         this.caches = new HashMap<>();
     }
@@ -48,23 +51,40 @@ public class CacheList {
     }
 
     public Cache getCache(String Ref) {
-        return (Cache)(caches.get(Ref)).clone();
+        return (Cache) (caches.get(Ref)).clone();
     }
-    
+
     public ArrayList<String> getListaCacheNames() {
         ArrayList<String> ret = new ArrayList<>();
-        for(String s : caches.keySet()) {
+        for (String s : caches.keySet()) {
             ret.add(s);
         }
-        
+
         return ret;
     }
-    
 
     /**
      * *****************************************
-     * Operações com assinantes
-     *****************************************
+     * Operações com detalhes de Cache ****************************************
+     */
+
+    public String getDetalhesCache(String cache) {
+
+        if (caches.containsKey(cache)) {
+            return "Tipo de Cache: " + caches.get(cache).getCacheType() + "\n" + caches.get(cache).toString();
+        } else {
+            try {
+                throw new CacheNaoExisteException();
+            } catch (CacheNaoExisteException ex) {
+                Logger.getLogger(CacheList.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            }
+        }
+    }
+
+    /**
+     * *****************************************
+     * Operações com assinantes ****************************************
      */
     /**
      *
@@ -90,8 +110,7 @@ public class CacheList {
 
     /**
      * *****************************************
-     * Operações com dificuldades
-     *****************************************
+     * Operações com dificuldades ****************************************
      */
     public void setDificuldade(int dif, String cache) throws DificuldadeInvalidaException {
         this.getCache(cache).setDificuldade(dif);
@@ -103,8 +122,7 @@ public class CacheList {
 
     /**
      * *****************************************
-     * Operações com coordenadas
-     *****************************************
+     * Operações com coordenadas ****************************************
      */
     public Coords getCoords(String cache) {
         return this.getCache(cache).getCoords();
@@ -116,8 +134,7 @@ public class CacheList {
 
     /**
      * *****************************************
-     * Operações com tesouros
-     *****************************************
+     * Operações com tesouros ****************************************
      */
     public ArrayList<String> getListTesouros(String tradCache) throws CacheNaoSuportaFuncionalidadeException {
         if (this.getCache(tradCache) instanceof TradCache) {
@@ -147,8 +164,7 @@ public class CacheList {
 
     /**
      * *****************************************
-     * Operações com TravelBugs
-     *****************************************
+     * Operações com TravelBugs ****************************************
      */
     /**
      *
@@ -193,8 +209,7 @@ public class CacheList {
 
     /**
      * *****************************************
-     * Operações com pontos intermedios
-     *****************************************
+     * Operações com pontos intermedios ****************************************
      */
     public HashMap<Integer, Coords> getPontosIntermedios(String cache) throws CacheNaoSuportaFuncionalidadeException {
         if (this.getCache(cache) instanceof MultiCache) {
@@ -214,8 +229,7 @@ public class CacheList {
 
     /**
      * *****************************************
-     * Operações com pontos Extra
-     *****************************************
+     * Operações com pontos Extra ****************************************
      */
     public int getPontosExtra(String cache) {
         return this.getCache(cache).getPontosExtra();
@@ -227,8 +241,7 @@ public class CacheList {
 
     /**
      * *****************************************
-     * Operações com organizadores
-     *****************************************
+     * Operações com organizadores ****************************************
      */
     public ArrayList<String> getListaOrg(String cache) throws CacheNaoSuportaFuncionalidadeException {
 
@@ -257,10 +270,8 @@ public class CacheList {
 
     /**
      * *****************************************
-     * Operações com data eventos
-     *****************************************
+     * Operações com data eventos ****************************************
      */
-
     public GregorianCalendar getDataEvento(String cache) throws CacheNaoSuportaFuncionalidadeException {
         if (this.getCache(cache) instanceof CacheEvento) {
             return ((CacheEvento) this.getCache(cache)).getDataEvento();
@@ -280,14 +291,13 @@ public class CacheList {
     /**
      * *****************************************
      * Operações com descrição de puzzles
-     *******************************************
+     * ******************************************
      */
-    
     /**
-     * 
+     *
      * @param cache
      * @return
-     * @throws CacheNaoSuportaFuncionalidadeException 
+     * @throws CacheNaoSuportaFuncionalidadeException
      */
     public String getPuzzle(String cache) throws CacheNaoSuportaFuncionalidadeException {
         if (this.getCache(cache) instanceof CacheMisterio) {
@@ -298,10 +308,10 @@ public class CacheList {
     }
 
     /**
-     * 
+     *
      * @param cache
      * @param puzzle
-     * @throws CacheNaoSuportaFuncionalidadeException 
+     * @throws CacheNaoSuportaFuncionalidadeException
      */
     public void setPuzzle(String cache, String puzzle) throws CacheNaoSuportaFuncionalidadeException {
         if (this.getCache(cache) instanceof CacheMisterio) {
@@ -314,7 +324,7 @@ public class CacheList {
     /**
      * **********************************************************
      * Cache Tradicional *
-     ***********************************************************
+     * **********************************************************
      */
     /**
      *
@@ -408,8 +418,7 @@ public class CacheList {
 
     /**
      * **********************************************************
-     * Cache Evento *
-     ***********************************************************
+     * Cache Evento * **********************************************************
      */
     /**
      *
@@ -503,7 +512,7 @@ public class CacheList {
     /**
      * **********************************************************
      * Cache Mistério *
-     ***********************************************************
+     * **********************************************************
      */
     /**
      *
@@ -579,8 +588,7 @@ public class CacheList {
 
     /**
      * **********************************************************
-     * Micro-Cache *
-     ***********************************************************
+     * Micro-Cache * **********************************************************
      */
     /**
      *
@@ -650,8 +658,7 @@ public class CacheList {
 
     /**
      * **********************************************************
-     * Multi Cache *
-     ***********************************************************
+     * Multi Cache * **********************************************************
      */
     /**
      *

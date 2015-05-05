@@ -157,5 +157,12 @@ public class CacheEvento extends Cache {
         return ret;
     }
 
+    @Override
+    public String getCacheType() {
+        return "Cache Evento";
+    }
+    
+    
+
     
 }

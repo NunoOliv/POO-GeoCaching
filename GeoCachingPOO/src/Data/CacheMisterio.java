@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  * @author Nuno Oliveira
  */
 public class CacheMisterio extends TradCache {
-    
+
     private String descPuzzle;
     private int pontosExtra;
 
@@ -44,7 +44,7 @@ public class CacheMisterio extends TradCache {
     }
 
     public CacheMisterio(CacheMisterio c) throws DificuldadeInvalidaException {
-        super(c.getRef(),c.getTesouros(), c.getBugs(), c.getCoords(), c.getAssinantes(), c.getDescricao(), c.getDificuldade());
+        super(c.getRef(), c.getTesouros(), c.getBugs(), c.getCoords(), c.getAssinantes(), c.getDescricao(), c.getDificuldade());
         this.descPuzzle = c.getDescPuzzle();
         this.pontosExtra = c.getPontosExtra();
     }
@@ -80,11 +80,12 @@ public class CacheMisterio extends TradCache {
 
     /**
      * Devolve pontos da Cache Misterio
-     * @return  
+     *
+     * @return
      */
     @Override
     public int getPoints() {
-        return super.getPoints()+pontosExtra;
+        return super.getPoints() + pontosExtra;
     }
 
     @Override
@@ -100,16 +101,16 @@ public class CacheMisterio extends TradCache {
     @Override
     public String toString() {
         String ret = super.toString();
-        
-        ret = ret.concat("Descição do Puzzle: " + descPuzzle+ "\n");
+
+        ret = ret.concat("Descição do Puzzle: " + descPuzzle + "\n");
         ret = ret.concat("Pontos Extra: " + pontosExtra + "\n");
-        
+
         return ret;
     }
-    
-    
-    
-    
-    
-    
+
+    @Override
+    public String getCacheType() {
+        return "Cache-Mistério";
+    }
+
 }

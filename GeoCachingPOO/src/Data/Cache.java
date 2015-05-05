@@ -3,7 +3,6 @@ package Data;
 
 import Exceptions.CacheNaoSuportaFuncionalidadeException;
 import Exceptions.DificuldadeInvalidaException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Objects;
@@ -178,11 +177,11 @@ public abstract class Cache {
         ret = ret.concat("Coordenadas:\n   Latitude: "+coords.getLatitude()+"\n   Longitude: "+coords.getLongitude()+"\n");
         ret = ret.concat("Descrição: " + descricao + "\n");
         ret = ret.concat("Dificuldade: "+ dificuldade + "\n");
-        ret = ret.concat("Numero de Assinantes: " + assinantes.size());
+        ret = ret.concat("Numero de Assinantes: " + assinantes.size()+"\n");
         
         return ret;
     }
     
-
+    public abstract String getCacheType();
  
 }

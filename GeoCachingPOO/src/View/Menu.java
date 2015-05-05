@@ -679,7 +679,20 @@ public class Menu {
     }
 
     private void detCache() {
+        clearScreen();
+        out.println("Introduzir referencia da cache:\n");
+        String cache = in.nextLine();
+        clearScreen();
+        out.println(core.getDetalhesCache(cache));
+        in.nextLine();
+        mDetalhesCache(cache);
+        
 
+    }
+    
+    private void mDetalhesCache(String cache) {
+        out.println("Operações:\n"
+            + "");
     }
 
     private void criarCache() {

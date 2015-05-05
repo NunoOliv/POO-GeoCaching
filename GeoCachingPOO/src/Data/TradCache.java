@@ -176,6 +176,13 @@ public class TradCache extends Cache {
         
         return ret;
     }
+
+    @Override
+    public String getCacheType() {
+        return "Cache Tradicional";
+    }
+    
+    
     
     
     

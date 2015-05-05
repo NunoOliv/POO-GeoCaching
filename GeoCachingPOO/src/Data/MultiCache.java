@@ -9,7 +9,6 @@ import Exceptions.DificuldadeInvalidaException;
 import Exceptions.PontosExtraInvalidosException;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,28 +24,30 @@ public class MultiCache extends TradCache {
     /**
      * Construtor basico
      *
+     * @param ref
      * @param coords
      * @param descricao
      * @param dificuldade
-     * @param clima
+     * @throws Exceptions.DificuldadeInvalidaException
      */
     public MultiCache(String ref, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         super(ref, coords, descricao, dificuldade);
-        this.setTesouros(new HashSet<String>());
-        this.setBugs(new HashSet<TravelBug>());
+        this.setTesouros(new HashSet<>());
+        this.setBugs(new HashSet<>());
         this.pontosIntermedios = new HashMap<>();
         this.pontosExtra = 1;
     }
 
     /**
      *
+     * @param ref
      * @param tesouros
      * @param bugs
      * @param coords
      * @param Assinantes
      * @param Descricao
      * @param dificuldade
-     * @param clima
+     * @throws Exceptions.DificuldadeInvalidaException
      */
     public MultiCache(String ref, HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
         super(ref, tesouros, bugs, coords, Assinantes, Descricao, dificuldade);
@@ -56,6 +57,8 @@ public class MultiCache extends TradCache {
 
     /**
      *
+     * @param ref
+     * @param pontosExtra
      * @param pontosIntermedios
      * @param tesouros
      * @param bugs
@@ -63,7 +66,8 @@ public class MultiCache extends TradCache {
      * @param Assinantes
      * @param Descricao
      * @param dificuldade
-     * @param clima
+     * @throws Exceptions.DificuldadeInvalidaException
+     * @throws Exceptions.PontosExtraInvalidosException
      */
     public MultiCache(String ref, int pontosExtra, HashMap<Integer, Coords> pontosIntermedios, HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException, PontosExtraInvalidosException {
 
@@ -87,12 +91,11 @@ public class MultiCache extends TradCache {
     public HashMap<Integer, Coords> getPontosIntermedios() {
         int i = 0;
         HashMap<Integer, Coords> ret = new HashMap<>();
-        while(pontosIntermedios.get(i)!=null) {
-            ret.put(i,pontosIntermedios.get(i));
+        while (pontosIntermedios.get(i) != null) {
+            ret.put(i, pontosIntermedios.get(i));
         }
         return ret;
     }
-    
 
     /**
      * @param pontosIntermedios the pontosIntermedios to set
@@ -104,6 +107,7 @@ public class MultiCache extends TradCache {
     /**
      * @return the pontosExtra
      */
+    @Override
     public int getPontosExtra() {
         return pontosExtra;
     }
@@ -111,6 +115,7 @@ public class MultiCache extends TradCache {
     /**
      * @param pontosExtra the pontosExtra to set
      */
+    @Override
     public void setPontosExtra(int pontosExtra) {
         this.pontosExtra = pontosExtra;
     }
@@ -133,6 +138,26 @@ public class MultiCache extends TradCache {
             Logger.getLogger(MultiCache.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        String ret = super.toString();
+
+        ret = ret.concat("Pontos intermédios:\n");
+
+        for (Integer i : pontosIntermedios.keySet()) {
+            ret = ret.concat("Ponto " + i + ": Latitude = " + pontosIntermedios.get(i).getLatitude() + "  Longitude = " + pontosIntermedios.get(i).getLongitude() + "\n");
+        }
+
+        ret = ret.concat("Pontos Extra: " + pontosExtra + "\n");
+
+        return ret;
+    }
+
+    @Override
+    public String getCacheType() {
+        return "Multi-Cache";
     }
     
     

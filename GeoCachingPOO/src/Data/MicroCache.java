@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  */
 public class MicroCache extends Cache {
 
-    private static final int DifExtra = 2;
+    private static final int difExtra = 2;
 
     public MicroCache(String ref, Coords coords, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         super(ref, coords, assinantes, descricao, dificuldade);
@@ -33,12 +33,12 @@ public class MicroCache extends Cache {
 
     @Override
     public int getPoints() {
-        return this.getDificuldade() + DifExtra;
+        return this.getDificuldade() + difExtra;
     }
 
     @Override
     public int getPontosExtra() {
-        return DifExtra;
+        return difExtra;
     }
 
     @Override
@@ -55,5 +55,21 @@ public class MicroCache extends Cache {
             return null;
         }
     }
+
+    @Override
+    public String toString() {
+        String ret = super.toString();
+        
+        ret = ret.concat("Pontos Extra: " + difExtra + "\n");
+        
+        return ret;
+    }
+
+    @Override
+    public String getCacheType() {
+        return "Micro-Cache";
+    }
+    
+    
 
 }

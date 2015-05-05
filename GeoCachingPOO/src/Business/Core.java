@@ -279,6 +279,7 @@ public class Core {
         return ret;
     }
     
-    
-
+    public String getDetalhesCache(String cache) {
+        return cacheL.getDetalhesCache(cache);
+    }
 }
