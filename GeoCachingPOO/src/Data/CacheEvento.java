@@ -23,29 +23,29 @@ public class CacheEvento extends Cache {
     private GregorianCalendar dataEvento;
     private int pontosExtra;
 
-    public CacheEvento(String ref, HashSet<String> organizadores, GregorianCalendar dataEvento, int pontosExtra, Coords coords, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
-        super(ref, coords, assinantes, descricao, dificuldade);
+    public CacheEvento(String ref, HashSet<String> organizadores, GregorianCalendar dataEvento, int pontosExtra, Coords coords, String creator, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+        super(ref, coords, creator, assinantes, descricao, dificuldade);
         this.organizadores = organizadores;
         this.dataEvento = dataEvento;
         this.pontosExtra = pontosExtra;
     }
 
-    public CacheEvento(String ref, Coords coords, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
-        super(ref, coords, assinantes, descricao, dificuldade);
+    public CacheEvento(String ref, Coords coords, String creator, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+        super(ref, coords, creator, assinantes, descricao, dificuldade);
         this.organizadores = new HashSet<>();
         this.dataEvento = new GregorianCalendar();
         this.pontosExtra = 0;
     }
 
     public CacheEvento(CacheEvento c) throws DificuldadeInvalidaException {
-        super(c.getRef(), c.getCoords(), c.getAssinantes(), c.getDescricao(), c.getDificuldade());
+        super(c.getRef(), c.getCoords(), c.getCreator(), c.getAssinantes(), c.getDescricao(), c.getDificuldade());
         this.setDataEvento(c.getDataEvento());
         this.setOrganizadores(c.getOrganizadores());
         this.setPontosExtra(this.getPontosExtra());
     }
 
-    public CacheEvento(String ref, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException {
-        super(ref, coords, descricao, dificuldade);
+    public CacheEvento(String ref, Coords coords, String creator, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+        super(ref, coords, creator, descricao, dificuldade);
         this.organizadores = new HashSet<>();
         this.dataEvento = new GregorianCalendar();
         this.pontosExtra = 0;
@@ -137,23 +137,23 @@ public class CacheEvento extends Cache {
     public String toString() {
         String ret = super.toString();
         String org = "";
-        
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy"); 
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         String formattedDate = formatter.format(dataEvento.getTime());
-        
+
         ret = ret.concat("Data do Evento: " + formattedDate + "\n");
-        
+
         int i = 1;
-        for(String s : organizadores ) {
-            org = org.concat( s );
-            if (i != organizadores.size() -1) {
-                org = org.concat( ", " );
+        for (String s : organizadores) {
+            org = org.concat(s);
+            if (i != organizadores.size() - 1) {
+                org = org.concat(", ");
             }
         }
-        
-        ret = ret.concat("Organizadores: "+ org+ "\n");
-        ret = ret.concat("Pontos Extra: "+ pontosExtra + "\n");
-        
+
+        ret = ret.concat("Organizadores: " + org + "\n");
+        ret = ret.concat("Pontos Extra: " + pontosExtra + "\n");
+
         return ret;
     }
 
@@ -161,8 +161,5 @@ public class CacheEvento extends Cache {
     public String getCacheType() {
         return "Cache Evento";
     }
-    
-    
 
-    
 }

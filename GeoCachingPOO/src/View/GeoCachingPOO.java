@@ -2,7 +2,6 @@ package View;
 
 import Business.Core;
 
-
 /**
  *
  * @author Rafael Antunes
@@ -19,11 +18,11 @@ public class GeoCachingPOO {
      */
     public static void main(String[] args) {
         core = new Core();
-        menu= new Menu(core);
-                
+        menu = new Menu(core);
+
         core.inicialize();
         menu.start();
-        
+
     }
 
 }

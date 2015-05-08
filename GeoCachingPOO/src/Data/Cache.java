@@ -1,4 +1,3 @@
-
 package Data;
 
 import Exceptions.CacheNaoSuportaFuncionalidadeException;
@@ -7,8 +6,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Objects;
 
-
-
 /**
  *
  * @author Rafael Antunes
@@ -16,28 +13,34 @@ import java.util.Objects;
  * @author Rui Pereira
  */
 public abstract class Cache {
+
     private String ref;
     private Coords coords;
+    private String creator;
     private HashSet<String> assinantes;
     private String descricao;
     private int dificuldade;
-    
-    
 
-    public Cache(String ref, Coords coords, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
-        
-        if(dificuldade>5 || dificuldade <1) throw new DificuldadeInvalidaException();
+    public Cache(String ref, Coords coords, String creator, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+
+        if (dificuldade > 5 || dificuldade < 1) {
+            throw new DificuldadeInvalidaException();
+        }
         this.ref = ref;
         this.coords = coords;
+        this.creator = creator;
         this.assinantes = assinantes;
         this.descricao = descricao;
         this.dificuldade = dificuldade;
     }
 
-    public Cache(String ref, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException {
-         if(dificuldade>5 || dificuldade <1) throw new DificuldadeInvalidaException();
+    public Cache(String ref, Coords coords, String creator, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+        if (dificuldade > 5 || dificuldade < 1) {
+            throw new DificuldadeInvalidaException();
+        }
         this.ref = ref;
         this.coords = coords;
+        this.creator = creator;
         this.descricao = descricao;
         this.dificuldade = dificuldade;
         this.assinantes = new HashSet<>();
@@ -50,7 +53,6 @@ public abstract class Cache {
     public void setRef(String ref) {
         this.ref = ref;
     }
-    
 
     /**
      * @return the coords
@@ -74,9 +76,9 @@ public abstract class Cache {
     }
 
     public HashSet<String> listaAssinantes() {
-        return (HashSet<String>)assinantes.clone();
+        return (HashSet<String>) assinantes.clone();
     }
-    
+
     /**
      * @param assinantes the assinantes to set
      */
@@ -87,11 +89,11 @@ public abstract class Cache {
     public boolean addAssinante(String nome) {
         return this.assinantes.add(nome);
     }
-    
+
     public boolean remAssinante(String nome) {
         return this.assinantes.remove(nome);
     }
-    
+
     /**
      * @return the descricao
      */
@@ -117,20 +119,19 @@ public abstract class Cache {
      * @param dificuldade the dificuldade to set
      */
     public void setDificuldade(int dificuldade) throws DificuldadeInvalidaException {
-        if (dificuldade > 5) throw new DificuldadeInvalidaException();
+        if (dificuldade > 5) {
+            throw new DificuldadeInvalidaException();
+        }
         this.dificuldade = dificuldade;
     }
 
-   
-    
     public int getPoints() {
         return dificuldade;
     }
-    
+
     public abstract int getPontosExtra();
-    public abstract void setPontosExtra(int i) throws CacheNaoSuportaFuncionalidadeException ;
-        
-    
+
+    public abstract void setPontosExtra(int i) throws CacheNaoSuportaFuncionalidadeException;
 
     @Override
     public int hashCode() {
@@ -139,7 +140,7 @@ public abstract class Cache {
         hash = 23 * hash + Objects.hashCode(this.assinantes);
         hash = 23 * hash + Objects.hashCode(this.descricao);
         hash = 23 * hash + this.dificuldade;
-        
+
         return hash;
     }
 
@@ -169,19 +170,28 @@ public abstract class Cache {
 
     @Override
     public abstract Cache clone();
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         String ret;
-        ret = "Referencia: "+ref+"\n";
-        ret = ret.concat("Coordenadas:\n   Latitude: "+coords.getLatitude()+"\n   Longitude: "+coords.getLongitude()+"\n");
+        ret = "Referencia: " + ref + "\n";
+        ret = ret.concat("Coordenadas:\n   Latitude: " + coords.getLatitude() + "\n   Longitude: " + coords.getLongitude() + "\n");
         ret = ret.concat("Descrição: " + descricao + "\n");
-        ret = ret.concat("Dificuldade: "+ dificuldade + "\n");
-        ret = ret.concat("Numero de Assinantes: " + assinantes.size()+"\n");
-        
+        ret = ret.concat("Dificuldade: " + dificuldade + "\n");
+        ret = ret.concat("Criador da Cache: " + creator + "\n");
+        ret = ret.concat("Numero de Assinantes: " + assinantes.size() + "\n");
+
         return ret;
     }
-    
+
     public abstract String getCacheType();
- 
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
 }

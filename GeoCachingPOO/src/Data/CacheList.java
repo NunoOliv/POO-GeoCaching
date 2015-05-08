@@ -67,7 +67,6 @@ public class CacheList {
      * *****************************************
      * Operações com detalhes de Cache ****************************************
      */
-
     public String getDetalhesCache(String cache) {
 
         if (caches.containsKey(cache)) {
@@ -131,10 +130,36 @@ public class CacheList {
     public void setCoords(String cache, Coords coords) {
         this.getCache(cache).setCoords(coords);
     }
+    
+    /**
+     * *****************************************
+     * Operações com criadores
+     * ******************************************
+     */
+    
+    /**
+     * Retorna a String correspondente ao criador da cache
+     * @param cache Identificador da cache
+     * @return Identificador do criador da cache
+     */
+    public String getCriador(String cache) {
+        return this.getCache(cache).getCreator();
+    }
+    
+    /**
+     * Verifica se um utilizador é o criador de uma cache
+     * @param cache Identificador da cache
+     * @param nome  Identificador do utilizador
+     * @return 
+     */
+    public boolean isCriador(String cache, String nome) {
+        return (this.getCache(cache).getCreator()).equals(nome);
+    }
 
     /**
      * *****************************************
-     * Operações com tesouros ****************************************
+     * Operações com tesouros 
+     ****************************************
      */
     public ArrayList<String> getListTesouros(String tradCache) throws CacheNaoSuportaFuncionalidadeException {
         if (this.getCache(tradCache) instanceof TradCache) {
@@ -270,7 +295,8 @@ public class CacheList {
 
     /**
      * *****************************************
-     * Operações com data eventos ****************************************
+     * Operações com data eventos 
+     ****************************************
      */
     public GregorianCalendar getDataEvento(String cache) throws CacheNaoSuportaFuncionalidadeException {
         if (this.getCache(cache) instanceof CacheEvento) {
@@ -336,8 +362,8 @@ public class CacheList {
      * @return
      * @throws DificuldadeInvalidaException
      */
-    public boolean addTradCache(String ref, Coords coords, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
-        TradCache nCache = new TradCache(ref, coords, assinantes, descricao, dificuldade);
+    public boolean addTradCache(String ref, Coords coords, String creator, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+        TradCache nCache = new TradCache(ref, coords, creator, assinantes, descricao, dificuldade);
         if (!caches.containsKey(ref)) {
             caches.put(ref, nCache);
         } else {
@@ -355,8 +381,8 @@ public class CacheList {
      * @return
      * @throws DificuldadeInvalidaException
      */
-    public boolean addTradCache(String ref, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException {
-        TradCache nCache = new TradCache(ref, coords, descricao, dificuldade);
+    public boolean addTradCache(String ref, Coords coords, String creator, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+        TradCache nCache = new TradCache(ref, coords, creator, descricao, dificuldade);
         if (!caches.containsKey(ref)) {
             caches.put(ref, nCache);
         } else {
@@ -377,8 +403,8 @@ public class CacheList {
      * @return
      * @throws DificuldadeInvalidaException
      */
-    public boolean addTradCache(String ref, HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
-        TradCache nCache = new TradCache(ref, tesouros, bugs, coords, Assinantes, Descricao, dificuldade);
+    public boolean addTradCache(String ref, HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, String creator, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
+        TradCache nCache = new TradCache(ref, tesouros, bugs, coords, creator, Assinantes, Descricao, dificuldade);
         if (!caches.containsKey(ref)) {
             caches.put(ref, nCache);
         } else {
@@ -433,9 +459,9 @@ public class CacheList {
      * @return
      * @throws DificuldadeInvalidaException
      */
-    public boolean addCacheEvento(String ref, HashSet<String> organizadores, GregorianCalendar dataEvento, int pontosExtra, Coords coords, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public boolean addCacheEvento(String ref, HashSet<String> organizadores, GregorianCalendar dataEvento, int pontosExtra, Coords coords, String creator, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         if (!caches.containsKey(ref)) {
-            caches.put(ref, new CacheEvento(ref, organizadores, dataEvento, pontosExtra, coords, assinantes, descricao, dificuldade));
+            caches.put(ref, new CacheEvento(ref, organizadores, dataEvento, pontosExtra, coords, creator, assinantes, descricao, dificuldade));
         } else {
             return false;
         }
@@ -452,9 +478,9 @@ public class CacheList {
      * @return
      * @throws DificuldadeInvalidaException
      */
-    public boolean addCacheEvento(String ref, Coords coords, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public boolean addCacheEvento(String ref, Coords coords, String creator, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         if (!caches.containsKey(ref)) {
-            caches.put(ref, new CacheEvento(ref, coords, assinantes, descricao, dificuldade));
+            caches.put(ref, new CacheEvento(ref, coords, creator, assinantes, descricao, dificuldade));
         } else {
             return false;
         }
@@ -470,9 +496,9 @@ public class CacheList {
      * @return
      * @throws DificuldadeInvalidaException
      */
-    public boolean addCacheEvento(String ref, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public boolean addCacheEvento(String ref, Coords coords, String creator, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         if (!caches.containsKey(ref)) {
-            caches.put(ref, new CacheEvento(ref, coords, descricao, dificuldade));
+            caches.put(ref, new CacheEvento(ref, coords, creator, descricao, dificuldade));
         } else {
             return false;
         }
@@ -525,9 +551,9 @@ public class CacheList {
      * @return
      * @throws Exceptions.DificuldadeInvalidaException
      */
-    public boolean addCacheMisterio(String ref, String DescPuzzle, int pontosExtra, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public boolean addCacheMisterio(String ref, String DescPuzzle, int pontosExtra, Coords coords, String creator, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         if (!caches.containsKey(ref)) {
-            caches.put(ref, new CacheMisterio(ref, DescPuzzle, pontosExtra, coords, descricao, dificuldade));
+            caches.put(ref, new CacheMisterio(ref, DescPuzzle, pontosExtra, coords, creator, descricao, dificuldade));
         } else {
             return false;
         }
@@ -563,9 +589,9 @@ public class CacheList {
      * @return
      * @throws DificuldadeInvalidaException
      */
-    public boolean addCacheMisterio(String ref, String DescPuzzle, int pontosExtra, HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public boolean addCacheMisterio(String ref, String DescPuzzle, int pontosExtra, HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, String creator, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
         if (!caches.containsKey(ref)) {
-            caches.put(ref, new CacheMisterio(ref, DescPuzzle, pontosExtra, tesouros, bugs, coords, Assinantes, Descricao, dificuldade));
+            caches.put(ref, new CacheMisterio(ref, DescPuzzle, pontosExtra, tesouros, bugs, coords, creator, Assinantes, Descricao, dificuldade));
         } else {
             return false;
         }
@@ -600,9 +626,9 @@ public class CacheList {
      * @return
      * @throws DificuldadeInvalidaException
      */
-    public boolean addMicroCache(String ref, Coords coords, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public boolean addMicroCache(String ref, Coords coords, String creator, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         if (!caches.containsKey(ref)) {
-            caches.put(ref, new MicroCache(ref, coords, assinantes, descricao, dificuldade));
+            caches.put(ref, new MicroCache(ref, coords, creator, assinantes, descricao, dificuldade));
         } else {
             return false;
         }
@@ -618,9 +644,9 @@ public class CacheList {
      * @return
      * @throws DificuldadeInvalidaException
      */
-    public boolean addMicroCache(String ref, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public boolean addMicroCache(String ref, Coords coords, String creator, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         if (!caches.containsKey(ref)) {
-            caches.put(ref, new MicroCache(ref, coords, descricao, dificuldade));
+            caches.put(ref, new MicroCache(ref, coords, creator, descricao, dificuldade));
         } else {
             return false;
         }
@@ -669,9 +695,9 @@ public class CacheList {
      * @return
      * @throws DificuldadeInvalidaException
      */
-    public boolean addMultiCache(String ref, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public boolean addMultiCache(String ref, Coords coords, String creator, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         if (!caches.containsKey(ref)) {
-            caches.put(ref, new MultiCache(ref, coords, descricao, dificuldade));
+            caches.put(ref, new MultiCache(ref, coords, creator, descricao, dificuldade));
         } else {
             return false;
         }
@@ -693,9 +719,9 @@ public class CacheList {
      * @throws DificuldadeInvalidaException
      * @throws PontosExtraInvalidosException
      */
-    public boolean addMultiCache(String ref, int pontosExtra, HashMap<Integer, Coords> pontosIntermedios, HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException, PontosExtraInvalidosException {
+    public boolean addMultiCache(String ref, int pontosExtra, HashMap<Integer, Coords> pontosIntermedios, HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, String creator, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException, PontosExtraInvalidosException {
         if (!caches.containsKey(ref)) {
-            caches.put(ref, new MultiCache(ref, pontosExtra, pontosIntermedios, tesouros, bugs, coords, Assinantes, Descricao, dificuldade));
+            caches.put(ref, new MultiCache(ref, pontosExtra, pontosIntermedios, tesouros, bugs, coords, creator, Assinantes, Descricao, dificuldade));
         } else {
             return false;
         }

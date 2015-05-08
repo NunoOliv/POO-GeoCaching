@@ -19,16 +19,16 @@ public class MicroCache extends Cache {
 
     private static final int difExtra = 2;
 
-    public MicroCache(String ref, Coords coords, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
-        super(ref, coords, assinantes, descricao, dificuldade);
+    public MicroCache(String ref, Coords coords, String creator, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+        super(ref, coords,creator, assinantes, descricao, dificuldade);
     }
 
-    public MicroCache(String ref, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException {
-        super(ref, coords, descricao, dificuldade);
+    public MicroCache(String ref, Coords coords,String creator, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+        super(ref, coords, creator, descricao, dificuldade);
     }
 
     public MicroCache(MicroCache m) throws DificuldadeInvalidaException {
-        super(m.getRef(), m.getCoords(), m.getAssinantes(), m.getDescricao(), m.getDificuldade());
+        super(m.getRef(), m.getCoords(), m.getCreator(), m.getAssinantes(), m.getDescricao(), m.getDificuldade());
     }
 
     @Override

@@ -9,6 +9,6 @@ package Exceptions;
  *
  * @author Nuno
  */
-public class CacheNaoExisteException extends Exception{
-    
+public class CacheNaoExisteException extends Exception {
+
 }

@@ -150,7 +150,7 @@ public class Menu {
                 clearScreen();
                 continue;
             }
-            
+
             if (opcao > 4 || opcao < 0) {
                 out.println("Intruduza uma opção válida!");
                 in.nextLine();
@@ -591,7 +591,7 @@ public class Menu {
                 out.println("Página: " + currPage + " de: " + maxPages);
                 out.println("Mostrar proxima pagina?(S/N)");
                 m = in.nextLine();
-                while (!exit && cont!=0) {
+                while (!exit && cont != 0) {
                     switch (m) {
                         case ("S"):
                             cont = 0;
@@ -604,15 +604,14 @@ public class Menu {
 
                     }
                 }
-                
-                
+                clearScreen();
                 currPage++;
             }
-            
+
         }
         out.println("Página: " + currPage + " de: " + maxPages + "\nFIM");
         in.nextLine();
-                
+
     }
 
     private String mCriarCache() {
@@ -641,7 +640,6 @@ public class Menu {
                 clearScreen();
                 continue;
             }
-
 
             switch (opcao) {
                 case (0):
@@ -686,13 +684,14 @@ public class Menu {
         out.println(core.getDetalhesCache(cache));
         in.nextLine();
         mDetalhesCache(cache);
-        
 
     }
-    
+
     private void mDetalhesCache(String cache) {
-        out.println("Operações:\n"
-            + "");
+        if (core.getInfo().getMail().equals(cache))
+        out.println("Operações:\n");
+        out.println("1-EditarCache");
+
     }
 
     private void criarCache() {
