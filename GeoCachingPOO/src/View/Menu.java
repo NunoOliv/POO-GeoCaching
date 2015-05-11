@@ -7,9 +7,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -19,9 +16,9 @@ import java.util.logging.Logger;
  */
 public class Menu {
 
-    PrintStream out;
-    Scanner in;
-    Core core;
+    private PrintStream out;
+    private Scanner in;
+    private Core core;
 
     public Menu(Core c) {
         out = System.out;
