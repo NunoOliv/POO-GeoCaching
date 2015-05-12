@@ -19,6 +19,14 @@ public class UserList {
         userL = new HashMap<>();
     }
 
+    public UserList(UserList ul) {
+        userL = ul.cloneUsers();
+    }
+
+    public void setUserList(HashMap<String, User> userL) {
+        this.userL = userL;
+    }
+    
     /**
      * Adiciona um novo utilizador à lista.
      *
@@ -54,7 +62,35 @@ public class UserList {
     }
 
     /**
-     * Procura o a instância User relativa ao email dado.
+     * Adiciona um novo utilizador à lista.
+     *
+     * @param u Utilizador a adicionar.
+     * @throws CamposInvalidosException
+     * @throws EmailJaExisteException
+     * @throws GeneroInvalidoException
+     * @throws DataInvalidaException
+     */
+    public void addUser(User u) throws CamposInvalidosException, EmailJaExisteException, GeneroInvalidoException, DataInvalidaException {
+        if (u.getMail() == null || u.getNome() == null || u.getGenero() == null || u.getMorada() == null || u.getDn() == null) {
+            throw new CamposInvalidosException();
+        }
+        if (u.getMail().equals("") || u.checkPass("") || u.getNome().equals("") || u.getGenero().equals("") || u.getMorada().equals("")) {
+            throw new CamposInvalidosException();
+        }
+        if (userL.containsKey(u.getMail())) {
+            throw new EmailJaExisteException();
+        }
+        if (!u.getGenero().equals("Masculino") && !u.getGenero().equals("Feminino")) {
+            throw new GeneroInvalidoException();
+        }
+        if (u.getDn().isAfter(LocalDate.now())) {
+            throw new DataInvalidaException();
+        }
+        userL.put(u.getMail(), u);
+    }
+
+    /**
+     * Procura o utilizador correspondente a um email dado.
      *
      * @param mail Email do utilizador que se procura.
      * @return Utilizador correspondente ao email.
@@ -91,6 +127,16 @@ public class UserList {
         return userL.containsKey(mail);
     }
 
+    /**
+     * Verifica se a password e o email dados correspondem.
+     *
+     * @param mail Email a verificar.
+     * @param pass Password a verificar.
+     * @return Verdadeiro se corresponderem, falso caso contrário.
+     * @throws EmailInvalidoException
+     * @throws CamposInvalidosException
+     * @throws UserNaoExisteException
+     */
     public boolean checkPass(String mail, String pass) throws EmailInvalidoException, CamposInvalidosException, UserNaoExisteException {
         if (mail == null) {
             throw new EmailInvalidoException();
@@ -129,6 +175,40 @@ public class UserList {
         } else {
             throw new PasswordMissmatchException();
         }
+    }
+
+    public HashMap<String, User> cloneUsers() {
+        HashMap<String, User> r = new HashMap<>();
+        User u;
+        for (String s : this.userL.keySet()) {
+            try {
+                u = this.getUser(s);
+                r.put(s, u);
+            } catch (EmailInvalidoException | UserNaoExisteException ex) {
+                //nunca acontece...
+            }
+        }
+        return r;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public UserList clone() {
+        return new UserList(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode(); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

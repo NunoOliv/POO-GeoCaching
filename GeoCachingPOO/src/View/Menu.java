@@ -105,6 +105,7 @@ public class Menu {
         try {
             core.login(user, pass);
             out.println("Autenticado com sucesso!");
+            out.println(core.getInfo().toString()); //teste, apagar depois!
             in.nextLine();
             clearScreen();
             menu2();
@@ -655,7 +656,7 @@ public class Menu {
         in.nextLine();
 
     }
-
+    
     private String mCriarCache() {
         int i = 1;
         return "*** Criar Cache ***\n"
@@ -667,10 +668,8 @@ public class Menu {
     }
 
     // Criar Menus de criação para cada tipo de cache
-    /**
-     * 
-     */
-    public void menuCaches() {
+    
+    private void menuCaches() {
         int opcao;
         while (true) {
             clearScreen();
@@ -737,7 +736,10 @@ public class Menu {
 
     }
 
-    
+    /**
+     * 
+     * @param cache 
+     */
     private void mDetalhesCache(String cache) {
         if (core.getInfo().getMail().equals(cache))
         out.println("Operações:\n");

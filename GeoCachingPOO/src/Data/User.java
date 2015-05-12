@@ -6,6 +6,8 @@ import java.util.HashMap;
 import Exceptions.*;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -66,17 +68,17 @@ public class User {
     /**
      * @return the pw
      */
-    
     private String getPw() {
         return pw;
     }
+
     /**
      * Verifica se as passwords são iguais.
-     * 
+     *
      * @param pass Password.
      * @return True se são iguais, False caso contrário.
      */
-    public boolean checkPass(String pass){
+    public boolean checkPass(String pass) {
         return this.pw.equals(pass);
     }
 
@@ -235,13 +237,21 @@ public class User {
         if (!pedidosAmigo.containsKey(mail)) {
             throw new PedidoNaoExisteException();
         }
-        if(amigos.containsKey(mail)){
+        if (amigos.containsKey(mail)) {
             throw new JaEAmigoException();
         }
         User amigo = pedidosAmigo.get(mail);
         pedidosAmigo.remove(mail);
         amigos.put(mail, amigo);
+        try {
+            amigo.addAmigo(this);
+        } catch (UserNaoExisteException ex) {
+            //nunca acontece...
+            System.out.println("FATAL ERROR: User.java -> aceitaPedido");
+        }
     }
+     
+
 
     /**
      * Remove um utilizador da lista de pedidos de amizade e adiciona-o à lista
@@ -255,11 +265,17 @@ public class User {
         if (!pedidosAmigo.containsValue(u)) {
             throw new PedidoNaoExisteException();
         }
-        if(amigos.containsValue(u)){
+        if (amigos.containsValue(u)) {
             throw new JaEAmigoException();
         }
         pedidosAmigo.remove(u.getMail());
         amigos.put(u.getMail(), u);
+        try {
+            u.addAmigo(this);
+        } catch (UserNaoExisteException ex) {
+            //nunca acontece...
+            System.out.println("FATAL ERROR: User.java -> aceitaPedido");
+        }
     }
 
     /**
@@ -309,6 +325,12 @@ public class User {
         return clonePedidos();
     }
 
+    /**
+     * Adiciona uma adividade ao utilizador.
+     *
+     * @param a Atividade a adicionar.
+     * @throws AtividadeNaoExisteException
+     */
     public void addAtividade(Atividade a) throws AtividadeNaoExisteException {
         if (a == null) {
             throw new AtividadeNaoExisteException();
@@ -414,6 +436,23 @@ public class User {
         hash = 89 * hash + Objects.hashCode(this.pedidosAmigo);
         hash = 89 * hash + Objects.hashCode(this.ativs);
         return hash;
+    }
+
+    @Override
+    public String toString() {
+        return "E-Mail: "+this.mail+
+                "\nNome: "+this.nome+
+                "\nGenero: "+this.genero+
+                "\nMorada: "+this.morada+
+                "\nData de Nascimento: "+this.dn.toString()+
+                "\nAmigos: "+this.amigos.keySet().toString()+
+                "\nAtividades: "+this.ativs.toString();
+                
+    }
+
+    @Override
+    public User clone() {
+        return new User(this);
     }
 
 }

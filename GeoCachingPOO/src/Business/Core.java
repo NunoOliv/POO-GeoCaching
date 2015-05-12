@@ -31,6 +31,7 @@ public class Core {
     }
 
     public void inicialize() {
+        User rafa,nuno,rui;
         LocalDate dn1 = LocalDate.of(1994, Month.OCTOBER, 27);
         LocalDate dn2 = LocalDate.of(1994, Month.JUNE, 10);
         LocalDate dn3 = LocalDate.of(1994, Month.MAY, 4);
@@ -38,6 +39,19 @@ public class Core {
             userL.addUser("rafa@mail.com", "123", "Rafael", "Masculino", "Rua da Pera", dn1);
             userL.addUser("nuno@mail.com", "123", "Nuno", "Masculino", "Rua da Laranja", dn2);
             userL.addUser("rui@mail.com", "123", "Rui", "Masculino", "Rua da Maçâ", dn3);
+            try {//Adicionar amigos!
+                rafa = userL.getUser("rafa@mail.com");
+                nuno = userL.getUser("nuno@mail.com");
+                rui = userL.getUser("rui@mail.com");
+                
+                rafa.addPedido(nuno);
+                rafa.aceitaPedido(nuno);
+                rafa.addPedido(rui);
+                rafa.aceitaPedido(rui);
+            } catch (EmailInvalidoException | UserNaoExisteException | JaEAmigoException | PedidoNaoExisteException ex) {
+                System.out.println("ERRO na inicialização!");
+                Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
+            }
             cacheL.addMicroCache("cache1", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
             cacheL.addMicroCache("cache2", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
             cacheL.addMicroCache("cache3", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
@@ -63,15 +77,7 @@ public class Core {
             cacheL.addMicroCache("cache23", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
             cacheL.addMicroCache("cache24", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
 
-        } catch (EmailJaExisteException ex) {
-            Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CamposInvalidosException ex) {
-            Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (GeneroInvalidoException ex) {
-            Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (DataInvalidaException ex) {
-            Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (DificuldadeInvalidaException ex) {
+        } catch (EmailJaExisteException | CamposInvalidosException | GeneroInvalidoException | DataInvalidaException | DificuldadeInvalidaException ex) {
             Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -121,9 +127,9 @@ public class Core {
     /**
      * Dado um dia, mes e ano constroí o respetivo LocalDate.
      *
-     * @param dia
-     * @param mes
-     * @param ano
+     * @param dia De 1 a 31
+     * @param mes De 1 a 12
+     * @param ano Menor do que o ano atual.
      * @return LocalDate respetivo.
      * @throws CamposInvalidosException
      */
@@ -270,6 +276,7 @@ public class Core {
      */
     /**
      * Devolve uma lista que contem todas as caches da cacheList
+     *
      * @return ArrayList<Strings> correspondente a lista de caches
      */
     public ArrayList<String> getListaCaches() {
@@ -277,32 +284,34 @@ public class Core {
         Collections.sort(ret);
         return ret;
     }
-    
+
     /**
      * Devolve lista de detalhes de uma cache em formato String
+     *
      * @param cache Identificador da cache
      * @return String com detalhes da cache
      */
     public String getDetalhesCache(String cache) {
         return cacheL.getDetalhesCache(cache);
     }
-    
+
     /**
-     * Retorna a String correspondente ao criador da cache
+     * Retorna a String correspondente ao criador da cache.
+     *
      * @param cache Identificador da cache
      * @return Identificador do criador da cache
      */
     public String getCriadorCache(String cache) {
         return cacheL.getCriador(cache);
     }
-    
+
     /**
-     * Verifica se um utilizador é o criador de uma cache
+     * Verifica se o utilizador com sessão iniciada é o criador de uma cache.
+     *
      * @param cache Identificador da cache
-     * @param utilizador  Identificador do utilizador
-     * @return 
+     * @return Verdadeiro se 
      */
-    public boolean isCriador(String cache){
+    public boolean isCriador(String cache) {
         return cacheL.isCriador(cache, this.sessao.getMail());
     }
 }
