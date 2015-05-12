@@ -1,5 +1,6 @@
 package View;
 
+import Business.AutoSaveThread;
 import Business.Core;
 import Data.User;
 import Exceptions.*;
@@ -23,7 +24,7 @@ public class Menu {
     private final PrintStream out;
     private final Scanner in;
     private final Core core;
-    private String ficheiro;
+    private final String ficheiro;
 
     public Menu(Core c) {
         out = System.out;
@@ -38,6 +39,8 @@ public class Menu {
      */
     public void start() {
         int opcao;
+        Thread autoSave = new Thread(new AutoSaveThread(core));
+        autoSave.start();
 
         out.println();
         while (true) {
@@ -70,6 +73,8 @@ public class Menu {
 
             switch (opcao) {
                 case (0):
+                    autoSave.interrupt();
+                    guardar();
                     System.exit(0);
                     break;
                 case (1):
@@ -771,20 +776,20 @@ public class Menu {
     }
 
     private void guardar() {
-            System.out.println("A gravar dados...");
-            FileOutputStream fileOut= null;
+        System.out.println("A gravar dados...");
+        FileOutputStream fileOut;
         try {
             fileOut = new FileOutputStream(this.ficheiro);
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(core);
-            out.close();
+            try (ObjectOutputStream outF = new ObjectOutputStream(fileOut)) {
+                outF.writeObject(core);
+            }
             fileOut.close();
-            System.out.println("Dados guardados em: "+this.ficheiro);
+            System.out.println("Dados guardados em: " + this.ficheiro);
         } catch (FileNotFoundException ex) {
-            System.out.println("FileNotFoundException: "+ex.getMessage());
+            System.out.println("FileNotFoundException: " + ex.getMessage());
         } catch (IOException ex) {
-            System.out.println("IOException: "+ex.getMessage());
-        } 
+            System.out.println("IOException: " + ex.getMessage());
+        }
         in.nextLine();
         clearScreen();
     }

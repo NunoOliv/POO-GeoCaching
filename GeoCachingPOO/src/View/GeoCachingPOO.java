@@ -26,17 +26,21 @@ public class GeoCachingPOO {
         try {
             fileIn = new FileInputStream("geocaching.poo");
             in = new ObjectInputStream(fileIn);
+            System.out.println("A ler ficheiro \"geocaching.poo\"...");
             core = (Core) in.readObject();
+            System.out.println("\nConcluído!\n");
             in.close();
             fileIn.close();
           
         } catch (FileNotFoundException ex) {
-            System.out.println("FileNotFoundException: " + ex.getMessage());
+            System.out.println("Ficheiro de recuperação de dados não encontrado.");
             core = new Core();
         } catch (IOException ex) {
             System.out.println("IOException: " + ex.getMessage());
+            core = new Core();
         } catch (ClassNotFoundException ex) {
             System.out.println("ClassNotFoundException: " + ex.getMessage());
+            core = new Core();
         }
             menu = new Menu(core);
             //core.inicialize();
