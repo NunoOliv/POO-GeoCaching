@@ -3,6 +3,10 @@ package View;
 import Business.Core;
 import Data.User;
 import Exceptions.*;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,15 +23,17 @@ public class Menu {
     private final PrintStream out;
     private final Scanner in;
     private final Core core;
+    private String ficheiro;
 
     public Menu(Core c) {
         out = System.out;
         in = new Scanner(System.in);
         core = c;
+        ficheiro = "geocaching.poo";
     }
-    
+
     /**
-     * Método que é chamado quando se inicia o programa, apresenta opções ao 
+     * Método que é chamado quando se inicia o programa, apresenta opções ao
      * utilizador tais como: Fazer login, registar-se, ou sair.
      */
     public void start() {
@@ -74,7 +80,7 @@ public class Menu {
             }
         }
     }
-    
+
     /**
      * Função que imprime vários '\n' para limpar o ecrã.
      */
@@ -87,8 +93,8 @@ public class Menu {
     }
 
     /**
-     * Função que pede ao utilizador os dados do login, e faz o login
-     * no sistema.
+     * Função que pede ao utilizador os dados do login, e faz o login no
+     * sistema.
      */
     private void login() {
         String user;
@@ -105,7 +111,7 @@ public class Menu {
         try {
             core.login(user, pass);
             out.println("Autenticado com sucesso!");
-            out.println(core.getInfo().toString()); //teste, apagar depois!
+            //out.println(core.getInfo().toString()); //teste, apagar depois!
             in.nextLine();
             clearScreen();
             menu2();
@@ -129,9 +135,9 @@ public class Menu {
     }
 
     /**
-     * Menu principal do GeoCachingPOO, onde são apresentadas opções de conta 
-     * de utilizador, das caches, e a possibilidade de guardar a informação 
-     * em ficheiro.
+     * Menu principal do GeoCachingPOO, onde são apresentadas opções de conta de
+     * utilizador, das caches, e a possibilidade de guardar a informação em
+     * ficheiro.
      */
     private void menu2() {
         int opcao;
@@ -184,11 +190,12 @@ public class Menu {
                     menuAmigos();
                     break;
                 case (5):
+                    guardar();
                     break;
             }
         }
     }
-    
+
     /**
      * Método que imprime as informações do utilizador com a sessão ativa.
      */
@@ -205,6 +212,7 @@ public class Menu {
         in.nextLine();
         clearScreen();
     }
+
     /**
      * Método que recolhe informação de registo e cria uma nova conta.
      */
@@ -283,6 +291,7 @@ public class Menu {
         }
 
     }
+
     /**
      * Método que apresenta o menu que permite ao utilizador alterar os seus
      * dados pessoais.
@@ -431,7 +440,7 @@ public class Menu {
             }
         }
     }
-    
+
     /**
      * Método que apresenta o menu "Amigos" que permite ao utilizador adicionar
      * e remover amigos, aceitar ou recusar pedidos de amizade.
@@ -511,6 +520,7 @@ public class Menu {
         in.nextLine();
         clearScreen();
     }
+
     /**
      * Método que imprime os pedidos de amizade do utilizador com a sessão
      * iniciada.
@@ -599,6 +609,7 @@ public class Menu {
 
     /**
      * Método que cria o menu das caches.
+     *
      * @return O menu a apresentar.
      */
     private String mOperacoesCaches() {
@@ -614,8 +625,8 @@ public class Menu {
     }
 
     /**
-     * 
-     * @param lista 
+     *
+     * @param lista
      */
     private void mVerLista(ArrayList<String> lista) {
         String m;
@@ -656,7 +667,7 @@ public class Menu {
         in.nextLine();
 
     }
-    
+
     private String mCriarCache() {
         int i = 1;
         return "*** Criar Cache ***\n"
@@ -668,7 +679,6 @@ public class Menu {
     }
 
     // Criar Menus de criação para cada tipo de cache
-    
     private void menuCaches() {
         int opcao;
         while (true) {
@@ -713,7 +723,7 @@ public class Menu {
             }
         }
     }
-    
+
     /**
      * Método que apresenta a informação de todas as caches.
      */
@@ -721,7 +731,7 @@ public class Menu {
         clearScreen();
         mVerLista(core.getListaCaches());
     }
-    
+
     /**
      * Método que permite apagar uma cache do sistema.
      */
@@ -737,12 +747,13 @@ public class Menu {
     }
 
     /**
-     * 
-     * @param cache 
+     *
+     * @param cache
      */
     private void mDetalhesCache(String cache) {
-        if (core.getInfo().getMail().equals(cache))
-        out.println("Operações:\n");
+        if (core.getInfo().getMail().equals(cache)) {
+            out.println("Operações:\n");
+        }
         out.println("1-EditarCache");
 
     }
@@ -757,5 +768,24 @@ public class Menu {
 
     private void removeCache() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void guardar() {
+            System.out.println("A gravar dados...");
+            FileOutputStream fileOut= null;
+        try {
+            fileOut = new FileOutputStream(this.ficheiro);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(core);
+            out.close();
+            fileOut.close();
+            System.out.println("Dados guardados em: "+this.ficheiro);
+        } catch (FileNotFoundException ex) {
+            System.out.println("FileNotFoundException: "+ex.getMessage());
+        } catch (IOException ex) {
+            System.out.println("IOException: "+ex.getMessage());
+        } 
+        in.nextLine();
+        clearScreen();
     }
 }

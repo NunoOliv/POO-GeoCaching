@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 
 import Exceptions.*;
+import java.io.Serializable;
 
 /**
  *
@@ -11,7 +12,7 @@ import Exceptions.*;
  * @author Nuno Oliveira
  * @author Rui Pereira
  */
-public class UserList {
+public class UserList implements Serializable {
 
     private HashMap<String, User> userL;
 

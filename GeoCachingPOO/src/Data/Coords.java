@@ -1,13 +1,15 @@
 
 package Data;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Rafael Antunes
  * @author Nuno Oliveira
  * @author Rui Pereira
  */
-public class Coords {
+public class Coords implements Serializable{
 
     private float latitude;
     private float longitude;

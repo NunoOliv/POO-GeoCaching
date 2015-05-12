@@ -5,6 +5,7 @@ import Data.Coords;
 import Data.User;
 import Data.UserList;
 import Exceptions.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import java.util.logging.Logger;
  * @author Nuno Oliveira
  * @author Rui Pereira
  */
-public class Core {
+public class Core implements Serializable{
 
     private UserList userL;
     private User sessao;
@@ -30,7 +31,7 @@ public class Core {
         cacheL = new CacheList();
     }
 
-    public void inicialize() {
+    public void inicialize()  {
         User rafa,nuno,rui;
         LocalDate dn1 = LocalDate.of(1994, Month.OCTOBER, 27);
         LocalDate dn2 = LocalDate.of(1994, Month.JUNE, 10);

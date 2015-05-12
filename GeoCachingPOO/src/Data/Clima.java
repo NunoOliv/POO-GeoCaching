@@ -5,13 +5,14 @@
  */
 package Data;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  *
  * @author Nuno Oliveira
  */
-public class Clima {
+public class Clima implements Serializable {
 
     private String desc;
     private int pontosExt;

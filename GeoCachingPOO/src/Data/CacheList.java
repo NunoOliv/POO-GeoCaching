@@ -9,6 +9,7 @@ import Exceptions.CacheNaoExisteException;
 import Exceptions.CacheNaoSuportaFuncionalidadeException;
 import Exceptions.DificuldadeInvalidaException;
 import Exceptions.PontosExtraInvalidosException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -20,7 +21,7 @@ import java.util.logging.Logger;
  *
  * @author Nuno
  */
-public class CacheList {
+public class CacheList implements Serializable{
 
     private HashMap<String, Cache> caches;
 

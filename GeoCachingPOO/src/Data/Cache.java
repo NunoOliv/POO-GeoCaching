@@ -2,6 +2,7 @@ package Data;
 
 import Exceptions.CacheNaoSuportaFuncionalidadeException;
 import Exceptions.DificuldadeInvalidaException;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 
@@ -11,7 +12,7 @@ import java.util.Objects;
  * @author Nuno Oliveira
  * @author Rui Pereira
  */
-public abstract class Cache {
+public abstract class Cache  implements Serializable{
 
     private String ref;
     private Coords coords;
