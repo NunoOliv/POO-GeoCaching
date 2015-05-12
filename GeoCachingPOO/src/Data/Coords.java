@@ -59,10 +59,10 @@ public class Coords {
             return false;
         }
         final Coords other = (Coords) obj;
-        if (Float.floatToIntBits(this.latitude) != Float.floatToIntBits(other.latitude)) {
+        if (Float.floatToIntBits(this.latitude) != Float.floatToIntBits(other.getLatitude())) {
             return false;
         }
-        if (Float.floatToIntBits(this.longitude) != Float.floatToIntBits(other.longitude)) {
+        if (Float.floatToIntBits(this.longitude) != Float.floatToIntBits(other.getLongitude())) {
             return false;
         }
         return true;
@@ -75,5 +75,12 @@ public class Coords {
         hash = 59 * hash + Float.floatToIntBits(this.longitude);
         return hash;
     }
+
+    @Override
+    public String toString() {
+        return "Latitude: "+this.latitude+"\nLongitude: "+this.getLongitude();
+    }
+    
+    
 
 }
