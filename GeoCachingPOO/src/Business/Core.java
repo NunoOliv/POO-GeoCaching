@@ -5,6 +5,11 @@ import Data.Coords;
 import Data.User;
 import Data.UserList;
 import Exceptions.*;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -18,7 +23,7 @@ import java.util.logging.Logger;
  * @author Nuno Oliveira
  * @author Rui Pereira
  */
-public class Core {
+public class Core implements Serializable {
 
     private UserList userL;
     private User sessao;
@@ -31,6 +36,7 @@ public class Core {
     }
 
     public void inicialize() {
+        User rafa, nuno, rui;
         LocalDate dn1 = LocalDate.of(1994, Month.OCTOBER, 27);
         LocalDate dn2 = LocalDate.of(1994, Month.JUNE, 10);
         LocalDate dn3 = LocalDate.of(1994, Month.MAY, 4);
@@ -38,6 +44,19 @@ public class Core {
             userL.addUser("rafa@mail.com", "123", "Rafael", "Masculino", "Rua da Pera", dn1);
             userL.addUser("nuno@mail.com", "123", "Nuno", "Masculino", "Rua da Laranja", dn2);
             userL.addUser("rui@mail.com", "123", "Rui", "Masculino", "Rua da Maçâ", dn3);
+            try {//Adicionar amigos!
+                rafa = userL.getUser("rafa@mail.com");
+                nuno = userL.getUser("nuno@mail.com");
+                rui = userL.getUser("rui@mail.com");
+
+                rafa.addPedido(nuno);
+                rafa.aceitaPedido(nuno);
+                rafa.addPedido(rui);
+                rafa.aceitaPedido(rui);
+            } catch (EmailInvalidoException | UserNaoExisteException | JaEAmigoException | PedidoNaoExisteException ex) {
+                System.out.println("ERRO na inicialização!");
+                Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
+            }
             cacheL.addMicroCache("cache1", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
             cacheL.addMicroCache("cache2", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
             cacheL.addMicroCache("cache3", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
@@ -63,15 +82,7 @@ public class Core {
             cacheL.addMicroCache("cache23", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
             cacheL.addMicroCache("cache24", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
 
-        } catch (EmailJaExisteException ex) {
-            Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CamposInvalidosException ex) {
-            Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (GeneroInvalidoException ex) {
-            Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (DataInvalidaException ex) {
-            Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (DificuldadeInvalidaException ex) {
+        } catch (EmailJaExisteException | CamposInvalidosException | GeneroInvalidoException | DataInvalidaException | DificuldadeInvalidaException ex) {
             Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -121,9 +132,9 @@ public class Core {
     /**
      * Dado um dia, mes e ano constroí o respetivo LocalDate.
      *
-     * @param dia
-     * @param mes
-     * @param ano
+     * @param dia De 1 a 31
+     * @param mes De 1 a 12
+     * @param ano Menor do que o ano atual.
      * @return LocalDate respetivo.
      * @throws CamposInvalidosException
      */
@@ -270,6 +281,7 @@ public class Core {
      */
     /**
      * Devolve uma lista que contem todas as caches da cacheList
+     *
      * @return ArrayList<Strings> correspondente a lista de caches
      */
     public ArrayList<String> getListaCaches() {
@@ -277,32 +289,55 @@ public class Core {
         Collections.sort(ret);
         return ret;
     }
-    
+
     /**
      * Devolve lista de detalhes de uma cache em formato String
+     *
      * @param cache Identificador da cache
      * @return String com detalhes da cache
      */
     public String getDetalhesCache(String cache) {
         return cacheL.getDetalhesCache(cache);
     }
-    
+
     /**
-     * Retorna a String correspondente ao criador da cache
+     * Retorna a String correspondente ao criador da cache.
+     *
      * @param cache Identificador da cache
      * @return Identificador do criador da cache
      */
     public String getCriadorCache(String cache) {
         return cacheL.getCriador(cache);
     }
+
+    /**
+     * Verifica se o utilizador com sessão iniciada é o criador de uma cache.
+     *
+     * @param cache Identificador da cache
+     * @return Verdadeiro se
+     */
+    public boolean isCriador(String cache) {
+        return cacheL.isCriador(cache, this.sessao.getMail());
+    }
     
     /**
-     * Verifica se um utilizador é o criador de uma cache
-     * @param cache Identificador da cache
-     * @param utilizador  Identificador do utilizador
-     * @return 
+     * Grava os dados em ficheiro.
+     * @param ficheiro Localização do ficheiro a gravar.
      */
-    public boolean isCriador(String cache){
-        return cacheL.isCriador(cache, this.sessao.getMail());
+    public void guardar(String ficheiro) {
+        System.out.println("A gravar dados...");
+        FileOutputStream fileOut;
+        try {
+            fileOut = new FileOutputStream(ficheiro);
+            try (ObjectOutputStream outF = new ObjectOutputStream(fileOut)) {
+                outF.writeObject(this);
+            }
+            fileOut.close();
+            System.out.println("Dados guardados em: " + ficheiro);
+        } catch (FileNotFoundException ex) {
+            System.out.println("FileNotFoundException: " + ex.getMessage());
+        } catch (IOException ex) {
+            System.out.println("IOException: " + ex.getMessage());
+        }
     }
 }

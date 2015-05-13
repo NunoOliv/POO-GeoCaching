@@ -7,13 +7,14 @@
 // NÃO ESTA EM UTILIZAÇÃO
 package Data;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  *
  * @author Nuno Oliveira
  */
-public class Tesouro {
+public class Tesouro implements Serializable{
     private String descrição;
 
     //getters e setters

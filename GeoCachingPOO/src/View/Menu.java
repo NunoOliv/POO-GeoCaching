@@ -1,15 +1,17 @@
 package View;
 
+import Business.AutoSaveThread;
 import Business.Core;
 import Data.User;
 import Exceptions.*;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -19,18 +21,26 @@ import java.util.logging.Logger;
  */
 public class Menu {
 
-    PrintStream out;
-    Scanner in;
-    Core core;
+    private final PrintStream out;
+    private final Scanner in;
+    private final Core core;
+    private final String ficheiro;
 
     public Menu(Core c) {
         out = System.out;
         in = new Scanner(System.in);
         core = c;
+        ficheiro = "geocaching.poo";
     }
 
+    /**
+     * Método que é chamado quando se inicia o programa, apresenta opções ao
+     * utilizador tais como: Fazer login, registar-se, ou sair.
+     */
     public void start() {
-        int opcao = -1;
+        int opcao;
+        Thread autoSave = new Thread(new AutoSaveThread(core));
+        autoSave.start();
 
         out.println();
         while (true) {
@@ -49,7 +59,7 @@ public class Menu {
                 out.println("Intruduza uma opção válida!");
                 in.nextLine();
                 clearScreen();
-                opcao = -1;
+                //opcao = -1;
                 continue;
             }
 
@@ -57,12 +67,16 @@ public class Menu {
                 out.println("Intruduza uma opção válida!");
                 in.nextLine();
                 clearScreen();
-                opcao = -1;
+                //opcao = -1;
                 continue;
             }
 
             switch (opcao) {
                 case (0):
+                    autoSave.interrupt();
+                    core.guardar(ficheiro);
+                    in.nextLine();
+                    clearScreen();
                     System.exit(0);
                     break;
                 case (1):
@@ -74,6 +88,9 @@ public class Menu {
         }
     }
 
+    /**
+     * Função que imprime vários '\n' para limpar o ecrã.
+     */
     public void clearScreen() {
         int i = 0;
         while (i < 25) {
@@ -83,7 +100,8 @@ public class Menu {
     }
 
     /**
-     *
+     * Função que pede ao utilizador os dados do login, e faz o login no
+     * sistema.
      */
     private void login() {
         String user;
@@ -100,6 +118,7 @@ public class Menu {
         try {
             core.login(user, pass);
             out.println("Autenticado com sucesso!");
+            //out.println(core.getInfo().toString()); //teste, apagar depois!
             in.nextLine();
             clearScreen();
             menu2();
@@ -123,7 +142,9 @@ public class Menu {
     }
 
     /**
-     * Menu principal.
+     * Menu principal do GeoCachingPOO, onde são apresentadas opções de conta de
+     * utilizador, das caches, e a possibilidade de guardar a informação em
+     * ficheiro.
      */
     private void menu2() {
         int opcao;
@@ -138,6 +159,7 @@ public class Menu {
             out.println("2-Alterar informações de conta");
             out.println("3-Ver ou alterar Caches");
             out.println("4-Amigos");
+            out.println("5-Guardar");
             out.println("0-Sair");
             out.println();
 
@@ -151,7 +173,7 @@ public class Menu {
                 continue;
             }
 
-            if (opcao > 4 || opcao < 0) {
+            if (opcao > 5 || opcao < 0) {
                 out.println("Intruduza uma opção válida!");
                 in.nextLine();
                 clearScreen();
@@ -174,11 +196,18 @@ public class Menu {
                 case (4):
                     menuAmigos();
                     break;
-
+                case (5):
+                    core.guardar(this.ficheiro);
+                    in.nextLine();
+                    clearScreen();
+                    break;
             }
         }
     }
 
+    /**
+     * Método que imprime as informações do utilizador com a sessão ativa.
+     */
     private void printInfo() {
         clearScreen();
         User u = core.getInfo();
@@ -193,6 +222,9 @@ public class Menu {
         clearScreen();
     }
 
+    /**
+     * Método que recolhe informação de registo e cria uma nova conta.
+     */
     private void register() {
         String mail;
         String pass;
@@ -269,6 +301,10 @@ public class Menu {
 
     }
 
+    /**
+     * Método que apresenta o menu que permite ao utilizador alterar os seus
+     * dados pessoais.
+     */
     private void menuConta() {
         int opcao = -1;
 
@@ -414,6 +450,10 @@ public class Menu {
         }
     }
 
+    /**
+     * Método que apresenta o menu "Amigos" que permite ao utilizador adicionar
+     * e remover amigos, aceitar ou recusar pedidos de amizade.
+     */
     private void menuAmigos() {
         int opcao;
 
@@ -427,7 +467,7 @@ public class Menu {
             out.println("2-Ver lista de pedidos de amizade");
             out.println("3-Adicionar amigo");
             out.println("4-Aceitar pedido de amizade");
-            out.println("5-Ver atividades recentes de um amigo WIP");
+            out.println("5-Ver atividades recentes de um amigo WIP"); //FALTA
             out.println("0-Voltar");
             out.println();
 
@@ -471,6 +511,9 @@ public class Menu {
         }
     }
 
+    /**
+     * Método que imprime os amigos do utilizador com a sessão iniciada.
+     */
     private void printAmigos() {
         clearScreen();
         User u = core.getInfo();
@@ -487,6 +530,10 @@ public class Menu {
         clearScreen();
     }
 
+    /**
+     * Método que imprime os pedidos de amizade do utilizador com a sessão
+     * iniciada.
+     */
     private void printPedidos() {
         clearScreen();
         User u = core.getInfo();
@@ -503,6 +550,9 @@ public class Menu {
         clearScreen();
     }
 
+    /**
+     * Método que permite ao utilizador pedir outros em amizade.
+     */
     private void pedirAmigo() {
         clearScreen();
         User u = core.getInfo();
@@ -531,6 +581,10 @@ public class Menu {
 
     }
 
+    /**
+     * Método que permite aceitar um pedido de amizade feito por outro
+     * utilizador.
+     */
     private void aceitarAmigo() {
         clearScreen();
         User u = core.getInfo();
@@ -562,6 +616,11 @@ public class Menu {
         }
     }
 
+    /**
+     * Método que cria o menu das caches.
+     *
+     * @return O menu a apresentar.
+     */
     private String mOperacoesCaches() {
         int i = 1;
 
@@ -574,6 +633,10 @@ public class Menu {
                 + "0-Voltar";
     }
 
+    /**
+     *
+     * @param lista
+     */
     private void mVerLista(ArrayList<String> lista) {
         String m;
         boolean exit = false;
@@ -625,7 +688,7 @@ public class Menu {
     }
 
     // Criar Menus de criação para cada tipo de cache
-    public void menuCaches() {
+    private void menuCaches() {
         int opcao;
         while (true) {
             clearScreen();
@@ -670,12 +733,17 @@ public class Menu {
         }
     }
 
+    /**
+     * Método que apresenta a informação de todas as caches.
+     */
     public void verCaches() {
         clearScreen();
         mVerLista(core.getListaCaches());
-
     }
 
+    /**
+     * Método que permite apagar uma cache do sistema.
+     */
     private void detCache() {
         clearScreen();
         out.println("Introduzir referencia da cache:\n");
@@ -687,9 +755,14 @@ public class Menu {
 
     }
 
+    /**
+     *
+     * @param cache
+     */
     private void mDetalhesCache(String cache) {
-        if (core.getInfo().getMail().equals(cache))
-        out.println("Operações:\n");
+        if (core.getInfo().getMail().equals(cache)) {
+            out.println("Operações:\n");
+        }
         out.println("1-EditarCache");
 
     }
@@ -705,4 +778,5 @@ public class Menu {
     private void removeCache() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
 }

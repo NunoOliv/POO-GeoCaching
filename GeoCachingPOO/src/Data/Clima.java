@@ -5,13 +5,15 @@
  */
 package Data;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  *
  * @author Nuno Oliveira
  */
-public class Clima {
+public class Clima implements Serializable {
+
     private String desc;
     private int pontosExt;
 
@@ -65,15 +67,23 @@ public class Clima {
             return false;
         }
         final Clima other = (Clima) obj;
-        if (!Objects.equals(this.desc, other.desc)) {
+        if (!this.desc.equals(other.getDesc())) {
             return false;
         }
-        if (this.pontosExt != other.pontosExt) {
+        if (this.pontosExt != other.getPontosExt()) {
             return false;
         }
         return true;
     }
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return "Descrição: " + this.desc + "\nPontos: " + this.pontosExt;
+    }
+
+    @Override
+    public Clima clone() {
+        return new Clima(this.desc, this.pontosExt);
+    }
+
 }

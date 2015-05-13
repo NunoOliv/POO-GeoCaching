@@ -2,7 +2,7 @@ package Data;
 
 import Exceptions.CacheNaoSuportaFuncionalidadeException;
 import Exceptions.DificuldadeInvalidaException;
-import java.util.HashMap;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 
@@ -12,7 +12,7 @@ import java.util.Objects;
  * @author Nuno Oliveira
  * @author Rui Pereira
  */
-public abstract class Cache {
+public abstract class Cache  implements Serializable{
 
     private String ref;
     private Coords coords;
@@ -153,16 +153,16 @@ public abstract class Cache {
             return false;
         }
         final Cache other = (Cache) obj;
-        if (!Objects.equals(this.coords, other.coords)) {
+        if (!Objects.equals(this.coords, other.getCoords())) {
             return false;
         }
-        if (!Objects.equals(this.assinantes, other.assinantes)) {
+        if (!Objects.equals(this.assinantes, other.getAssinantes())) {
             return false;
         }
-        if (!Objects.equals(this.descricao, other.descricao)) {
+        if (!Objects.equals(this.descricao, other.getDescricao())) {
             return false;
         }
-        if (this.dificuldade != other.dificuldade) {
+        if (this.dificuldade != other.getDificuldade()) {
             return false;
         }
         return true;
