@@ -5,6 +5,10 @@ import Data.Coords;
 import Data.User;
 import Data.UserList;
 import Exceptions.*;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
@@ -19,7 +23,7 @@ import java.util.logging.Logger;
  * @author Nuno Oliveira
  * @author Rui Pereira
  */
-public class Core implements Serializable{
+public class Core implements Serializable {
 
     private UserList userL;
     private User sessao;
@@ -31,8 +35,8 @@ public class Core implements Serializable{
         cacheL = new CacheList();
     }
 
-    public void inicialize()  {
-        User rafa,nuno,rui;
+    public void inicialize() {
+        User rafa, nuno, rui;
         LocalDate dn1 = LocalDate.of(1994, Month.OCTOBER, 27);
         LocalDate dn2 = LocalDate.of(1994, Month.JUNE, 10);
         LocalDate dn3 = LocalDate.of(1994, Month.MAY, 4);
@@ -44,7 +48,7 @@ public class Core implements Serializable{
                 rafa = userL.getUser("rafa@mail.com");
                 nuno = userL.getUser("nuno@mail.com");
                 rui = userL.getUser("rui@mail.com");
-                
+
                 rafa.addPedido(nuno);
                 rafa.aceitaPedido(nuno);
                 rafa.addPedido(rui);
@@ -310,9 +314,30 @@ public class Core implements Serializable{
      * Verifica se o utilizador com sessão iniciada é o criador de uma cache.
      *
      * @param cache Identificador da cache
-     * @return Verdadeiro se 
+     * @return Verdadeiro se
      */
     public boolean isCriador(String cache) {
         return cacheL.isCriador(cache, this.sessao.getMail());
+    }
+    
+    /**
+     * Grava os dados em ficheiro.
+     * @param ficheiro Localização do ficheiro a gravar.
+     */
+    public void guardar(String ficheiro) {
+        System.out.println("A gravar dados...");
+        FileOutputStream fileOut;
+        try {
+            fileOut = new FileOutputStream(ficheiro);
+            try (ObjectOutputStream outF = new ObjectOutputStream(fileOut)) {
+                outF.writeObject(this);
+            }
+            fileOut.close();
+            System.out.println("Dados guardados em: " + ficheiro);
+        } catch (FileNotFoundException ex) {
+            System.out.println("FileNotFoundException: " + ex.getMessage());
+        } catch (IOException ex) {
+            System.out.println("IOException: " + ex.getMessage());
+        }
     }
 }

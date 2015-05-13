@@ -74,7 +74,9 @@ public class Menu {
             switch (opcao) {
                 case (0):
                     autoSave.interrupt();
-                    guardar();
+                    core.guardar(ficheiro);
+                    in.nextLine();
+                    clearScreen();
                     System.exit(0);
                     break;
                 case (1):
@@ -195,7 +197,9 @@ public class Menu {
                     menuAmigos();
                     break;
                 case (5):
-                    guardar();
+                    core.guardar(this.ficheiro);
+                    in.nextLine();
+                    clearScreen();
                     break;
             }
         }
@@ -775,22 +779,4 @@ public class Menu {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private void guardar() {
-        System.out.println("A gravar dados...");
-        FileOutputStream fileOut;
-        try {
-            fileOut = new FileOutputStream(this.ficheiro);
-            try (ObjectOutputStream outF = new ObjectOutputStream(fileOut)) {
-                outF.writeObject(core);
-            }
-            fileOut.close();
-            System.out.println("Dados guardados em: " + this.ficheiro);
-        } catch (FileNotFoundException ex) {
-            System.out.println("FileNotFoundException: " + ex.getMessage());
-        } catch (IOException ex) {
-            System.out.println("IOException: " + ex.getMessage());
-        }
-        in.nextLine();
-        clearScreen();
-    }
 }
