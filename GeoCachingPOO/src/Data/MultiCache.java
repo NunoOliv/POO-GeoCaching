@@ -26,16 +26,20 @@ public class MultiCache extends TradCache {
      *
      * @param ref
      * @param coords
+     * @param creator
      * @param descricao
+     * @param pontosIntermedios
      * @param dificuldade
+     * @param pontosExtra
+     *
      * @throws Exceptions.DificuldadeInvalidaException
      */
-    public MultiCache(String ref, Coords coords, String creator, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public MultiCache(String ref, Coords coords, String creator, String descricao, HashMap<Integer, Coords> pontosIntermedios, int dificuldade, int pontosExtra) throws DificuldadeInvalidaException {
         super(ref, coords, creator, descricao, dificuldade);
         this.setTesouros(new HashSet<>());
         this.setBugs(new HashSet<>());
-        this.pontosIntermedios = new HashMap<>();
-        this.pontosExtra = 1;
+        this.pontosIntermedios = pontosIntermedios;
+        this.pontosExtra = pontosExtra;
     }
 
     /**
@@ -44,6 +48,7 @@ public class MultiCache extends TradCache {
      * @param tesouros
      * @param bugs
      * @param coords
+     * @param creator
      * @param Assinantes
      * @param Descricao
      * @param dificuldade

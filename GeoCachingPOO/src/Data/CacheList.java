@@ -63,6 +63,16 @@ public class CacheList implements Serializable{
 
         return ret;
     }
+    
+    /**
+     * Verifica se existe uma cache com uma dada referencia 
+     * 
+     * @param ref Referencia da cache
+     * @return 
+     */
+    public boolean containsCache(String ref){
+        return caches.containsKey(ref);
+    }
 
     /*
      * *****************************************
@@ -404,9 +414,9 @@ public class CacheList implements Serializable{
      */
     
 
-    public boolean addCacheEvento(String ref, HashSet<String> organizadores, GregorianCalendar dataEvento, int pontosExtra, Coords coords, String creator, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public boolean addCacheEvento(String ref, HashSet<String> organizadores, GregorianCalendar dataEvento, int pontosExtra, Coords coords, String creator, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         if (!caches.containsKey(ref)) {
-            caches.put(ref, new CacheEvento(ref, organizadores, dataEvento, pontosExtra, coords, creator, assinantes, descricao, dificuldade));
+            caches.put(ref, new CacheEvento(ref, organizadores, dataEvento, pontosExtra, coords, creator, descricao, dificuldade));
         } else {
             return false;
         }
@@ -551,9 +561,9 @@ public class CacheList implements Serializable{
      */
     
 
-    public boolean addMultiCache(String ref, Coords coords, String creator, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public boolean MultiCache(String ref, Coords coords, String creator, String descricao, HashMap<Integer, Coords> pontosIntermedios, int dificuldade, int pontosExtra) throws DificuldadeInvalidaException {
         if (!caches.containsKey(ref)) {
-            caches.put(ref, new MultiCache(ref, coords, creator, descricao, dificuldade));
+            caches.put(ref, new MultiCache(ref, coords, creator, descricao, pontosIntermedios, dificuldade,pontosExtra));
         } else {
             return false;
         }

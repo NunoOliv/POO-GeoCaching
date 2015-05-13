@@ -14,6 +14,9 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -110,7 +113,11 @@ public class Core implements Serializable {
         }
         userL.addUser(mail, pass, nome, genero, morada, dn);
     }
-
+    
+    public boolean existeUser(String user) throws EmailInvalidoException {
+        return userL.existeUser(user);
+    }
+    
     /**
      * Verifica se o email dado está na forma correta.
      *
@@ -319,9 +326,107 @@ public class Core implements Serializable {
     public boolean isCriador(String cache) {
         return cacheL.isCriador(cache, this.sessao.getMail());
     }
+
+    /**
+     * Cria uma Cache tradicional atravez dos parametros fornecidos
+     *
+     * @param ref Referencia da Cache
+     * @param coords Coordenadas da Cache
+     * @param creator Criador da Cache
+     * @param descricao Descrição da Cache
+     * @param dificuldade Dificuldade da Cache
+     * @return True se a cache foi cridada e adicionada ou False se nao foi
+     * possivel criar a Cache
+     * @throws DificuldadeInvalidaException
+     */
+    public boolean addTradCache(String ref, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+        return cacheL.addTradCache(ref, coords, sessao.getMail(), descricao, dificuldade);
+    }
+
+    /**
+     * Cria uma Cache Evento atravez dos parametros fornecidos
+     *
+     * @param ref Referencia da Cache
+     * @param organizadores Organizadores do evento
+     * @param dataEvento Data do Evento
+     * @param pontosExtra Pontuação extra da cache
+     * @param coords Coordenadas da Cache
+     * @param creator Criador da Cache
+     * @param descricao Descrição da Cache
+     * @param dificuldade Dificuldade da Cache
+     * @return True se a cache foi cridada e adicionada ou False se nao foi
+     * possivel criar a Cache
+     * @throws DificuldadeInvalidaException
+     */
+    public boolean addCacheEvento(String ref, HashSet<String> organizadores, GregorianCalendar dataEvento, int pontosExtra, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+        return cacheL.addCacheEvento(ref, organizadores, dataEvento, pontosExtra, coords, sessao.getMail(), descricao, dificuldade);
+    }
+
+    /**
+     * Cria uma Cache Mistério atravez dos parametros fornecidos
+     *
+     * @param ref Referencia da Cache
+     * @param DescPuzzle Descrição do Puzzle
+     * @param pontosExtra Pontuação extra da cache
+     * @param coords Coordenadas da Cache
+     * @param creator Criador da Cache
+     * @param descricao Descrição da Cache
+     * @param dificuldade Dificuldade da Cache
+     * @return True se a cache foi cridada e adicionada ou False se nao foi
+     * possivel criar a Cache
+     * @throws DificuldadeInvalidaException
+     */
+    public boolean addCacheMisterio(String ref, String DescPuzzle, int pontosExtra, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+        return cacheL.addCacheMisterio(ref, DescPuzzle, pontosExtra, coords, sessao.getMail(), descricao, dificuldade);
+    }
+
+    /**
+     * Cria uma Micro-Cache atravez dos parametros fornecidos
+     *
+     * @param ref Referencia da Cache
+     * @param coords Coordenadas da Cache
+     * @param creator Criador da Cache
+     * @param descricao Descrição da Cache
+     * @param dificuldade
+     * @return True se a cache foi cridada e adicionada ou False se nao foi
+     * possivel criar a Cache
+     * @throws DificuldadeInvalidaException
+     */
+    public boolean addMicroCache(String ref, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+        return cacheL.addMicroCache(ref, coords, sessao.getMail(), descricao, dificuldade);
+    }
+
+    /**
+     * Cria uma MultiCache atravez dos parametros fornecidos
+     *
+     * @param ref Referencia da Cache
+     * @param coords Coordenadas da Cache
+     * @param creator Criador da Cache
+     * @param descricao Descrição da Cache
+     * @param pontosIntermedios Coordenadas dos pontos intermedios da Cache
+     * @param dificuldade Dificuldade da Cache
+     * @param pontosExtra Pontuação extra da cache
+     * @return True se a cache foi cridada e adicionada ou False se nao foi
+     * possivel criar a Cache
+     * @throws DificuldadeInvalidaException
+     */
+    public boolean addmultiCache(String ref, Coords coords, String descricao, HashMap<Integer, Coords> pontosIntermedios, int dificuldade, int pontosExtra) throws DificuldadeInvalidaException {
+        return cacheL.MultiCache(ref, coords, sessao.getMail(), descricao, pontosIntermedios, dificuldade, pontosExtra);
+    }
     
     /**
+     * Verifica se existe uma cache com uma dada referencia 
+     * 
+     * @param ref Referencia da cache
+     * @return 
+     */
+    public boolean containsCache(String ref) {
+        return cacheL.containsCache(ref);
+    }
+
+    /**
      * Grava os dados em ficheiro.
+     *
      * @param ficheiro Localização do ficheiro a gravar.
      */
     public void guardar(String ficheiro) {

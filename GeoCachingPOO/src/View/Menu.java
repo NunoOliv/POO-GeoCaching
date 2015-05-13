@@ -2,16 +2,17 @@ package View;
 
 import Business.AutoSaveThread;
 import Business.Core;
+import Data.Coords;
 import Data.User;
 import Exceptions.*;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -736,7 +737,7 @@ public class Menu {
     /**
      * Método que apresenta a informação de todas as caches.
      */
-    public void verCaches() {
+    private void verCaches() {
         clearScreen();
         mVerLista(core.getListaCaches());
     }
@@ -768,7 +769,517 @@ public class Menu {
     }
 
     private void criarCache() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int opcao;
+
+        while (true) {
+            out.println("Qual o tipo de Cache que pretende criar?\n"
+                    + "1- Cache Tradicional\n"
+                    + "2- Micro-Cache\n"
+                    + "3- Cache Mistério\n"
+                    + "4- MultiCache\n"
+                    + "5- Cache Evento\n"
+                    + "0- Retroceder\n\n"
+                    + "Opção:");
+            try {
+                opcao = Integer.parseInt(in.nextLine());
+            } catch (Exception e) {
+                out.println("Intruduza uma opção válida!");
+                in.nextLine();
+                clearScreen();
+                continue;
+            }
+            clearScreen();
+
+            switch (opcao) {
+                case 1:
+                    criarCacheTrad();
+                    clearScreen();
+                    break;
+                case 2:
+                    criarMicroCache();
+                    clearScreen();
+                    break;
+                case 3:
+                    criarCacheMist();
+                    clearScreen();
+                    break;
+                case 4:
+                    criarMultiCache();
+                    clearScreen();
+                    break;
+                case 5:
+                    criarCacheEvento();
+                    clearScreen();
+                    break;
+                case 0:
+                    return;
+
+            }
+
+        }
+
+    }
+
+    private void criarCacheTrad() {
+        String ref, desc;
+        int lat, longi, dif;
+        Coords coords;
+
+        out.println("Cache Tradicional"
+                + "/n");
+
+        while (true) {
+            out.println("Escolha a referencia da cache:");
+            ref = in.nextLine();
+            if (core.containsCache(ref)) {
+                out.println("Já Existe uma cache com essa referencia.");
+                continue;
+            }
+            out.println();
+            break;
+        }
+        out.println("Escolha as Coordenadas da Cache:");
+        while (true) {
+            out.println("Latitude:");
+            try {
+                lat = Integer.parseInt(in.nextLine());
+            } catch (Exception e) {
+                out.println("Intruduza uma latitude válida!");
+                in.nextLine();
+                continue;
+            }
+            break;
+        }
+        while (true) {
+            out.println("Longitude:");
+            try {
+                longi = Integer.parseInt(in.nextLine());
+            } catch (Exception e) {
+                out.println("Intruduza uma longitude válida!");
+                in.nextLine();
+                continue;
+            }
+            break;
+        }
+        coords = new Coords(lat, longi);
+        out.println("Introduza uma descrição para a cache:");
+        desc = in.nextLine();
+
+        out.println("Escolha a dificuldade da Cache:");
+        while (true) {
+            try {
+                dif = Integer.parseInt(in.nextLine());
+            } catch (Exception e) {
+                out.println("Intruduza uma dificuldade válida!");
+                in.nextLine();
+                continue;
+            }
+            try {
+                if (core.addTradCache(ref, coords, desc, dif)) {
+
+                } else {
+                    out.println("Erro - Não foi possivel inserir a cache.");
+                }
+            } catch (DificuldadeInvalidaException ex) {
+                out.println("A dificuldade nao tem de estar compreendida entre 1 e 5.");
+                continue;
+            }
+            break;
+        }
+
+    }
+
+    private void criarMicroCache() {
+        String ref, desc;
+        int lat, longi, dif;
+        Coords coords;
+
+        out.println("Micro-Cache"
+                + "/n");
+
+        while (true) {
+            out.println("Escolha a referencia da cache:");
+            ref = in.nextLine();
+            if (core.containsCache(ref)) {
+                out.println("Já Existe uma cache com essa referencia.");
+                continue;
+            }
+            out.println();
+            break;
+        }
+        out.println("Escolha as Coordenadas da Cache:");
+        while (true) {
+            out.println("Latitude:");
+            try {
+                lat = Integer.parseInt(in.nextLine());
+            } catch (Exception e) {
+                out.println("Intruduza uma latitude válida!");
+                in.nextLine();
+                continue;
+            }
+            break;
+        }
+        while (true) {
+            out.println("Longitude:");
+            try {
+                longi = Integer.parseInt(in.nextLine());
+            } catch (Exception e) {
+                out.println("Intruduza uma longitude válida!");
+                in.nextLine();
+                continue;
+            }
+            break;
+        }
+        coords = new Coords(lat, longi);
+        out.println("Introduza uma descrição para a cache:");
+        desc = in.nextLine();
+
+        out.println("Escolha a dificuldade da Cache:");
+        while (true) {
+            try {
+                dif = Integer.parseInt(in.nextLine());
+            } catch (Exception e) {
+                out.println("Intruduza uma dificuldade válida!");
+                in.nextLine();
+                continue;
+            }
+            try {
+                if (core.addMicroCache(ref, coords, desc, dif)) {
+
+                } else {
+                    out.println("Erro - Não foi possivel inserir a cache.");
+                }
+            } catch (DificuldadeInvalidaException ex) {
+                out.println("A dificuldade nao tem de estar compreendida entre 1 e 5.");
+                continue;
+            }
+            break;
+        }
+    }
+
+    private void criarCacheMist() {
+        String ref, desc, descP;
+        int lat, longi, dif, pe;
+        Coords coords;
+
+        out.println("Cache Mistério"
+                + "/n");
+
+        while (true) {
+            out.println("Escolha a referencia da cache:");
+            ref = in.nextLine();
+            if (core.containsCache(ref)) {
+                out.println("Já Existe uma cache com essa referencia.");
+                continue;
+            }
+            out.println();
+            break;
+        }
+        out.println("Escolha as Coordenadas da Cache:");
+        while (true) {
+            out.println("Latitude:");
+            try {
+                lat = Integer.parseInt(in.nextLine());
+            } catch (Exception e) {
+                out.println("Intruduza uma latitude válida!");
+                in.nextLine();
+                continue;
+            }
+            break;
+        }
+        while (true) {
+            out.println("Longitude:");
+            try {
+                longi = Integer.parseInt(in.nextLine());
+            } catch (Exception e) {
+                out.println("Intruduza uma longitude válida!");
+                in.nextLine();
+                continue;
+            }
+            break;
+        }
+        coords = new Coords(lat, longi);
+
+        out.println("Introduza uma descrição para a cache:");
+        desc = in.nextLine();
+
+        out.println("Introduza uma descrição para o puzzle da cache:");
+        descP = in.nextLine();
+
+        while (true) {
+            try { 
+                out.println("Escolha a dificuldade da Cache:");
+                dif = Integer.parseInt(in.nextLine());
+            } catch (Exception e) {
+                out.println("Intruduza uma dificuldade válida!");
+                in.nextLine();
+                continue;
+            }
+            try {
+                out.println("Escolha os pontos extra de dificuldade da cache:");
+                pe = Integer.parseInt(in.nextLine());
+            } catch (Exception e) {
+                out.println("Intruduza um valor válido!");
+                in.nextLine();
+                continue;
+            }
+            try {
+                if (core.addCacheMisterio(ref, descP, pe, coords, desc, dif)) {
+
+                } else {
+                    out.println("Erro - Não foi possivel inserir a cache.");
+                }
+            } catch (DificuldadeInvalidaException ex) {
+                out.println("A dificuldade nao tem de estar compreendida entre 1 e 5.");
+                continue;
+            }
+            break;
+        }
+    }
+
+    private void criarMultiCache() {
+        String ref, desc;
+        int lat, latE, longi, longiE, dif, pe, nCoordsE;
+        Coords coords;
+        HashMap<Integer, Coords> coordList = new HashMap<>();
+
+        out.println("Cache Mistério"
+                + "/n");
+
+        while (true) {
+            out.println("Escolha a referencia da cache:");
+            ref = in.nextLine();
+            if (core.containsCache(ref)) {
+                out.println("Já Existe uma cache com essa referencia.");
+                continue;
+            }
+            out.println();
+            break;
+        }
+        out.println("Escolha as Coordenadas da Cache:");
+        while (true) {
+            out.println("Latitude:");
+            try {
+                lat = Integer.parseInt(in.nextLine());
+            } catch (Exception e) {
+                out.println("Intruduza uma latitude válida!");
+                in.nextLine();
+                continue;
+            }
+            break;
+        }
+        while (true) {
+            out.println("Longitude:");
+            try {
+                longi = Integer.parseInt(in.nextLine());
+            } catch (Exception e) {
+                out.println("Intruduza uma longitude válida!");
+                in.nextLine();
+                continue;
+            }
+            break;
+        }
+        coords = new Coords(lat, longi);
+        while (true) {
+            out.println("Escolha o número de pontos de Coordenadas Extra:");
+            try {
+                nCoordsE = Integer.parseInt(in.nextLine());
+            } catch (Exception e) {
+                out.println("Intruduza um valor válido!");
+                in.nextLine();
+                continue;
+            }
+            break;
+        }
+
+        for (int i = 0; i < nCoordsE; i++) {
+            while (true) {
+                out.println("Ponto Extra número " + (i+1));
+                out.println("Latitude:");
+                try {
+                    latE = Integer.parseInt(in.nextLine());
+                } catch (Exception e) {
+                    out.println("Intruduza uma latitude válida!");
+                    in.nextLine();
+                    continue;
+                }
+                break;
+            }
+            while (true) {
+                out.println("Longitude:");
+                try {
+                    longiE = Integer.parseInt(in.nextLine());
+                } catch (Exception e) {
+                    out.println("Intruduza uma longitude válida!");
+                    in.nextLine();
+                    continue;
+                }
+                break;
+            }
+            coordList.put(i, new Coords(latE, longiE));
+            out.println();
+        }
+
+        out.println("Introduza uma descrição para a cache:");
+        desc = in.nextLine();
+
+        while (true) {
+            try {
+                out.println("Escolha a dificuldade da Cache:");
+                dif = Integer.parseInt(in.nextLine());
+            } catch (Exception e) {
+                out.println("Intruduza uma dificuldade válida!");
+                in.nextLine();
+                continue;
+            }
+            try {
+                out.println("Escolha os pontos extra de dificuldade da cache:");
+                pe = Integer.parseInt(in.nextLine());
+            } catch (Exception e) {
+                out.println("Intruduza um valor válido!");
+                in.nextLine();
+                continue;
+            }
+            try {
+                if (core.addmultiCache(ref, coords, desc, coordList, dif, pe)) {
+
+                } else {
+                    out.println("Erro - Não foi possivel inserir a cache.");
+                }
+            } catch (DificuldadeInvalidaException ex) {
+                out.println("A dificuldade nao tem de estar compreendida entre 1 e 5.");
+                continue;
+            }
+            break;
+        }
+    }
+
+    private void criarCacheEvento() {
+        String ref, desc, org;
+        int lat, longi, dif, pe, nOrg, dia, mes, ano;
+        Coords coords;
+        HashSet<String> orgList = new HashSet<>();
+        GregorianCalendar eDate;
+
+        out.println("Cache Mistério"
+                + "/n");
+
+        while (true) {
+            out.println("Escolha a referencia da cache:");
+            ref = in.nextLine();
+            if (core.containsCache(ref)) {
+                out.println("Já Existe uma cache com essa referencia.");
+                continue;
+            }
+            out.println();
+            break;
+        }
+        out.println("Escolha as Coordenadas da Cache:");
+        while (true) {
+            out.println("Latitude:");
+            try {
+                lat = Integer.parseInt(in.nextLine());
+            } catch (Exception e) {
+                out.println("Intruduza uma latitude válida!");
+                in.nextLine();
+                continue;
+            }
+            break;
+        }
+        while (true) {
+            out.println("Longitude:");
+            try {
+                longi = Integer.parseInt(in.nextLine());
+            } catch (Exception e) {
+                out.println("Intruduza uma longitude válida!");
+                in.nextLine();
+                continue;
+            }
+            break;
+        }
+        coords = new Coords(lat, longi);
+        while (true) {
+            out.println("Escolha o número Organizadores da Cache:");
+            try {
+                nOrg = Integer.parseInt(in.nextLine());
+            } catch (Exception e) {
+                out.println("Intruduza um valor válido!");
+                in.nextLine();
+                continue;
+            }
+            break;
+        }
+
+        out.println("Introduza os endereços de Email dos Organizadores. (Se pretender sair do menu de criação escreva '0')");
+        for (int i = 0; i < nOrg; i++) {
+            while (true) {
+                out.println("Inserir organizador " + (i+1) + ":");
+                org = in.nextLine();
+                if (org.equals("0")) {
+                    out.println("Criação de Cache interrompida pelo utilizador");
+                    return;
+                }
+                try {
+                    if (core.existeUser(org)) {
+                        orgList.add(org);
+                    }
+                } catch (EmailInvalidoException ex) {
+                    out.println(ex.getMessage());
+                    continue;
+                }
+                break;
+            }
+
+        }
+        while (true) {
+            out.println("Intruduza a data do evento: ");
+            try {
+                out.print("- Dia (1 até 31): ");
+                dia = Integer.parseInt(in.nextLine());
+                out.print("- Mês (1 até 12): ");
+                mes = Integer.parseInt(in.nextLine());
+                out.print("- Ano: ");
+                ano = Integer.parseInt(in.nextLine());
+            } catch (Exception e) {
+                out.print("Data de Nascimento introduzida inválida!");
+                continue;
+            }
+            eDate = new GregorianCalendar(ano, mes, dia);
+            break;
+        }
+
+        out.println("Introduza uma descrição para a cache:");
+        desc = in.nextLine();
+
+        while (true) {
+            try {
+                out.println("Escolha a dificuldade da Cache:");
+                dif = Integer.parseInt(in.nextLine());
+            } catch (Exception e) {
+                out.println("Intruduza uma dificuldade válida!");
+                in.nextLine();
+                continue;
+            }
+            try {
+                out.println("Escolha os pontos extra de dificuldade da cache:");
+                pe = Integer.parseInt(in.nextLine());
+            } catch (Exception e) {
+                out.println("Intruduza um valor válido!");
+                in.nextLine();
+                continue;
+            }
+            try {
+                if (core.addCacheEvento(ref, orgList, eDate, pe, coords, desc, dif)) {
+
+                } else {
+                    out.println("Erro - Não foi possivel inserir a cache.");
+                }
+            } catch (DificuldadeInvalidaException ex) {
+                out.println("A dificuldade nao tem de estar compreendida entre 1 e 5.");
+                continue;
+            }
+            break;
+        }
     }
 
     private void editCache() {
