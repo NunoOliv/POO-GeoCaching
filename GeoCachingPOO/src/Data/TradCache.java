@@ -3,6 +3,7 @@ package Data;
 import Exceptions.CacheNaoSuportaFuncionalidadeException;
 import Exceptions.DificuldadeInvalidaException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,7 +17,7 @@ import java.util.logging.Logger;
 public class TradCache extends Cache {
 
     private HashSet<String> tesouros;
-    private HashSet<TravelBug> bugs;
+    private HashSet<String> bugs;
 
 // Construtores 
     public TradCache(String ref, Coords coords, String creator, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
@@ -25,7 +26,7 @@ public class TradCache extends Cache {
         bugs = new HashSet<>();
     }
 
-    public TradCache(String ref, HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, String creator, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public TradCache(String ref, HashSet<String> tesouros, HashSet<String> bugs, Coords coords, String creator, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         super(ref, coords, creator, assinantes, descricao, dificuldade);
         this.tesouros = tesouros;
         this.bugs = bugs;
@@ -38,18 +39,15 @@ public class TradCache extends Cache {
     }
 
     public TradCache(TradCache t) throws DificuldadeInvalidaException {
-        super(t.getRef(), t.getCoords(), t.getCreator(), t.getAssinantes(), t.getDescricao(), t.getDificuldade());
+        super(t.getRef(), t.getCoords(), t.getCreator(), t.listaAssinantes(), t.getDescricao(), t.getDificuldade());
         this.tesouros = t.getTesouros();
         this.bugs = t.getBugs();
-        this.setAssinantes(t.getAssinantes());
-        this.setCoords(t.getCoords());
-        this.setDescricao(t.getDescricao());
-        this.setDificuldade(t.getDificuldade());
+
     }
 
     //Getters e Setters
     public HashSet getTesouros() {
-        return tesouros;
+        return new HashSet<>(tesouros);
     }
 
     public void setTesouros(HashSet tesouros) {
@@ -64,19 +62,19 @@ public class TradCache extends Cache {
         return ret;
     }
 
-    public HashSet<TravelBug> getBugs() {
+    public HashSet<String> getBugs() {
         return bugs;
     }
 
-    public ArrayList<TravelBug> getListBugs() {
-        ArrayList<TravelBug> ret = new ArrayList<>();
-        for (TravelBug t : bugs) {
-            ret.add((TravelBug) t.clone());
+    public ArrayList<String> getListBugs() {
+        ArrayList<String> ret = new ArrayList<>();
+        for (String t : bugs) {
+            ret.add(t);
         }
         return ret;
     }
 
-    public void setBugs(HashSet<TravelBug> bugs) {
+    public void setBugs(HashSet<String> bugs) {
         this.bugs = bugs;
     }
 
@@ -115,8 +113,13 @@ public class TradCache extends Cache {
      * @param bug
      * @return
      */
-    public boolean takeBug(TravelBug bug) {
-        return bugs.remove(bug);
+    public boolean takeBug(String bug) {
+        if (bugs.contains(bug)) {
+            bugs.remove(bug);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -125,14 +128,18 @@ public class TradCache extends Cache {
      * @param bug
      * @return
      */
-    public boolean putBug(TravelBug bug) {
+    public boolean putBug(String bug) {
 
-        if (bugs.add(bug)) {
-            bug.addCache(this);
+        if (bugs.contains(bug)) {
+            bugs.add(bug);
             return true;
         } else {
             return false;
         }
+    }
+    
+    public boolean containsBug(String bug) {
+        return bugs.contains(bug);
     }
 
     @Override

@@ -54,7 +54,7 @@ public class MultiCache extends TradCache {
      * @param dificuldade
      * @throws Exceptions.DificuldadeInvalidaException
      */
-    public MultiCache(String ref, HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, String creator, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public MultiCache(String ref, HashSet<String> tesouros, HashSet<String> bugs, Coords coords, String creator, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
         super(ref, tesouros, bugs, coords, creator, Assinantes, Descricao, dificuldade);
         this.pontosIntermedios = new HashMap<>();
         this.pontosExtra = 1;
@@ -74,7 +74,7 @@ public class MultiCache extends TradCache {
      * @throws Exceptions.DificuldadeInvalidaException
      * @throws Exceptions.PontosExtraInvalidosException
      */
-    public MultiCache(String ref, int pontosExtra, HashMap<Integer, Coords> pontosIntermedios, HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, String creator, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException, PontosExtraInvalidosException {
+    public MultiCache(String ref, int pontosExtra, HashMap<Integer, Coords> pontosIntermedios, HashSet<String> tesouros, HashSet<String> bugs, Coords coords, String creator, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException, PontosExtraInvalidosException {
 
         super(ref, tesouros, bugs, coords, creator, Assinantes, Descricao, dificuldade);
         if (pontosExtra < 1 || pontosExtra > 5) {
@@ -85,7 +85,7 @@ public class MultiCache extends TradCache {
     }
 
     public MultiCache(MultiCache c) throws DificuldadeInvalidaException {
-        super(c.getRef(), c.getTesouros(), c.getBugs(), c.getCoords(), c.getCreator(), c.getAssinantes(), c.getDescricao(), c.getDificuldade());
+        super(c.getRef(), c.getTesouros(), c.getBugs(), c.getCoords(), c.getCreator(), c.listaAssinantes(), c.getDescricao(), c.getDificuldade());
         this.pontosIntermedios = c.getPontosIntermedios();
         this.pontosExtra = c.getPontosExtra();
     }

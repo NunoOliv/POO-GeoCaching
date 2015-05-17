@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 public class CacheList implements Serializable{
 
     private HashMap<String, Cache> caches;
+    private TravelBugL bugs;
 
     /**
      *
@@ -73,7 +74,21 @@ public class CacheList implements Serializable{
     public boolean containsCache(String ref){
         return caches.containsKey(ref);
     }
+    
+    public boolean setDescricaoCache(String cache, String desc) {
+        Cache tempC;
+        if (!caches.containsKey(cache)) return false;
+        tempC = caches.get(cache);
+        tempC.setDescricao(desc);
+        return true;
+    }
 
+    public boolean assinarCache(String cache, String user) {
+        if (this.containsCache(cache)) {
+            return caches.get(cache).addAssinante(user);
+        } else return false;
+    }
+    
     /*
      * *****************************************
      * Operações com detalhes de Cache ****************************************
@@ -115,7 +130,8 @@ public class CacheList implements Serializable{
 
     /**
      * *****************************************
-     * Operações com dificuldades ****************************************
+     * Operações com dificuldades 
+     ****************************************
      */
     public void setDificuldade(int dif, String cache) throws DificuldadeInvalidaException {
         this.getCache(cache).setDificuldade(dif);
@@ -127,7 +143,8 @@ public class CacheList implements Serializable{
 
     /*
      * *****************************************
-     * Operações com coordenadas ****************************************
+     * Operações com coordenadas 
+     ****************************************
      */
     public Coords getCoords(String cache) {
         return this.getCache(cache).getCoords();
@@ -194,7 +211,10 @@ public class CacheList implements Serializable{
             throw new CacheNaoSuportaFuncionalidadeException("Tesouros");
         }
     }
-
+    
+    public boolean suportaTesouros(String cache) {
+        return (caches.get(cache) instanceof TradCache);
+    }
     /*
      * *****************************************
      * Operações com TravelBugs 
@@ -202,9 +222,9 @@ public class CacheList implements Serializable{
      */
     
     
-    public ArrayList<TravelBug> getListBugs(String tradCache) throws CacheNaoSuportaFuncionalidadeException {
+    public ArrayList<String> getListBugs(String tradCache) throws CacheNaoSuportaFuncionalidadeException {
         if (this.getCache(tradCache) instanceof TradCache) {
-            return ((TradCache) this.getCache(tradCache)).getListBugs();
+            return (this.getCache(tradCache)).getListBugs();
         } else {
             throw new CacheNaoSuportaFuncionalidadeException("TravelBugs");
         }
@@ -214,6 +234,7 @@ public class CacheList implements Serializable{
     public boolean addBug(TravelBug bug, String tradCache) throws CacheNaoSuportaFuncionalidadeException {
 
         if (this.getCache(tradCache) instanceof TradCache) {
+            if (((TradCache)this.getCache(tradCache)).containsBug(bug.getDescricao()))
             return ((TradCache) this.getCache(tradCache)).putBug(bug);
         } else {
             throw new CacheNaoSuportaFuncionalidadeException("TravelBugs");
@@ -221,7 +242,7 @@ public class CacheList implements Serializable{
     }
 
     
-    public boolean takeBug(TravelBug bug, String tradCache) throws CacheNaoSuportaFuncionalidadeException {
+    public boolean takeBug(String bug, String tradCache) throws CacheNaoSuportaFuncionalidadeException {
 
         if (this.getCache(tradCache) instanceof TradCache) {
             return ((TradCache) this.getCache(tradCache)).takeBug(bug);
@@ -323,6 +344,10 @@ public class CacheList implements Serializable{
             throw new CacheNaoSuportaFuncionalidadeException("Eventos");
         }
     }
+    
+    public boolean suportaEventos(String cache) {
+        return (caches.get(cache) instanceof CacheEvento);
+    }
 
     /*
      * *****************************************
@@ -377,7 +402,7 @@ public class CacheList implements Serializable{
     }
 
 
-    public boolean addTradCache(String ref, HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, String creator, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public boolean addTradCache(String ref, HashSet<String> tesouros, HashSet<String> bugs, Coords coords, String creator, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
         TradCache nCache = new TradCache(ref, tesouros, bugs, coords, creator, Assinantes, Descricao, dificuldade);
         if (!caches.containsKey(ref)) {
             caches.put(ref, nCache);
@@ -398,14 +423,7 @@ public class CacheList implements Serializable{
     }
 
 
-    public boolean remTradCache(String t) {
-        if (!caches.containsKey(t)) {
-            caches.remove(t);
-        } else {
-            return false;
-        }
-        return true;
-    }
+    
 
     /*
      * **********************************************************
@@ -452,16 +470,6 @@ public class CacheList implements Serializable{
         return true;
     }
 
-
-    public boolean remCacheEvento(String c) throws DificuldadeInvalidaException {
-        if (!caches.containsKey(c)) {
-            caches.remove(c);
-        } else {
-            return false;
-        }
-        return true;
-    }
-
     /*
      * **********************************************************
      * Cache Mistério 
@@ -489,7 +497,7 @@ public class CacheList implements Serializable{
     }
 
 
-    public boolean addCacheMisterio(String ref, String DescPuzzle, int pontosExtra, HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, String creator, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public boolean addCacheMisterio(String ref, String DescPuzzle, int pontosExtra, HashSet<String> tesouros, HashSet<String> bugs, Coords coords, String creator, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
         if (!caches.containsKey(ref)) {
             caches.put(ref, new CacheMisterio(ref, DescPuzzle, pontosExtra, tesouros, bugs, coords, creator, Assinantes, Descricao, dificuldade));
         } else {
@@ -498,15 +506,6 @@ public class CacheList implements Serializable{
         return true;
     }
 
-
-    public boolean remCacheMisterio(String c) {
-        if (!caches.containsKey(c)) {
-            caches.remove(c);
-        } else {
-            return false;
-        }
-        return true;
-    }
 
     /*
      * **********************************************************
@@ -545,15 +544,6 @@ public class CacheList implements Serializable{
     }
 
 
-    public boolean remMicroCache(String m) {
-        if (!caches.containsKey(m)) {
-            caches.remove(m);
-        } else {
-            return false;
-        }
-        return true;
-    }
-
     /*
      * **********************************************************
      * Multi Cache 
@@ -571,7 +561,7 @@ public class CacheList implements Serializable{
     }
 
 
-    public boolean addMultiCache(String ref, int pontosExtra, HashMap<Integer, Coords> pontosIntermedios, HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, String creator, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException, PontosExtraInvalidosException {
+    public boolean addMultiCache(String ref, int pontosExtra, HashMap<Integer, Coords> pontosIntermedios, HashSet<String> tesouros, HashSet<String> bugs, Coords coords, String creator, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException, PontosExtraInvalidosException {
         if (!caches.containsKey(ref)) {
             caches.put(ref, new MultiCache(ref, pontosExtra, pontosIntermedios, tesouros, bugs, coords, creator, Assinantes, Descricao, dificuldade));
         } else {
@@ -589,14 +579,14 @@ public class CacheList implements Serializable{
         }
         return true;
     }
-
-
-    public boolean remMultiCache(String c) {
-        if (!caches.containsKey(c)) {
-            caches.remove(c);
+    
+    public boolean remCache(String t) {
+        if (caches.containsKey(t)) {
+            caches.remove(t);
         } else {
             return false;
         }
         return true;
     }
 }
+

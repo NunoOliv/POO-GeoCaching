@@ -28,7 +28,7 @@ public class MicroCache extends Cache {
     }
 
     public MicroCache(MicroCache m) throws DificuldadeInvalidaException {
-        super(m.getRef(), m.getCoords(), m.getCreator(), m.getAssinantes(), m.getDescricao(), m.getDificuldade());
+        super(m.getRef(), m.getCoords(), m.getCreator(), m.listaAssinantes(), m.getDescricao(), m.getDificuldade());
     }
 
     @Override

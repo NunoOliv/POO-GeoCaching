@@ -6,7 +6,8 @@
 package Data;
 
 
-import java.util.Date;
+
+import java.util.GregorianCalendar;
 import java.util.Objects;
 
 /**
@@ -16,30 +17,30 @@ import java.util.Objects;
  * @author Rui Pereira
  */
 public class CacheRegBug {
-    private Cache cache;
-    private Date date;
+    private String cache;
+    private GregorianCalendar date;
     
     //getters e setters
 
-    public Cache getCache() {
+    public String getCache() {
         return cache;
     }
 
-    public void setCache(Cache cache) {
+    public void setCache(String cache) {
         this.cache = cache;
     }
 
-    public Date getDate() {
+    public GregorianCalendar getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(GregorianCalendar date) {
         this.date = date;
     }
     
     //construtores
 
-    public CacheRegBug(Cache cache, Date date) {
+    public CacheRegBug(String cache, GregorianCalendar date) {
         this.cache = cache;
         this.date = date;
     }

@@ -38,7 +38,7 @@ public class CacheEvento extends Cache {
     }
 
     public CacheEvento(CacheEvento c) throws DificuldadeInvalidaException {
-        super(c.getRef(), c.getCoords(), c.getCreator(), c.getAssinantes(), c.getDescricao(), c.getDificuldade());
+        super(c.getRef(), c.getCoords(), c.getCreator(), c.listaAssinantes(), c.getDescricao(), c.getDificuldade());
         this.setDataEvento(c.getDataEvento());
         this.setOrganizadores(c.getOrganizadores());
         this.setPontosExtra(this.getPontosExtra());

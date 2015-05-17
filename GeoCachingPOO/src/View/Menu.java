@@ -635,15 +635,17 @@ public class Menu {
     }
 
     /**
+     * Imprime uma lista de strings organizada por páginas.
      *
-     * @param lista
+     * @param tag String que indica o que reprezenta a lista.
+     * @param lista Lista a ser imprimida.
      */
-    private void mVerLista(ArrayList<String> lista) {
+    private void mVerLista(String tag, ArrayList<String> lista) {
         String m;
         boolean exit = false;
         int cont = 0, size = lista.size(), screensize = 20, currPage = 1, maxPages;
 
-        out.println("*** Lista de Caches***\n");
+        out.println("*** Lista de " + tag + "***\n");
         maxPages = size / screensize;
         if (((float) size % screensize) >= 0) {
             maxPages++;
@@ -678,17 +680,9 @@ public class Menu {
 
     }
 
-    private String mCriarCache() {
-        int i = 1;
-        return "*** Criar Cache ***\n"
-                + +i + "-Cache Tradicional\n"
-                + (++i) + "-Micro-Cache\n"
-                + (++i) + "-Cache Mistério\n"
-                + (++i) + "-Multi Cache\n"
-                + (++i) + "-Cache Evento\n";
-    }
-
-    // Criar Menus de criação para cada tipo de cache
+    /**
+     * Menu Principal das operações com caches.
+     */
     private void menuCaches() {
         int opcao;
         while (true) {
@@ -719,7 +713,7 @@ public class Menu {
                     criarCache();
                     break;
                 case (4):
-                    editCache();
+
                     break;
                 case (5):
                     removeCache();
@@ -735,15 +729,15 @@ public class Menu {
     }
 
     /**
-     * Método que apresenta a informação de todas as caches.
+     * Método que apresenta as referencias de todas as caches.
      */
     private void verCaches() {
         clearScreen();
-        mVerLista(core.getListaCaches());
+        mVerLista("caches", core.getListaCaches());
     }
 
     /**
-     * Método que permite apagar uma cache do sistema.
+     * Método que imprime na consola os detalhes de uma cache.
      */
     private void detCache() {
         clearScreen();
@@ -761,10 +755,158 @@ public class Menu {
      * @param cache
      */
     private void mDetalhesCache(String cache) {
-        if (core.getInfo().getMail().equals(cache)) {
-            out.println("Operações:\n");
+        int i = 0, opcao;
+
+        boolean admin = false, sTes = false, sEventos = false;
+
+        while (true) {
+            if (admin = core.getInfo().getMail().equals(core.isCriador(cache))) {
+                out.println("Operações (administrador):\n");
+                out.println(++i + "- Alterar Descrição da Cache\n"
+                        + ++i + "- Remover Cache\n");
+            } else {
+                out.println("Operações:\n");
+            }
+            out.println(++i + "- Assinar Cache\n"
+                    + ++i + "- Ver Lista de Assinantes\n");
+            if (sTes = core.suportaTesouros(cache)) {
+                out.println(++i + "- Ver Lista de Tesouros\n"
+                        + ++i + "- Adicionar tesouro\n"
+                        + ++i + "- Remover Tesouro\n"
+                        + ++i + "- Ver Lista de Bugs"
+                        + ++i + "- Adicionar bug\n"
+                        + ++i + "- Remover Bug\n");
+            } else {
+                if (sEventos = core.suportaEventos(cache)) {
+                    out.println(++i + "- Ver Lista de Organizadores\n");
+                }
+            }
+            try {
+                opcao = Integer.parseInt(in.nextLine());
+            } catch (Exception e) {
+                out.println("Intruduza uma opção válida!");
+                in.nextLine();
+                clearScreen();
+                continue;
+            }
+            clearScreen();
+
+            if (admin && sTes) {
+                switch (opcao) {
+                    case 1:
+                        out.println("Introduza a nova descrição da Cache:");
+                        if (core.setDescricaoCache(cache, in.nextLine())) {
+                            out.println("Descrição da Cache alterada com sucesso!");
+                        } else {
+                            out.println("Nao foi possivel alterar a descrição da cache!");
+                        }
+                        clearScreen();
+                        break;
+                    case 2:
+                        out.println("Tem a certeza que pretende remover a cache? (Insira SIM para remover)");
+                        if (in.nextLine().equals("SIM")) {
+                            core.remCache(cache);
+                            out.println("Cache Removida com sucesso");
+                        } else {
+                            out.println("Remoção da cache cancelada.");
+                        }
+                        clearScreen();
+                        break;
+                    case 3:
+                        while (true) {
+                            String aux;
+                            out.println("Pretende Assinar esta cache?(S/N))");
+                            if ((aux = in.nextLine()).equals("S")) {
+                                if (core.assinarCache(cache)) {
+                                    out.println("Cache assinada com sucesso!");
+                                } else {
+                                    out.println("Não foi possivel assinar a cache. Verifique se esta cache já se encontra assinada.");
+                                }
+                                break;
+                            } else if (aux.equals("N")) {
+                                out.println("Cache não foi assinada!");
+                                break;
+                            } else {
+                                out.println("Escolha uma opção valida!");
+                            }
+                        }
+                        clearScreen();
+                        break;
+                    case 4:
+                        mVerLista("assinantes", core.getListaAssinantes(cache));
+                        clearScreen();
+                        break;
+                    case 5:
+                        mVerLista("Tesouros", core.getListTesouros(cache));
+                        clearScreen();
+                        break;
+                    case 6:
+                        out.println("Insira o nome do tesouro.");
+                         {
+                            try {
+                                if (core.addTesouro(in.nextLine(), cache)) {
+                                    out.println("Tesouro adicionado com sucesso!");
+                                } else {
+                                    out.println("Não foi possivel adicionar a cache.");
+                                }
+                            } catch (CacheNaoSuportaFuncionalidadeException ex) {
+                                out.println(ex.getMessage());
+                            }
+                        }
+                        clearScreen();
+                        break;
+                    case 7: 
+                        out.println("Insira o nome do tesouro.");
+                         {
+                            try {
+                                if (core.takeTesouro(in.nextLine(), cache)) {
+                                    out.println("Tesouro removido com sucesso!");
+                                } else {
+                                    out.println("Não foi possivel remover a cache.");
+                                }
+                            } catch (CacheNaoSuportaFuncionalidadeException ex) {
+                                out.println(ex.getMessage());
+                            }
+                        }
+                        clearScreen();
+                        break;
+                        
+                    case 8:
+                        
+                        
+                    case 0:
+                        return;
+
+                }
+            }
+
+            switch (opcao) {
+                case 1:
+
+                    clearScreen();
+                    break;
+                case 2:
+
+                    clearScreen();
+                    break;
+                case 3:
+
+                    clearScreen();
+                    break;
+                case 4:
+
+                    clearScreen();
+                    break;
+                case 5:
+
+                    clearScreen();
+                    break;
+                case 0:
+                    return;
+
+            }
+
         }
-        out.println("1-EditarCache");
 
     }
 
@@ -1007,7 +1149,7 @@ public class Menu {
         descP = in.nextLine();
 
         while (true) {
-            try { 
+            try {
                 out.println("Escolha a dificuldade da Cache:");
                 dif = Integer.parseInt(in.nextLine());
             } catch (Exception e) {
@@ -1094,7 +1236,7 @@ public class Menu {
 
         for (int i = 0; i < nCoordsE; i++) {
             while (true) {
-                out.println("Ponto Extra número " + (i+1));
+                out.println("Ponto Extra número " + (i + 1));
                 out.println("Latitude:");
                 try {
                     latE = Integer.parseInt(in.nextLine());
@@ -1213,7 +1355,7 @@ public class Menu {
         out.println("Introduza os endereços de Email dos Organizadores. (Se pretender sair do menu de criação escreva '0')");
         for (int i = 0; i < nOrg; i++) {
             while (true) {
-                out.println("Inserir organizador " + (i+1) + ":");
+                out.println("Inserir organizador " + (i + 1) + ":");
                 org = in.nextLine();
                 if (org.equals("0")) {
                     out.println("Criação de Cache interrompida pelo utilizador");
@@ -1280,10 +1422,6 @@ public class Menu {
             }
             break;
         }
-    }
-
-    private void editCache() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     private void removeCache() {

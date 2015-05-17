@@ -68,12 +68,7 @@ public abstract class Cache  implements Serializable{
         this.coords = coords;
     }
 
-    /**
-     * @return the assinantes
-     */
-    public HashSet<String> getAssinantes() {
-        return assinantes;
-    }
+   
 
     public HashSet<String> listaAssinantes() {
         return (HashSet<String>) assinantes.clone();
@@ -156,7 +151,7 @@ public abstract class Cache  implements Serializable{
         if (!Objects.equals(this.coords, other.getCoords())) {
             return false;
         }
-        if (!Objects.equals(this.assinantes, other.getAssinantes())) {
+        if (!Objects.equals(this.assinantes, other.listaAssinantes())) {
             return false;
         }
         if (!Objects.equals(this.descricao, other.getDescricao())) {

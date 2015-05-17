@@ -5,8 +5,7 @@
  */
 package Data;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 
 /**
@@ -16,10 +15,26 @@ import java.util.HashSet;
  * @author Rui Pereira
  */
 public class TravelBug {
-    private HashSet<CacheRegBug> caches;
     private String descricao;
+    private HashSet<CacheRegBug> caches;
+    private String currentCache; 
 
+    /**
+     * 
+     * @return 
+     */
+    public String getCurrentCache() {
+        return currentCache;
+    }
     
+    /**
+     * 
+     * @param currentCache 
+     */
+    public void setCurrentCache(String currentCache) {
+        this.currentCache = currentCache;
+    }
+      
     public String getDescricao() {
         return descricao;
     }
@@ -29,11 +44,12 @@ public class TravelBug {
     }
 
     public HashSet getCaches() {
-        return caches;
+        return new HashSet<> (caches);
     }
 
     public void setCaches(HashSet caches) {
-        this.caches = caches;
+        
+        this.caches = new HashSet<> (caches);
     }
     
     public HashSet<CacheRegBug> cloneCaches() {
@@ -55,7 +71,7 @@ public class TravelBug {
 
     public TravelBug(String descrição) {
         this.descricao = descrição;
-        caches = new HashSet<CacheRegBug>();
+        caches = new HashSet<>();
     }
     
     public TravelBug(TravelBug tb) {
@@ -68,9 +84,8 @@ public class TravelBug {
      * 
      * @param cache 
      */
-    public void addCache(Cache cache) {
-        Date date = new Date();
-        date = Calendar.getInstance().getTime();
+    public void addCache(String cache) {
+        GregorianCalendar date = new GregorianCalendar();
         caches.add(new CacheRegBug(cache, date));
     }
 

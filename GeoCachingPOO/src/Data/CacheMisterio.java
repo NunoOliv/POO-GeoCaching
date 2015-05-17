@@ -6,6 +6,7 @@
 package Data;
 
 import Exceptions.DificuldadeInvalidaException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,13 +26,13 @@ public class CacheMisterio extends TradCache {
         this.pontosExtra = 0;
     }
 
-    public CacheMisterio(String ref, HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, String creator, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public CacheMisterio(String ref, HashSet<String> tesouros, HashSet<String> bugs, Coords coords, String creator, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
         super(ref, tesouros, bugs, coords, creator, Assinantes, Descricao, dificuldade);
         this.descPuzzle = new String();
         this.pontosExtra = 0;
     }
 
-    public CacheMisterio(String ref, String DescPuzzle, int pontosExtra, HashSet<String> tesouros, HashSet<TravelBug> bugs, Coords coords, String creator, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public CacheMisterio(String ref, String DescPuzzle, int pontosExtra, HashSet<String> tesouros,HashSet<String> bugs, Coords coords, String creator, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
         super(ref, tesouros, bugs, coords, creator, Assinantes, Descricao, dificuldade);
         this.descPuzzle = DescPuzzle;
         this.pontosExtra = pontosExtra;
@@ -44,7 +45,7 @@ public class CacheMisterio extends TradCache {
     }
 
     public CacheMisterio(CacheMisterio c) throws DificuldadeInvalidaException {
-        super(c.getRef(), c.getTesouros(), c.getBugs(), c.getCoords(), c.getCreator(), c.getAssinantes(), c.getDescricao(), c.getDificuldade());
+        super(c.getRef(), c.getTesouros(), c.getBugs(), c.getCoords(), c.getCreator(), c.listaAssinantes(), c.getDescricao(), c.getDificuldade());
         this.descPuzzle = c.getDescPuzzle();
         this.pontosExtra = c.getPontosExtra();
     }
@@ -53,7 +54,7 @@ public class CacheMisterio extends TradCache {
      * @return the descPuzzle
      */
     public String getDescPuzzle() {
-        return new String(descPuzzle);
+        return descPuzzle;
     }
 
     /**

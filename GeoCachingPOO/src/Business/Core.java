@@ -28,9 +28,9 @@ import java.util.logging.Logger;
  */
 public class Core implements Serializable {
 
-    private UserList userL;
+    private final UserList userL;
     private User sessao;
-    private CacheList cacheL;
+    private final CacheList cacheL;
 
     public Core() {
         userL = new UserList();
@@ -423,7 +423,99 @@ public class Core implements Serializable {
     public boolean containsCache(String ref) {
         return cacheL.containsCache(ref);
     }
-
+    
+    /**
+     * Verifica se a cache suporta tesouros.
+     * 
+     * @param cache Referencia da Cache a verificar.
+     * @return 
+     */
+    public boolean suportaTesouros(String cache) {
+        return cacheL.suportaTesouros(cache);
+    }
+    
+    /**
+     * Verifica se a cache suporta eventos.
+     * 
+     * @param cache Referencia da cache a verificar
+     * @return 
+     */
+    public boolean suportaEventos(String cache) {
+        return cacheL.suportaEventos(cache);
+    }
+    
+    /**
+     * Altera a descrição de uma cache.
+     * 
+     * @param cache Cache que tem a descrição alterada.
+     * @param desc Nova descrição para a cache.
+     * @return True se a descrição foi alterada ou False se não foi possivel alterar a descrição
+     */
+    public boolean setDescricaoCache(String cache, String desc) {
+        return cacheL.setDescricaoCache(cache, desc);
+    }
+    /**
+     * Remove uma cache do sistema.
+     * 
+     * @param cache Cache que vai ser removida.
+     * @return True se a cache foi removida ou FALSE se não foi possivel remover a cache.
+     */
+    public boolean remCache(String cache) {
+        return cacheL.remCache(cache);
+    }
+    
+    
+    /**
+     * Permite ao utilizador com sessão iniciada assinar a cache.
+     * 
+     * @param cache Cache que vai ser assinada.
+     * @return 
+     */
+    public boolean assinarCache(String cache) {
+        return cacheL.assinarCache(cache, sessao.getMail());
+    }
+    
+    /**
+     * Devolve a lista dos assinantes de uma cache.
+     * 
+     * @param cache Referencia da cache.
+     * @return Lista de Assinantes.
+     */
+    public ArrayList<String> getListaAssinantes(String cache) {
+        return new ArrayList<> (cacheL.getListaAssinantes(cache));
+    }
+    
+    /**
+     * Devolve a lista de tesouros de uma cache.
+     * 
+     * @param cache Referencia da cache.
+     * @return Lista de tesouros
+     */
+    public ArrayList<String> getListTesouros(String cache) {
+        try {
+            return cacheL.getListTesouros(cache);
+        } catch (CacheNaoSuportaFuncionalidadeException ex) {
+            ex.getMessage();
+        }
+        return null;
+    }
+    
+    /**
+     * Adiciona um tesouro a uma cache.
+     * 
+     * @param tesouro Nome/Descrição do tesouro
+     * @param cache Referencia da cache.
+     * @return TRUE se adicionou o tesouro ou FALSE sde nao adicionou.
+     * @throws CacheNaoSuportaFuncionalidadeException 
+     */
+    public boolean addTesouro(String tesouro, String cache) throws CacheNaoSuportaFuncionalidadeException {
+        return cacheL.addTesouro(tesouro, cache);
+    }
+    
+    public boolean takeTesouro(String tesouro, String cache) throws CacheNaoSuportaFuncionalidadeException {
+        return cacheL.takeTesouro(tesouro, cache);
+    }
+    
     /**
      * Grava os dados em ficheiro.
      *
