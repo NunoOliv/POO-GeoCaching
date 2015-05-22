@@ -626,11 +626,9 @@ public class Menu {
         int i = 1;
 
         return "***Operações com Caches***\n"
-                + i + "-Ver Caches\n"
-                + (++i) + "-Ver Detalhes Cache\n"
-                + (++i) + "-Criar Cache\n"
-                + (++i) + "-Editar Cache\n"
-                + (++i) + "-Remover Cache\n\n"
+                + i + "- Ver Caches\n"
+                + (++i) + "- Detalhes Cache\n"
+                + (++i) + "- Criar Cache\n"
                 + "0-Voltar";
     }
 
@@ -791,118 +789,431 @@ public class Menu {
             }
             clearScreen();
 
-            if (admin && sTes) {
-                switch (opcao) {
-                    case 1:
-                        out.println("Introduza a nova descrição da Cache:");
-                        if (core.setDescricaoCache(cache, in.nextLine())) {
-                            out.println("Descrição da Cache alterada com sucesso!");
-                        } else {
-                            out.println("Nao foi possivel alterar a descrição da cache!");
-                        }
-                        clearScreen();
-                        break;
-                    case 2:
-                        out.println("Tem a certeza que pretende remover a cache? (Insira SIM para remover)");
-                        if (in.nextLine().equals("SIM")) {
-                            core.remCache(cache);
-                            out.println("Cache Removida com sucesso");
-                        } else {
-                            out.println("Remoção da cache cancelada.");
-                        }
-                        clearScreen();
-                        break;
-                    case 3:
-                        while (true) {
-                            String aux;
-                            out.println("Pretende Assinar esta cache?(S/N))");
-                            if ((aux = in.nextLine()).equals("S")) {
-                                if (core.assinarCache(cache)) {
-                                    out.println("Cache assinada com sucesso!");
-                                } else {
-                                    out.println("Não foi possivel assinar a cache. Verifique se esta cache já se encontra assinada.");
-                                }
-                                break;
-                            } else if (aux.equals("N")) {
-                                out.println("Cache não foi assinada!");
-                                break;
+            if (admin) {
+                if (sTes) {
+                    switch (opcao) {
+                        case 1:
+                            out.println("Introduza a nova descrição da Cache:");
+                            if (core.setDescricaoCache(cache, in.nextLine())) {
+                                out.println("Descrição da Cache alterada com sucesso!");
                             } else {
+                                out.println("Nao foi possivel alterar a descrição da cache!");
+                            }
+                            clearScreen();
+                            break;
+                        case 2:
+                            out.println("Tem a certeza que pretende remover a cache? (Insira SIM para remover)");
+                            if (in.nextLine().equals("SIM")) {
+                                core.remCache(cache);
+                                out.println("Cache Removida com sucesso");
+                            } else {
+                                out.println("Remoção da cache cancelada.");
+                            }
+                            clearScreen();
+                            break;
+                        case 3:
+                            while (true) {
+                                String aux;
+                                out.println("Pretende Assinar esta cache?(S/N))");
+                                if ((aux = in.nextLine()).equals("S")) {
+                                    if (core.assinarCache(cache)) {
+                                        out.println("Cache assinada com sucesso!");
+                                    } else {
+                                        out.println("Não foi possivel assinar a cache. Verifique se esta cache já se encontra assinada.");
+                                    }
+                                    break;
+                                } else if (aux.equals("N")) {
+                                    out.println("Cache não foi assinada!");
+                                    break;
+                                } else {
+                                    out.println("Escolha uma opção valida!");
+                                }
+                            }
+                            clearScreen();
+                            break;
+                        case 4:
+                            mVerLista("assinantes", core.getListaAssinantes(cache));
+                            clearScreen();
+                            break;
+                        case 5:
+                            mVerLista("Tesouros", core.getListTesouros(cache));
+                            clearScreen();
+                            break;
+                        case 6:
+                            out.println("Insira o nome do tesouro.");
+                             {
+                                try {
+                                    if (core.addTesouro(in.nextLine(), cache)) {
+                                        out.println("Tesouro adicionado com sucesso!");
+                                    } else {
+                                        out.println("Não foi possivel adicionar o tesouro.");
+                                    }
+                                } catch (CacheNaoSuportaFuncionalidadeException ex) {
+                                    out.println(ex.getMessage());
+                                }
+                            }
+                            clearScreen();
+                            break;
+                        case 7:
+                            out.println("Insira o nome do tesouro.");
+                             {
+                                try {
+                                    if (core.takeTesouro(in.nextLine(), cache)) {
+                                        out.println("Tesouro removido com sucesso!");
+                                    } else {
+                                        out.println("Não foi possivel remover o tesouro.");
+                                    }
+                                } catch (CacheNaoSuportaFuncionalidadeException ex) {
+                                    out.println(ex.getMessage());
+                                }
+                            }
+                            clearScreen();
+                            break;
+
+                        case 8: {
+                            try {
+                                mVerLista("TravelBugs", core.getListBugs(cache));
+                            } catch (CacheNaoSuportaFuncionalidadeException ex) {
+                                out.println(ex.getMessage());
+                            }
+                        }
+                        clearScreen();
+                        break;
+
+                        case 9:
+                            out.println("Insira o nome do TravelBug.");
+                             {
+                                try {
+                                    if (core.addBug(in.nextLine(), cache)) {
+                                        out.println("TravelBug adicionado com sucesso!");
+                                    } else {
+                                        out.println("Não foi possivel adicionar o TravelBug.");
+                                    }
+                                } catch (CacheNaoSuportaFuncionalidadeException ex) {
+                                    out.println(ex.getMessage());
+                                }
+                            }
+                            clearScreen();
+                            break;
+                        case 10:
+                            out.println("Insira o nome do TravelBug.");
+                             {
+                                try {
+                                    if (core.takeBug(in.nextLine(), cache)) {
+                                        out.println("TravelBug removido com sucesso!");
+                                    } else {
+                                        out.println("Não foi possivel remover o TravelBug.");
+                                    }
+                                } catch (CacheNaoSuportaFuncionalidadeException ex) {
+                                    out.println(ex.getMessage());
+                                }
+                            }
+                            clearScreen();
+                            break;
+
+                        case 0:
+                            return;
+                        default:
+                            out.println("Escolha uma opção valida!");
+
+                    }
+                } else {
+                    if (sEventos) {
+                        switch (opcao) {
+                            case 1:
+                                out.println("Introduza a nova descrição da Cache:");
+                                if (core.setDescricaoCache(cache, in.nextLine())) {
+                                    out.println("Descrição da Cache alterada com sucesso!");
+                                } else {
+                                    out.println("Nao foi possivel alterar a descrição da cache!");
+                                }
+                                clearScreen();
+                                break;
+                            case 2:
+                                out.println("Tem a certeza que pretende remover a cache? (Insira SIM para remover)");
+                                if (in.nextLine().equals("SIM")) {
+                                    core.remCache(cache);
+                                    out.println("Cache Removida com sucesso");
+                                } else {
+                                    out.println("Remoção da cache cancelada.");
+                                }
+                                clearScreen();
+                                break;
+                            case 3:
+                                while (true) {
+                                    String aux;
+                                    out.println("Pretende Assinar esta cache?(S/N))");
+                                    if ((aux = in.nextLine()).equals("S")) {
+                                        if (core.assinarCache(cache)) {
+                                            out.println("Cache assinada com sucesso!");
+                                        } else {
+                                            out.println("Não foi possivel assinar a cache. Verifique se esta cache já se encontra assinada.");
+                                        }
+                                        break;
+                                    } else if (aux.equals("N")) {
+                                        out.println("Cache não foi assinada!");
+                                        break;
+                                    } else {
+                                        out.println("Escolha uma opção valida!");
+                                    }
+                                }
+                                clearScreen();
+                                break;
+                            case 4:
+                                mVerLista("assinantes", core.getListaAssinantes(cache));
+                                clearScreen();
+                                break;
+                            case 5: {
+                                try {
+                                    mVerLista("Organizadores", core.getListaOrg(cache));
+                                } catch (CacheNaoSuportaFuncionalidadeException ex) {
+                                    ex.getMessage();
+                                }
+                            }
+                            clearScreen();
+                            break;
+
+                            case 0:
+                                return;
+                            default:
                                 out.println("Escolha uma opção valida!");
-                            }
-                        }
-                        clearScreen();
-                        break;
-                    case 4:
-                        mVerLista("assinantes", core.getListaAssinantes(cache));
-                        clearScreen();
-                        break;
-                    case 5:
-                        mVerLista("Tesouros", core.getListTesouros(cache));
-                        clearScreen();
-                        break;
-                    case 6:
-                        out.println("Insira o nome do tesouro.");
-                         {
-                            try {
-                                if (core.addTesouro(in.nextLine(), cache)) {
-                                    out.println("Tesouro adicionado com sucesso!");
-                                } else {
-                                    out.println("Não foi possivel adicionar a cache.");
-                                }
-                            } catch (CacheNaoSuportaFuncionalidadeException ex) {
-                                out.println(ex.getMessage());
-                            }
-                        }
-                        clearScreen();
-                        break;
-                    case 7: 
-                        out.println("Insira o nome do tesouro.");
-                         {
-                            try {
-                                if (core.takeTesouro(in.nextLine(), cache)) {
-                                    out.println("Tesouro removido com sucesso!");
-                                } else {
-                                    out.println("Não foi possivel remover a cache.");
-                                }
-                            } catch (CacheNaoSuportaFuncionalidadeException ex) {
-                                out.println(ex.getMessage());
-                            }
-                        }
-                        clearScreen();
-                        break;
-                        
-                    case 8:
-                        
-                        
-                    case 0:
-                        return;
 
+                        }
+                    } else {
+                        switch (opcao) {
+                            case 1:
+                                out.println("Introduza a nova descrição da Cache:");
+                                if (core.setDescricaoCache(cache, in.nextLine())) {
+                                    out.println("Descrição da Cache alterada com sucesso!");
+                                } else {
+                                    out.println("Nao foi possivel alterar a descrição da cache!");
+                                }
+                                clearScreen();
+                                break;
+                            case 2:
+                                out.println("Tem a certeza que pretende remover a cache? (Insira SIM para remover)");
+                                if (in.nextLine().equals("SIM")) {
+                                    core.remCache(cache);
+                                    out.println("Cache Removida com sucesso");
+                                } else {
+                                    out.println("Remoção da cache cancelada.");
+                                }
+                                clearScreen();
+                                break;
+                            case 3:
+                                while (true) {
+                                    String aux;
+                                    out.println("Pretende Assinar esta cache?(S/N))");
+                                    if ((aux = in.nextLine()).equals("S")) {
+                                        if (core.assinarCache(cache)) {
+                                            out.println("Cache assinada com sucesso!");
+                                        } else {
+                                            out.println("Não foi possivel assinar a cache. Verifique se esta cache já se encontra assinada.");
+                                        }
+                                        break;
+                                    } else if (aux.equals("N")) {
+                                        out.println("Cache não foi assinada!");
+                                        break;
+                                    } else {
+                                        out.println("Escolha uma opção valida!");
+                                    }
+                                }
+                                clearScreen();
+                                break;
+                            case 4:
+                                mVerLista("assinantes", core.getListaAssinantes(cache));
+                                clearScreen();
+                                break;
+                            case 0:
+                                return;
+                            default:
+                                out.println("Escolha uma opção valida!");
+                        }
+                    }
                 }
-            }
+            } else {
+                if (sTes) {
+                    switch (opcao) {
+                        case 1:
+                            while (true) {
+                                String aux;
+                                out.println("Pretende Assinar esta cache?(S/N))");
+                                if ((aux = in.nextLine()).equals("S")) {
+                                    if (core.assinarCache(cache)) {
+                                        out.println("Cache assinada com sucesso!");
+                                    } else {
+                                        out.println("Não foi possivel assinar a cache. Verifique se esta cache já se encontra assinada.");
+                                    }
+                                    break;
+                                } else if (aux.equals("N")) {
+                                    out.println("Cache não foi assinada!");
+                                    break;
+                                } else {
+                                    out.println("Escolha uma opção valida!");
+                                }
+                            }
+                            clearScreen();
+                            break;
+                        case 2:
+                            mVerLista("assinantes", core.getListaAssinantes(cache));
+                            clearScreen();
+                            break;
+                        case 3:
+                            mVerLista("Tesouros", core.getListTesouros(cache));
+                            clearScreen();
+                            break;
+                        case 4:
+                            out.println("Insira o nome do tesouro.");
+                             {
+                                try {
+                                    if (core.addTesouro(in.nextLine(), cache)) {
+                                        out.println("Tesouro adicionado com sucesso!");
+                                    } else {
+                                        out.println("Não foi possivel adicionar o tesouro.");
+                                    }
+                                } catch (CacheNaoSuportaFuncionalidadeException ex) {
+                                    out.println(ex.getMessage());
+                                }
+                            }
+                            clearScreen();
+                            break;
+                        case 5:
+                            out.println("Insira o nome do tesouro.");
+                             {
+                                try {
+                                    if (core.takeTesouro(in.nextLine(), cache)) {
+                                        out.println("Tesouro removido com sucesso!");
+                                    } else {
+                                        out.println("Não foi possivel remover o tesouro.");
+                                    }
+                                } catch (CacheNaoSuportaFuncionalidadeException ex) {
+                                    out.println(ex.getMessage());
+                                }
+                            }
+                            clearScreen();
+                            break;
 
-            switch (opcao) {
-                case 1:
+                        case 6: {
+                            try {
+                                mVerLista("TravelBugs", core.getListBugs(cache));
+                            } catch (CacheNaoSuportaFuncionalidadeException ex) {
+                                out.println(ex.getMessage());
+                            }
+                        }
+                        clearScreen();
+                        break;
 
-                    clearScreen();
-                    break;
-                case 2:
+                        case 7:
+                            out.println("Insira o nome do TravelBug.");
+                             {
+                                try {
+                                    if (core.addBug(in.nextLine(), cache)) {
+                                        out.println("TravelBug adicionado com sucesso!");
+                                    } else {
+                                        out.println("Não foi possivel adicionar o TravelBug.");
+                                    }
+                                } catch (CacheNaoSuportaFuncionalidadeException ex) {
+                                    out.println(ex.getMessage());
+                                }
+                            }
+                            clearScreen();
+                            break;
+                        case 8:
+                            out.println("Insira o nome do TravelBug.");
+                             {
+                                try {
+                                    if (core.takeBug(in.nextLine(), cache)) {
+                                        out.println("TravelBug removido com sucesso!");
+                                    } else {
+                                        out.println("Não foi possivel remover o TravelBug.");
+                                    }
+                                } catch (CacheNaoSuportaFuncionalidadeException ex) {
+                                    out.println(ex.getMessage());
+                                }
+                            }
+                            clearScreen();
+                            break;
 
-                    clearScreen();
-                    break;
-                case 3:
+                        case 0:
+                            return;
 
-                    clearScreen();
-                    break;
-                case 4:
+                    }
+                } else {
+                    if (sEventos) {
+                        switch (opcao) {
+                            case 1:
+                                while (true) {
+                                    String aux;
+                                    out.println("Pretende Assinar esta cache?(S/N))");
+                                    if ((aux = in.nextLine()).equals("S")) {
+                                        if (core.assinarCache(cache)) {
+                                            out.println("Cache assinada com sucesso!");
+                                        } else {
+                                            out.println("Não foi possivel assinar a cache. Verifique se esta cache já se encontra assinada.");
+                                        }
+                                        break;
+                                    } else if (aux.equals("N")) {
+                                        out.println("Cache não foi assinada!");
+                                        break;
+                                    } else {
+                                        out.println("Escolha uma opção valida!");
+                                    }
+                                }
+                                clearScreen();
+                                break;
+                            case 2:
+                                mVerLista("assinantes", core.getListaAssinantes(cache));
+                                clearScreen();
+                                break;
+                            case 3: {
+                                try {
+                                    mVerLista("Organizadores", core.getListaOrg(cache));
+                                } catch (CacheNaoSuportaFuncionalidadeException ex) {
+                                    ex.getMessage();
+                                }
+                            }
+                            clearScreen();
+                            break;
 
-                    clearScreen();
-                    break;
-                case 5:
+                            case 0:
+                                return;
+                            default:
+                                out.println("Escolha uma opção valida!");
 
-                    clearScreen();
-                    break;
-                case 0:
-                    return;
+                        }
+                    } else {
+                        switch (opcao) {
+                            case 1:
+                                while (true) {
+                                    String aux;
+                                    out.println("Pretende Assinar esta cache?(S/N))");
+                                    if ((aux = in.nextLine()).equals("S")) {
+                                        if (core.assinarCache(cache)) {
+                                            out.println("Cache assinada com sucesso!");
+                                        } else {
+                                            out.println("Não foi possivel assinar a cache. Verifique se esta cache já se encontra assinada.");
+                                        }
+                                        break;
+                                    } else if (aux.equals("N")) {
+                                        out.println("Cache não foi assinada!");
+                                        break;
+                                    } else {
+                                        out.println("Escolha uma opção valida!");
+                                    }
+                                }
+                                clearScreen();
+                                break;
+                            case 2:
+                                mVerLista("assinantes", core.getListaAssinantes(cache));
+                                clearScreen();
+                                break;
+                            case 0:
+                                return;
+                            default:
+                                out.println("Escolha uma opção valida!");
+                        }
+                    }
+                }
 
             }
 

@@ -3,7 +3,6 @@ package Data;
 import Exceptions.CacheNaoSuportaFuncionalidadeException;
 import Exceptions.DificuldadeInvalidaException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -63,9 +62,12 @@ public class TradCache extends Cache {
     }
 
     public HashSet<String> getBugs() {
-        return bugs;
+        return new HashSet<> (bugs);
     }
-
+    /**
+     * 
+     * @return 
+     */
     public ArrayList<String> getListBugs() {
         ArrayList<String> ret = new ArrayList<>();
         for (String t : bugs) {
@@ -73,9 +75,13 @@ public class TradCache extends Cache {
         }
         return ret;
     }
-
+    
+    /**
+     * 
+     * @param bugs 
+     */
     public void setBugs(HashSet<String> bugs) {
-        this.bugs = bugs;
+        this.bugs = new HashSet<>(bugs);
     }
 
     /**

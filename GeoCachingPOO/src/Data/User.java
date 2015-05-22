@@ -24,9 +24,10 @@ public class User implements Serializable{
     private String genero;
     private String morada;
     private LocalDate dn;
-    private HashMap<String, User> amigos;
-    private HashMap<String, User> pedidosAmigo; //users q querem ser amigos deste.
-    private HashSet<Atividade> ativs;
+    private int totalPontos = 0;
+    private final HashMap<String, User> amigos;
+    private final HashMap<String, User> pedidosAmigo; //users q querem ser amigos deste.
+    private final HashSet<Atividade> ativs;
 
     public User(String mail, String pw, String nome, String genero, String morada, LocalDate dn) {
         this.mail = mail;
@@ -51,7 +52,29 @@ public class User implements Serializable{
         this.pedidosAmigo = u.clonePedidos();
         this.ativs = u.cloneAtividades();
     }
-
+    /**
+     * 
+     * @return total de Pontos
+     */
+    public int getTotalPontos() {
+        return totalPontos;
+    }
+    /**
+     * 
+     * @param TotalPontos 
+     */
+    public void setTotalPontos(int TotalPontos) {
+        this.totalPontos = TotalPontos;
+    }
+    
+    /**
+     * Adiciona um valor à pontuação total.
+     * @param pontos Pontos a adicionar.
+     */
+    public void addPontos(int pontos) {
+        totalPontos+= pontos;
+    }
+    
     /**
      * @return the mail
      */

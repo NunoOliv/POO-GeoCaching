@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  *
  * @author Nuno
  */
-public class CacheList implements Serializable{
+public class CacheList implements Serializable {
 
     private HashMap<String, Cache> caches;
     private TravelBugL bugs;
@@ -64,20 +64,22 @@ public class CacheList implements Serializable{
 
         return ret;
     }
-    
+
     /**
-     * Verifica se existe uma cache com uma dada referencia 
-     * 
+     * Verifica se existe uma cache com uma dada referencia
+     *
      * @param ref Referencia da cache
-     * @return 
+     * @return
      */
-    public boolean containsCache(String ref){
+    public boolean containsCache(String ref) {
         return caches.containsKey(ref);
     }
-    
+
     public boolean setDescricaoCache(String cache, String desc) {
         Cache tempC;
-        if (!caches.containsKey(cache)) return false;
+        if (!caches.containsKey(cache)) {
+            return false;
+        }
         tempC = caches.get(cache);
         tempC.setDescricao(desc);
         return true;
@@ -86,12 +88,15 @@ public class CacheList implements Serializable{
     public boolean assinarCache(String cache, String user) {
         if (this.containsCache(cache)) {
             return caches.get(cache).addAssinante(user);
-        } else return false;
+        } else {
+            return false;
+        }
     }
-    
+
     /*
      * *****************************************
-     * Operações com detalhes de Cache ****************************************
+     * Operações com detalhes de Cache 
+     * ***************************************
      */
     public String getDetalhesCache(String cache) {
 
@@ -109,9 +114,9 @@ public class CacheList implements Serializable{
 
     /*
      * *****************************************
-     * Operações com assinantes ****************************************
+     * Operações com assinantes 
+     * *****************************************S
      */
-    
     public HashSet<String> getListaAssinantes(String cache) {
         return this.getCache(cache).listaAssinantes();
     }
@@ -131,10 +136,10 @@ public class CacheList implements Serializable{
     /**
      * *****************************************
      * Operações com dificuldades 
-     ****************************************
+     * *****************************************
      */
     public void setDificuldade(int dif, String cache) throws DificuldadeInvalidaException {
-        this.getCache(cache).setDificuldade(dif);
+        this.caches.get(cache).setDificuldade(dif);
     }
 
     public int getDificuldade(String cache) {
@@ -153,26 +158,27 @@ public class CacheList implements Serializable{
     public void setCoords(String cache, Coords coords) {
         this.getCache(cache).setCoords(coords);
     }
-    
+
     /*
      * *****************************************
      * Operações com criadores
      * ******************************************
      */
-    
     /**
      * Retorna a String correspondente ao criador da cache.
+     *
      * @param cache Identificador da cache.
      * @return Identificador do criador da cache.
      */
     public String getCriador(String cache) {
         return this.getCache(cache).getCreator();
     }
-    
+
     /**
      * Verifica se um utilizador é o criador de uma cache.
+     *
      * @param cache Identificador da cache.
-     * @param nome  Identificador do utilizador.
+     * @param nome Identificador do utilizador.
      * @return Verdade se for o criador, false caso contrário.
      */
     public boolean isCriador(String cache, String nome) {
@@ -184,8 +190,6 @@ public class CacheList implements Serializable{
      * Operações com tesouros 
      ****************************************
      */
-    
-    
     public ArrayList<String> getListTesouros(String tradCache) throws CacheNaoSuportaFuncionalidadeException {
         if (this.getCache(tradCache) instanceof TradCache) {
             return ((TradCache) this.getCache(tradCache)).getListTesouros();
@@ -211,7 +215,7 @@ public class CacheList implements Serializable{
             throw new CacheNaoSuportaFuncionalidadeException("Tesouros");
         }
     }
-    
+
     public boolean suportaTesouros(String cache) {
         return (caches.get(cache) instanceof TradCache);
     }
@@ -220,35 +224,59 @@ public class CacheList implements Serializable{
      * Operações com TravelBugs 
      * ****************************************
      */
-    
-    
+
     public ArrayList<String> getListBugs(String tradCache) throws CacheNaoSuportaFuncionalidadeException {
         if (this.getCache(tradCache) instanceof TradCache) {
-            return (this.getCache(tradCache)).getListBugs();
+            return ((TradCache) this.getCache(tradCache)).getListBugs();
         } else {
             throw new CacheNaoSuportaFuncionalidadeException("TravelBugs");
         }
 
     }
 
-    public boolean addBug(TravelBug bug, String tradCache) throws CacheNaoSuportaFuncionalidadeException {
-
+    public boolean addBug(String bug, String tradCache) throws CacheNaoSuportaFuncionalidadeException {
+        TradCache c;
         if (this.getCache(tradCache) instanceof TradCache) {
-            if (((TradCache)this.getCache(tradCache)).containsBug(bug.getDescricao()))
-            return ((TradCache) this.getCache(tradCache)).putBug(bug);
+            c = (TradCache) this.caches.get(tradCache);
+            if (bugs.containsBug(bug)) {
+                if (!c.containsBug(bug)) {
+                    bugs.addCacheRec(bug, tradCache);
+                    return (c.putBug(bug));
+                } else {
+                    return false;
+                }
+            } else {
+                if (!c.containsBug(bug)) {
+                    bugs.newTB(bug);
+                    bugs.addCacheRec(bug, tradCache);
+                    return (c.putBug(bug));
+                } else {
+                    return false;
+                }
+            }
         } else {
             throw new CacheNaoSuportaFuncionalidadeException("TravelBugs");
         }
     }
 
-    
     public boolean takeBug(String bug, String tradCache) throws CacheNaoSuportaFuncionalidadeException {
-
+        TradCache c;
         if (this.getCache(tradCache) instanceof TradCache) {
-            return ((TradCache) this.getCache(tradCache)).takeBug(bug);
+            c = (TradCache) this.caches.get(tradCache);
+            if (bugs.containsBug(bug)) {
+                if (c.containsBug(bug)) {
+                    bugs.takeFromCache(bug, tradCache);
+                    return (c.takeBug(bug));
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
         } else {
             throw new CacheNaoSuportaFuncionalidadeException("TravelBugs");
         }
+
     }
 
     /*
@@ -256,8 +284,6 @@ public class CacheList implements Serializable{
      * Operações com pontos intermedios 
      * ***************************************
      */
-    
-    
     public HashMap<Integer, Coords> getPontosIntermedios(String cache) throws CacheNaoSuportaFuncionalidadeException {
         if (this.getCache(cache) instanceof MultiCache) {
             return ((MultiCache) this.getCache(cache)).getPontosIntermedios();
@@ -279,9 +305,6 @@ public class CacheList implements Serializable{
      * Operações com pontos Extra 
      * ***************************************
      */
-    
-    
-    
     public int getPontosExtra(String cache) {
         return this.getCache(cache).getPontosExtra();
     }
@@ -295,8 +318,6 @@ public class CacheList implements Serializable{
      * Operações com organizadores 
      * ***************************************
      */
-    
-    
     public ArrayList<String> getListaOrg(String cache) throws CacheNaoSuportaFuncionalidadeException {
 
         if (this.getCache(cache) instanceof CacheEvento) {
@@ -327,8 +348,6 @@ public class CacheList implements Serializable{
      * Operações com data eventos 
      * ***************************************
      */
-    
-    
     public GregorianCalendar getDataEvento(String cache) throws CacheNaoSuportaFuncionalidadeException {
         if (this.getCache(cache) instanceof CacheEvento) {
             return ((CacheEvento) this.getCache(cache)).getDataEvento();
@@ -344,7 +363,7 @@ public class CacheList implements Serializable{
             throw new CacheNaoSuportaFuncionalidadeException("Eventos");
         }
     }
-    
+
     public boolean suportaEventos(String cache) {
         return (caches.get(cache) instanceof CacheEvento);
     }
@@ -354,8 +373,6 @@ public class CacheList implements Serializable{
      * Operações com descrição de puzzles
      * ******************************************
      */
-    
-
     public String getPuzzle(String cache) throws CacheNaoSuportaFuncionalidadeException {
         if (this.getCache(cache) instanceof CacheMisterio) {
             return ((CacheMisterio) this.getCache(cache)).getDescPuzzle();
@@ -363,7 +380,6 @@ public class CacheList implements Serializable{
             throw new CacheNaoSuportaFuncionalidadeException("Puzzles");
         }
     }
-
 
     public void setPuzzle(String cache, String puzzle) throws CacheNaoSuportaFuncionalidadeException {
         if (this.getCache(cache) instanceof CacheMisterio) {
@@ -378,8 +394,6 @@ public class CacheList implements Serializable{
      * Cache Tradicional 
      * **********************************************************
      */
-    
-
     public boolean addTradCache(String ref, Coords coords, String creator, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         TradCache nCache = new TradCache(ref, coords, creator, assinantes, descricao, dificuldade);
         if (!caches.containsKey(ref)) {
@@ -389,7 +403,6 @@ public class CacheList implements Serializable{
         }
         return true;
     }
-
 
     public boolean addTradCache(String ref, Coords coords, String creator, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         TradCache nCache = new TradCache(ref, coords, creator, descricao, dificuldade);
@@ -401,7 +414,6 @@ public class CacheList implements Serializable{
         return true;
     }
 
-
     public boolean addTradCache(String ref, HashSet<String> tesouros, HashSet<String> bugs, Coords coords, String creator, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
         TradCache nCache = new TradCache(ref, tesouros, bugs, coords, creator, Assinantes, Descricao, dificuldade);
         if (!caches.containsKey(ref)) {
@@ -412,7 +424,6 @@ public class CacheList implements Serializable{
         return true;
     }
 
-
     public boolean addTradCache(TradCache t) {
         if (!caches.containsKey(t.getRef())) {
             caches.put(t.getRef(), t);
@@ -422,16 +433,11 @@ public class CacheList implements Serializable{
         return true;
     }
 
-
-    
-
     /*
      * **********************************************************
      * Cache Evento 
      * **********************************************************
      */
-    
-
     public boolean addCacheEvento(String ref, HashSet<String> organizadores, GregorianCalendar dataEvento, int pontosExtra, Coords coords, String creator, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         if (!caches.containsKey(ref)) {
             caches.put(ref, new CacheEvento(ref, organizadores, dataEvento, pontosExtra, coords, creator, descricao, dificuldade));
@@ -441,7 +447,6 @@ public class CacheList implements Serializable{
         return true;
     }
 
-
     public boolean addCacheEvento(String ref, Coords coords, String creator, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         if (!caches.containsKey(ref)) {
             caches.put(ref, new CacheEvento(ref, coords, creator, assinantes, descricao, dificuldade));
@@ -450,7 +455,6 @@ public class CacheList implements Serializable{
         }
         return true;
     }
-
 
     public boolean addCacheEvento(String ref, Coords coords, String creator, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         if (!caches.containsKey(ref)) {
@@ -475,8 +479,6 @@ public class CacheList implements Serializable{
      * Cache Mistério 
      * **********************************************************
      */
-    
-    
     public boolean addCacheMisterio(String ref, String DescPuzzle, int pontosExtra, Coords coords, String creator, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         if (!caches.containsKey(ref)) {
             caches.put(ref, new CacheMisterio(ref, DescPuzzle, pontosExtra, coords, creator, descricao, dificuldade));
@@ -486,7 +488,6 @@ public class CacheList implements Serializable{
         return true;
     }
 
-
     public boolean addCacheMisterio(CacheMisterio c) throws DificuldadeInvalidaException {
         if (!caches.containsKey(c.getRef())) {
             caches.put(c.getRef(), c);
@@ -495,7 +496,6 @@ public class CacheList implements Serializable{
         }
         return true;
     }
-
 
     public boolean addCacheMisterio(String ref, String DescPuzzle, int pontosExtra, HashSet<String> tesouros, HashSet<String> bugs, Coords coords, String creator, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
         if (!caches.containsKey(ref)) {
@@ -512,8 +512,6 @@ public class CacheList implements Serializable{
      * Micro-Cache 
      * **********************************************************
      */
-    
-
     public boolean addMicroCache(String ref, Coords coords, String creator, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         if (!caches.containsKey(ref)) {
             caches.put(ref, new MicroCache(ref, coords, creator, assinantes, descricao, dificuldade));
@@ -523,7 +521,6 @@ public class CacheList implements Serializable{
         return true;
     }
 
-
     public boolean addMicroCache(String ref, Coords coords, String creator, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         if (!caches.containsKey(ref)) {
             caches.put(ref, new MicroCache(ref, coords, creator, descricao, dificuldade));
@@ -532,7 +529,6 @@ public class CacheList implements Serializable{
         }
         return true;
     }
-
 
     public boolean addMicroCache(MicroCache m) throws DificuldadeInvalidaException {
         if (!caches.containsKey(m.getRef())) {
@@ -549,17 +545,14 @@ public class CacheList implements Serializable{
      * Multi Cache 
      * **********************************************************
      */
-    
-
     public boolean MultiCache(String ref, Coords coords, String creator, String descricao, HashMap<Integer, Coords> pontosIntermedios, int dificuldade, int pontosExtra) throws DificuldadeInvalidaException {
         if (!caches.containsKey(ref)) {
-            caches.put(ref, new MultiCache(ref, coords, creator, descricao, pontosIntermedios, dificuldade,pontosExtra));
+            caches.put(ref, new MultiCache(ref, coords, creator, descricao, pontosIntermedios, dificuldade, pontosExtra));
         } else {
             return false;
         }
         return true;
     }
-
 
     public boolean addMultiCache(String ref, int pontosExtra, HashMap<Integer, Coords> pontosIntermedios, HashSet<String> tesouros, HashSet<String> bugs, Coords coords, String creator, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException, PontosExtraInvalidosException {
         if (!caches.containsKey(ref)) {
@@ -570,7 +563,6 @@ public class CacheList implements Serializable{
         return true;
     }
 
-
     public boolean addMultiCache(MultiCache c) {
         if (!caches.containsKey(c.getRef())) {
             caches.put(c.getRef(), c);
@@ -579,7 +571,7 @@ public class CacheList implements Serializable{
         }
         return true;
     }
-    
+
     public boolean remCache(String t) {
         if (caches.containsKey(t)) {
             caches.remove(t);
@@ -589,4 +581,3 @@ public class CacheList implements Serializable{
         return true;
     }
 }
-

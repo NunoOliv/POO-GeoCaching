@@ -47,5 +47,9 @@ public class TravelBugL {
         bugs.get(bug).setCurrentCache(null);
     }
     
+    public boolean containsBug(String bug) {
+        return bugs.containsKey(bug);
+    }
+    
     
 }

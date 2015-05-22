@@ -340,7 +340,11 @@ public class Core implements Serializable {
      * @throws DificuldadeInvalidaException
      */
     public boolean addTradCache(String ref, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException {
-        return cacheL.addTradCache(ref, coords, sessao.getMail(), descricao, dificuldade);
+        boolean add = cacheL.addTradCache(ref, coords, sessao.getMail(), descricao, dificuldade);
+        if(add) {
+            
+        }
+        return add;
     }
 
     /**
@@ -516,6 +520,21 @@ public class Core implements Serializable {
         return cacheL.takeTesouro(tesouro, cache);
     }
     
+    public ArrayList<String> getListBugs(String tradCache) throws CacheNaoSuportaFuncionalidadeException {
+        return  cacheL.getListBugs(tradCache);
+    }
+    
+    public boolean addBug(String bug, String tradCache) throws CacheNaoSuportaFuncionalidadeException {
+        return cacheL.addBug(bug, tradCache);
+    }
+    
+    public boolean takeBug(String bug, String tradCache) throws CacheNaoSuportaFuncionalidadeException {
+        return cacheL.takeBug(bug, tradCache);
+    }
+    
+     public ArrayList<String> getListaOrg(String cache) throws CacheNaoSuportaFuncionalidadeException {
+          return cacheL.getListaOrg(cache);
+     }
     /**
      * Grava os dados em ficheiro.
      *
