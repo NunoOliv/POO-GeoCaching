@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import Exceptions.*;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
 
 /**
@@ -165,15 +164,6 @@ public class User implements Serializable{
      */
     public void setDn(LocalDate dn) {
         this.dn = dn;
-    }
-
-    /**
-     * Clona a lista de atividades e devolve-a.
-     *
-     * @return Clone da lista de atividades
-     */
-    public HashSet getAtividades() {
-        return cloneAtividades();
     }
 
     /**

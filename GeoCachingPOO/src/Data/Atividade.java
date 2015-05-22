@@ -10,11 +10,13 @@ import java.util.GregorianCalendar;
  * @author Nuno Oliveira
  * @author Rui Pereira
  */
-class Atividade implements Serializable {
+class Atividade implements Serializable, Comparable<Atividade> {
+    
+    GregorianCalendar date;
 
-    private final String atividade;
+    private String atividade;
 
-    public Atividade(int code) {
+    public Atividade() {
         atividade = null;
     }
 
@@ -41,11 +43,34 @@ class Atividade implements Serializable {
                 throw new TipoDeCacheNaoExisteException();
 
         }
-        ret += ", com a referencia " + ref + " e ganhou " + pontos + "pontos, no dia: "+ date.;
+        ret += ", com a referencia " + ref + " e ganhou " + pontos + "pontos, no dia: "+ date;
+        atividade = ret;
+        this.date = date;
         return ret;
     }
 
     public String getActividade() {
         return atividade;
     }
+
+    public GregorianCalendar getDate() {
+        return date;
+    }
+    
+    
+
+    @Override
+    public String toString() {
+        return atividade;
+    }
+
+    @Override
+    public int compareTo(Atividade o) {
+        GregorianCalendar d1, d2;
+       Atividade a1 = this, a2 = o;
+       d1 = a1.getDate();
+       d2 = a2.getDate();
+       return d1.compareTo(d2);
+    }
+    
 }

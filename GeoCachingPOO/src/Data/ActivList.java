@@ -3,7 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package Data;
 
+import Exceptions.TipoDeCacheNaoExisteException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
@@ -13,23 +17,29 @@ import java.util.HashMap;
  */
 public class ActivList {
     
-    private HashMap<String, Atividade> actividades;
+    private final HashMap<String, Atividade> atividades;
 
-    public ActivList(HashMap<String, Atividade> actividades) {
-        this.actividades = actividades;
+    public ActivList(HashMap<String, Atividade> atividades) {
+        this.atividades = new HashMap<>(atividades);
     }
 
     public ActivList() {
-        this.actividades = new HashMap<>();
+        this.atividades = new HashMap<>();
     }
     
-    public String addActividade(int cache, String ref, String user, int pontos) {
+    public String addActividade(int cache, String ref, String user, int pontos) throws TipoDeCacheNaoExisteException {
         GregorianCalendar date = new GregorianCalendar();
         Atividade act = new Atividade();
         
-        act.addCache(int cache, String ref, String user, int pontos, GregorianCalendar date);
+        act.addCache(cache, ref, user, pontos, date);
         
-        
+        return act.toString();
     }
     
+    public ArrayList<String> getAtividades() {
+        ArrayList<Atividade> aux = new ArrayList<>(atividades.values());
+        ArrayList<String> ret = new ArrayList<>();
+        Collections.sort(aux, );
+        return ret;
+    }
 }
