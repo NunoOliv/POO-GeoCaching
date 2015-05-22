@@ -2,6 +2,7 @@ package Data;
 
 import Exceptions.TipoDeCacheNaoExisteException;
 import java.io.Serializable;
+import java.util.GregorianCalendar;
 
 /**
  *
@@ -17,7 +18,7 @@ class Atividade implements Serializable {
         atividade = null;
     }
 
-    public String addCache(int cache, String ref, String user, int pontos) throws TipoDeCacheNaoExisteException {
+    public String addCache(int cache, String ref, String user, int pontos, GregorianCalendar date) throws TipoDeCacheNaoExisteException {
         String ret;
         ret = user + " criou uma ";
         switch (cache) {
@@ -40,7 +41,7 @@ class Atividade implements Serializable {
                 throw new TipoDeCacheNaoExisteException();
 
         }
-        ret += ", com a referencia " + ref + " e ganhou " + pontos + "pontos";
+        ret += ", com a referencia " + ref + " e ganhou " + pontos + "pontos, no dia: "+ date.;
         return ret;
     }
 

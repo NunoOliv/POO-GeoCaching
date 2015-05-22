@@ -7,8 +7,6 @@ import Exceptions.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -27,7 +25,7 @@ public class User implements Serializable{
     private int totalPontos = 0;
     private final HashMap<String, User> amigos;
     private final HashMap<String, User> pedidosAmigo; //users q querem ser amigos deste.
-    private final HashSet<Atividade> ativs;
+    //private final HashSet<Atividade> ativs;
 
     public User(String mail, String pw, String nome, String genero, String morada, LocalDate dn) {
         this.mail = mail;
@@ -38,7 +36,7 @@ public class User implements Serializable{
         this.dn = dn;
         this.amigos = new HashMap<>();
         this.pedidosAmigo = new HashMap<>();
-        this.ativs = new HashSet<>();
+        //this.ativs = new HashSet<>();
     }
 
     public User(User u) {
@@ -50,7 +48,7 @@ public class User implements Serializable{
         this.dn = u.getDn();
         this.amigos = u.cloneAmigos();
         this.pedidosAmigo = u.clonePedidos();
-        this.ativs = u.cloneAtividades();
+        //this.ativs = u.cloneAtividades();
     }
     /**
      * 
@@ -348,19 +346,7 @@ public class User implements Serializable{
     public HashMap verPedidosAmizade() {
         return clonePedidos();
     }
-
-    /**
-     * Adiciona uma adividade ao utilizador.
-     *
-     * @param a Atividade a adicionar.
-     * @throws AtividadeNaoExisteException
-     */
-    public void addAtividade(Atividade a) throws AtividadeNaoExisteException {
-        if (a == null) {
-            throw new AtividadeNaoExisteException();
-        }
-        this.ativs.add(a);
-    }
+   
 
     /**
      * Testa de um objecto dado, é igual a uma instância de User.
@@ -399,9 +385,7 @@ public class User implements Serializable{
             if (!u.verPedidosAmizade().equals(this.pedidosAmigo.keySet())) {
                 return false;
             }
-            if (!u.getAtividades().equals(this.ativs)) {
-                return false;
-            }
+            
         } else {
             return false;
         }
@@ -439,13 +423,7 @@ public class User implements Serializable{
      *
      * @return Lista de atividades clonadas.
      */
-    public HashSet cloneAtividades() {
-        HashSet<Atividade> r = new HashSet<>();
-        for (Atividade a : ativs) {
-            r.add(a);
-        }
-        return r;
-    }
+    
 
     @Override
     public int hashCode() {
@@ -458,7 +436,7 @@ public class User implements Serializable{
         hash = 89 * hash + Objects.hashCode(this.dn);
         hash = 89 * hash + Objects.hashCode(this.amigos);
         hash = 89 * hash + Objects.hashCode(this.pedidosAmigo);
-        hash = 89 * hash + Objects.hashCode(this.ativs);
+        
         return hash;
     }
 
@@ -469,8 +447,7 @@ public class User implements Serializable{
                 "\nGenero: "+this.genero+
                 "\nMorada: "+this.morada+
                 "\nData de Nascimento: "+this.dn.toString()+
-                "\nAmigos: "+this.amigos.keySet().toString()+
-                "\nAtividades: "+this.ativs.toString();
+                "\nAmigos: "+this.amigos.keySet().toString();
                 
     }
 
