@@ -1305,6 +1305,10 @@ public class Menu {
         while (true) {
             out.println("Escolha a referencia da cache:");
             ref = in.nextLine();
+            if (ref.equals("")) {
+                out.println("Introduza um valor valido!");
+                continue;
+            }
             if (core.containsCache(ref)) {
                 out.println("Já Existe uma cache com essa referencia.");
                 continue;
@@ -1374,6 +1378,10 @@ public class Menu {
         while (true) {
             out.println("Escolha a referencia da cache:");
             ref = in.nextLine();
+            if (ref.equals("")) {
+                out.println("Introduza um valor valido!");
+                continue;
+            }
             if (core.containsCache(ref)) {
                 out.println("Já Existe uma cache com essa referencia.");
                 continue;
@@ -1442,6 +1450,10 @@ public class Menu {
         while (true) {
             out.println("Escolha a referencia da cache:");
             ref = in.nextLine();
+            if (ref.equals("")) {
+                out.println("Introduza um valor valido!");
+                continue;
+            }
             if (core.containsCache(ref)) {
                 out.println("Já Existe uma cache com essa referencia.");
                 continue;
@@ -1517,12 +1529,16 @@ public class Menu {
         Coords coords;
         HashMap<Integer, Coords> coordList = new HashMap<>();
 
-        out.println("Cache Mistério"
+        out.println("MultiCache"
                 + "/n");
 
         while (true) {
             out.println("Escolha a referencia da cache:");
             ref = in.nextLine();
+            if (ref.equals("")) {
+                out.println("Introduza um valor valido!");
+                continue;
+            }
             if (core.containsCache(ref)) {
                 out.println("Já Existe uma cache com essa referencia.");
                 continue;
@@ -1635,12 +1651,16 @@ public class Menu {
         HashSet<String> orgList = new HashSet<>();
         GregorianCalendar eDate;
 
-        out.println("Cache Mistério"
+        out.println("Cache Evento"
                 + "/n");
 
         while (true) {
             out.println("Escolha a referencia da cache:");
             ref = in.nextLine();
+            if (ref.equals("")) {
+                out.println("Introduza um valor valido!");
+                continue;
+            }
             if (core.containsCache(ref)) {
                 out.println("Já Existe uma cache com essa referencia.");
                 continue;
