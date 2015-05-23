@@ -135,7 +135,7 @@ public class Core implements Serializable {
         if (mail.equals("")) {
             throw new EmailInvalidoException();
         }
-        if (!mail.matches("[a-z]+@[a-z]+\\.[a-z]+")) {
+        if (!mail.matches("[\\w\\d\\._]+@[\\w\\d\\.]*[\\w\\d]\\.[\\w]+")) {
             throw new EmailInvalidoException();
         }
     }
