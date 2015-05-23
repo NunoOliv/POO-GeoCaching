@@ -160,7 +160,8 @@ public class Menu {
             out.println("2-Alterar informações de conta");
             out.println("3-Ver ou alterar Caches");
             out.println("4-Amigos");
-            out.println("5-Guardar");
+            out.println("5-Atividades Realizadas");
+            out.println("6-Guardar");
             out.println("0-Sair");
             out.println();
 
@@ -198,6 +199,9 @@ public class Menu {
                     menuAmigos();
                     break;
                 case (5):
+                    menuAtividades();
+                    break;
+                case (6):
                     core.guardar(this.ficheiro);
                     in.nextLine();
                     clearScreen();
@@ -219,6 +223,7 @@ public class Menu {
         out.println("Género: " + u.getGenero());
         out.println("Morada: " + u.getMorada());
         out.println("Data de Nascimento: " + u.getDn().toString());
+        out.println("Pontos : " + u.getTotalPontos());
         in.nextLine();
         clearScreen();
     }
@@ -468,7 +473,6 @@ public class Menu {
             out.println("2-Ver lista de pedidos de amizade");
             out.println("3-Adicionar amigo");
             out.println("4-Aceitar pedido de amizade");
-            out.println("5-Ver atividades recentes de um amigo WIP"); //FALTA
             out.println("0-Voltar");
             out.println();
 
@@ -482,7 +486,7 @@ public class Menu {
                 continue;
             }
 
-            if (opcao > 5 || opcao < 0) {
+            if (opcao > 4 || opcao < 0) {
                 out.println("Intruduza uma opção válida!");
                 in.nextLine();
                 clearScreen();
@@ -505,8 +509,7 @@ public class Menu {
                 case (4):
                     aceitarAmigo();
                     break;
-                case (5):
-                    break;
+                
 
             }
         }
@@ -710,12 +713,6 @@ public class Menu {
                 case (3):
                     criarCache();
                     break;
-                case (4):
-
-                    break;
-                case (5):
-                    removeCache();
-                    break;
                 default:
                     out.println("Intruduza uma opção válida!");
                     in.nextLine();
@@ -758,7 +755,7 @@ public class Menu {
         boolean admin = false, sTes = false, sEventos = false;
 
         while (true) {
-            if (admin = core.getInfo().getMail().equals(core.isCriador(cache))) {
+            if (admin = core.getInfo().getMail().equals(core.getCriadorCache(cache))) {
                 out.println("Operações (administrador):\n");
                 out.println(++i + "- Alterar Descrição da Cache\n"
                         + ++i + "- Remover Cache\n");
@@ -816,10 +813,14 @@ public class Menu {
                                 String aux;
                                 out.println("Pretende Assinar esta cache?(S/N))");
                                 if ((aux = in.nextLine()).equals("S")) {
-                                    if (core.assinarCache(cache)) {
-                                        out.println("Cache assinada com sucesso!");
-                                    } else {
-                                        out.println("Não foi possivel assinar a cache. Verifique se esta cache já se encontra assinada.");
+                                    try {
+                                        if (core.assinarCache(cache)) {
+                                            out.println("Cache assinada com sucesso!");
+                                        } else {
+                                            out.println("Não foi possivel assinar a cache. Verifique se esta cache já se encontra assinada.");
+                                        }
+                                    } catch (CacheNaoExisteException ex) {
+                                        out.println(ex.getMessage());
                                     }
                                     break;
                                 } else if (aux.equals("N")) {
@@ -944,12 +945,16 @@ public class Menu {
                                     String aux;
                                     out.println("Pretende Assinar esta cache?(S/N))");
                                     if ((aux = in.nextLine()).equals("S")) {
-                                        if (core.assinarCache(cache)) {
-                                            out.println("Cache assinada com sucesso!");
-                                        } else {
-                                            out.println("Não foi possivel assinar a cache. Verifique se esta cache já se encontra assinada.");
+                                        try {
+                                            if (core.assinarCache(cache)) {
+                                                out.println("Cache assinada com sucesso!");
+                                            } else {
+                                                out.println("Não foi possivel assinar a cache. Verifique se esta cache já se encontra assinada.");
+                                            }
+                                            break;
+                                        } catch (CacheNaoExisteException ex) {
+                                            out.println(ex.getMessage());
                                         }
-                                        break;
                                     } else if (aux.equals("N")) {
                                         out.println("Cache não foi assinada!");
                                         break;
@@ -1005,10 +1010,14 @@ public class Menu {
                                     String aux;
                                     out.println("Pretende Assinar esta cache?(S/N))");
                                     if ((aux = in.nextLine()).equals("S")) {
-                                        if (core.assinarCache(cache)) {
-                                            out.println("Cache assinada com sucesso!");
-                                        } else {
-                                            out.println("Não foi possivel assinar a cache. Verifique se esta cache já se encontra assinada.");
+                                        try {
+                                            if (core.assinarCache(cache)) {
+                                                out.println("Cache assinada com sucesso!");
+                                            } else {
+                                                out.println("Não foi possivel assinar a cache. Verifique se esta cache já se encontra assinada.");
+                                            }
+                                        } catch (CacheNaoExisteException ex) {
+                                            out.println(ex.getMessage());
                                         }
                                         break;
                                     } else if (aux.equals("N")) {
@@ -1039,10 +1048,14 @@ public class Menu {
                                 String aux;
                                 out.println("Pretende Assinar esta cache?(S/N))");
                                 if ((aux = in.nextLine()).equals("S")) {
-                                    if (core.assinarCache(cache)) {
-                                        out.println("Cache assinada com sucesso!");
-                                    } else {
-                                        out.println("Não foi possivel assinar a cache. Verifique se esta cache já se encontra assinada.");
+                                    try {
+                                        if (core.assinarCache(cache)) {
+                                            out.println("Cache assinada com sucesso!");
+                                        } else {
+                                            out.println("Não foi possivel assinar a cache. Verifique se esta cache já se encontra assinada.");
+                                        }
+                                    } catch (CacheNaoExisteException ex) {
+                                        out.println(ex.getMessage());
                                     }
                                     break;
                                 } else if (aux.equals("N")) {
@@ -1146,10 +1159,14 @@ public class Menu {
                                     String aux;
                                     out.println("Pretende Assinar esta cache?(S/N))");
                                     if ((aux = in.nextLine()).equals("S")) {
-                                        if (core.assinarCache(cache)) {
-                                            out.println("Cache assinada com sucesso!");
-                                        } else {
-                                            out.println("Não foi possivel assinar a cache. Verifique se esta cache já se encontra assinada.");
+                                        try {
+                                            if (core.assinarCache(cache)) {
+                                                out.println("Cache assinada com sucesso!");
+                                            } else {
+                                                out.println("Não foi possivel assinar a cache. Verifique se esta cache já se encontra assinada.");
+                                            }
+                                        } catch (CacheNaoExisteException ex) {
+                                            out.println(ex.getMessage());
                                         }
                                         break;
                                     } else if (aux.equals("N")) {
@@ -1188,10 +1205,14 @@ public class Menu {
                                     String aux;
                                     out.println("Pretende Assinar esta cache?(S/N))");
                                     if ((aux = in.nextLine()).equals("S")) {
-                                        if (core.assinarCache(cache)) {
-                                            out.println("Cache assinada com sucesso!");
-                                        } else {
-                                            out.println("Não foi possivel assinar a cache. Verifique se esta cache já se encontra assinada.");
+                                        try {
+                                            if (core.assinarCache(cache)) {
+                                                out.println("Cache assinada com sucesso!");
+                                            } else {
+                                                out.println("Não foi possivel assinar a cache. Verifique se esta cache já se encontra assinada.");
+                                            }
+                                        } catch (CacheNaoExisteException ex) {
+                                            out.println(ex.getMessage());
                                         }
                                         break;
                                     } else if (aux.equals("N")) {
@@ -1735,8 +1756,62 @@ public class Menu {
         }
     }
 
-    private void removeCache() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void menuAtividades() {
+        int opcao;
+
+        out.println();
+        while (true) {
+
+            out.println("*** Atividades Realizadas ***");
+            out.println();
+            out.println("1-Ver as minhas atividades");
+            out.println("2-Ver atividades de todos os Amigos");
+            out.println("3-Ver atividades de um amigo");
+            out.println("0-Voltar");
+            out.println();
+
+            out.print("Opção: ");
+            try {
+                opcao = Integer.parseInt(in.nextLine());
+            } catch (Exception e) {
+                out.println("Intruduza uma opção válida!");
+                in.nextLine();
+                clearScreen();
+                continue;
+            }
+
+            switch (opcao) {
+                case (0):
+                    clearScreen();
+                    return;
+                case (1):
+                    mVerLista("Minhas Atividades", core.getAtividadesProprio());
+                    break;
+                case (2):
+                    mVerLista("Atividades de Amigos", core.getAtividadesAmigos());
+                    break;
+                case (3):
+                    while (true) {
+                        out.println("Insira o nome do amigo:");
+                        String amigo = in.nextLine();
+                        try {
+                            mVerLista("Atividades de Amigos", core.getAtividadesAmigo(amigo));
+                        } catch (EmailInvalidoException ex) {
+                            out.println("Não foi possivel apresentar as actividades deste email. Verifique se o email está correcto e se está na sua lista de amigos");
+                            continue;
+                        }
+                        break;
+                    }
+                    break;
+
+                default:
+                    out.println("Intruduza uma opção válida!");
+                    in.nextLine();
+                    clearScreen();
+                    continue;
+
+            }
+        }
     }
 
 }

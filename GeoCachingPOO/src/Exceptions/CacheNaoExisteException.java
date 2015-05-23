@@ -11,4 +11,10 @@ package Exceptions;
  */
 public class CacheNaoExisteException extends Exception {
 
+    @Override
+    public String getMessage() {
+        return "Cache não existe"; //To change body of generated methods, choose Tools | Templates.
+    }
+    
+
 }

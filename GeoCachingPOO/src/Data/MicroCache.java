@@ -7,6 +7,7 @@ package Data;
 
 import Exceptions.CacheNaoSuportaFuncionalidadeException;
 import Exceptions.DificuldadeInvalidaException;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,15 +16,15 @@ import java.util.logging.Logger;
  *
  * @author Nuno Oliveira
  */
-public class MicroCache extends Cache {
+public class MicroCache extends Cache implements Serializable  {
 
     private static final int difExtra = 2;
 
     public MicroCache(String ref, Coords coords, String creator, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
-        super(ref, coords,creator, assinantes, descricao, dificuldade);
+        super(ref, coords, creator, assinantes, descricao, dificuldade);
     }
 
-    public MicroCache(String ref, Coords coords,String creator, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public MicroCache(String ref, Coords coords, String creator, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         super(ref, coords, creator, descricao, dificuldade);
     }
 
@@ -59,9 +60,9 @@ public class MicroCache extends Cache {
     @Override
     public String toString() {
         String ret = super.toString();
-        
+
         ret = ret.concat("Pontos Extra: " + difExtra + "\n");
-        
+
         return ret;
     }
 
@@ -69,7 +70,10 @@ public class MicroCache extends Cache {
     public String getCacheType() {
         return "Micro-Cache";
     }
-    
-    
+
+    @Override
+    public int getCacheCode() {
+        return 2;
+    }
 
 }

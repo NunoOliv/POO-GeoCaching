@@ -2,6 +2,7 @@ package Data;
 
 import Exceptions.CacheNaoSuportaFuncionalidadeException;
 import Exceptions.DificuldadeInvalidaException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.logging.Level;
@@ -13,7 +14,7 @@ import java.util.logging.Logger;
  * @author Nuno Oliveira
  * @author Rui Pereira
  */
-public class TradCache extends Cache {
+public class TradCache extends Cache implements Serializable  {
 
     private HashSet<String> tesouros;
     private HashSet<String> bugs;
@@ -187,5 +188,12 @@ public class TradCache extends Cache {
     public String getCacheType() {
         return "Cache Tradicional";
     }
+
+    @Override
+    public int getCacheCode() {
+        return 1;
+    }
+    
+    
 
 }

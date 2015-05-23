@@ -5,6 +5,7 @@
  */
 package Data;
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 
@@ -14,7 +15,7 @@ import java.util.HashSet;
  * @author Nuno Oliveira
  * @author Rui Pereira
  */
-public class TravelBug {
+public class TravelBug implements Serializable {
     private String descricao;
     private HashSet<CacheRegBug> caches;
     private String currentCache; 

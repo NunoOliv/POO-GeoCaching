@@ -20,7 +20,8 @@ public abstract class Cache  implements Serializable{
     private HashSet<String> assinantes;
     private String descricao;
     private int dificuldade;
-
+    
+    
     public Cache(String ref, Coords coords, String creator, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
 
         if (dificuldade > 5 || dificuldade < 1) {
@@ -128,6 +129,8 @@ public abstract class Cache  implements Serializable{
 
     public abstract void setPontosExtra(int i) throws CacheNaoSuportaFuncionalidadeException;
 
+    public abstract int getCacheCode();
+    
     @Override
     public int hashCode() {
         int hash = 5;

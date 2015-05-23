@@ -1,5 +1,6 @@
 package Business;
 
+import Data.AtivList;
 import Data.CacheList;
 import Data.Coords;
 import Data.User;
@@ -19,6 +20,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Random;
 
 /**
  *
@@ -31,11 +33,13 @@ public class Core implements Serializable {
     private final UserList userL;
     private User sessao;
     private final CacheList cacheL;
+    private final AtivList ativL;
 
     public Core() {
         userL = new UserList();
         sessao = null;
         cacheL = new CacheList();
+        ativL = new AtivList();
     }
 
     public void inicialize() {
@@ -113,11 +117,11 @@ public class Core implements Serializable {
         }
         userL.addUser(mail, pass, nome, genero, morada, dn);
     }
-    
+
     public boolean existeUser(String user) throws EmailInvalidoException {
         return userL.existeUser(user);
     }
-    
+
     /**
      * Verifica se o email dado está na forma correta.
      *
@@ -275,12 +279,15 @@ public class Core implements Serializable {
      * @throws EmailInvalidoException
      * @throws UserNaoExisteException
      * @throws PedidoNaoExisteException
+     * @throws Exceptions.JaEAmigoException
      */
     public void aceitaAmigo(String m) throws EmailInvalidoException, UserNaoExisteException, PedidoNaoExisteException, JaEAmigoException {
+        GregorianCalendar date = new GregorianCalendar();
         checkMail(m);
         User u = userL.getUser(m);
         sessao.aceitaPedido(u);
         u.addAmigo(sessao);
+        ativL.addFriend(u.getMail(), u.getNome(), sessao.getMail(), sessao.getNome(), date);
     }
 
     /**
@@ -304,7 +311,11 @@ public class Core implements Serializable {
      * @return String com detalhes da cache
      */
     public String getDetalhesCache(String cache) {
-        return cacheL.getDetalhesCache(cache);
+        try {
+            return cacheL.getDetalhesCache(cache);
+        } catch (CacheNaoExisteException ex) {
+            return ex.getMessage();
+        }
     }
 
     /**
@@ -340,9 +351,14 @@ public class Core implements Serializable {
      * @throws DificuldadeInvalidaException
      */
     public boolean addTradCache(String ref, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+        GregorianCalendar date = new GregorianCalendar();
         boolean add = cacheL.addTradCache(ref, coords, sessao.getMail(), descricao, dificuldade);
-        if(add) {
-            
+        if (add) {
+            try {
+                ativL.addCache(sessao.getMail(), sessao.getNome(), 1, ref, cacheL.getPontos(ref), date);
+            } catch (TipoDeCacheNaoExisteException ex) {
+                Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return add;
     }
@@ -355,7 +371,6 @@ public class Core implements Serializable {
      * @param dataEvento Data do Evento
      * @param pontosExtra Pontuação extra da cache
      * @param coords Coordenadas da Cache
-     * @param creator Criador da Cache
      * @param descricao Descrição da Cache
      * @param dificuldade Dificuldade da Cache
      * @return True se a cache foi cridada e adicionada ou False se nao foi
@@ -363,7 +378,16 @@ public class Core implements Serializable {
      * @throws DificuldadeInvalidaException
      */
     public boolean addCacheEvento(String ref, HashSet<String> organizadores, GregorianCalendar dataEvento, int pontosExtra, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException {
-        return cacheL.addCacheEvento(ref, organizadores, dataEvento, pontosExtra, coords, sessao.getMail(), descricao, dificuldade);
+        GregorianCalendar date = new GregorianCalendar();
+        boolean add = cacheL.addCacheEvento(ref, organizadores, dataEvento, pontosExtra, coords, sessao.getMail(), descricao, dificuldade);
+        if (add) {
+            try {
+                ativL.addCache(sessao.getMail(), sessao.getNome(), 5, ref, cacheL.getPontos(ref), date);
+            } catch (TipoDeCacheNaoExisteException ex) {
+                Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return add;
     }
 
     /**
@@ -373,7 +397,6 @@ public class Core implements Serializable {
      * @param DescPuzzle Descrição do Puzzle
      * @param pontosExtra Pontuação extra da cache
      * @param coords Coordenadas da Cache
-     * @param creator Criador da Cache
      * @param descricao Descrição da Cache
      * @param dificuldade Dificuldade da Cache
      * @return True se a cache foi cridada e adicionada ou False se nao foi
@@ -381,7 +404,16 @@ public class Core implements Serializable {
      * @throws DificuldadeInvalidaException
      */
     public boolean addCacheMisterio(String ref, String DescPuzzle, int pontosExtra, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException {
-        return cacheL.addCacheMisterio(ref, DescPuzzle, pontosExtra, coords, sessao.getMail(), descricao, dificuldade);
+        GregorianCalendar date = new GregorianCalendar();
+        boolean add = cacheL.addCacheMisterio(ref, DescPuzzle, pontosExtra, coords, sessao.getMail(), descricao, dificuldade);
+        if (add) {
+            try {
+                ativL.addCache(sessao.getMail(), sessao.getNome(), 3, ref, cacheL.getPontos(ref), date);
+            } catch (TipoDeCacheNaoExisteException ex) {
+                Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return add;
     }
 
     /**
@@ -389,7 +421,6 @@ public class Core implements Serializable {
      *
      * @param ref Referencia da Cache
      * @param coords Coordenadas da Cache
-     * @param creator Criador da Cache
      * @param descricao Descrição da Cache
      * @param dificuldade
      * @return True se a cache foi cridada e adicionada ou False se nao foi
@@ -397,7 +428,16 @@ public class Core implements Serializable {
      * @throws DificuldadeInvalidaException
      */
     public boolean addMicroCache(String ref, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException {
-        return cacheL.addMicroCache(ref, coords, sessao.getMail(), descricao, dificuldade);
+        GregorianCalendar date = new GregorianCalendar();
+        boolean add = cacheL.addMicroCache(ref, coords, sessao.getMail(), descricao, dificuldade);
+        if (add) {
+            try {
+                ativL.addCache(sessao.getMail(), sessao.getNome(), 2, ref, cacheL.getPontos(ref), date);
+            } catch (TipoDeCacheNaoExisteException ex) {
+                Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return add;
     }
 
     /**
@@ -405,7 +445,6 @@ public class Core implements Serializable {
      *
      * @param ref Referencia da Cache
      * @param coords Coordenadas da Cache
-     * @param creator Criador da Cache
      * @param descricao Descrição da Cache
      * @param pontosIntermedios Coordenadas dos pontos intermedios da Cache
      * @param dificuldade Dificuldade da Cache
@@ -415,83 +454,115 @@ public class Core implements Serializable {
      * @throws DificuldadeInvalidaException
      */
     public boolean addmultiCache(String ref, Coords coords, String descricao, HashMap<Integer, Coords> pontosIntermedios, int dificuldade, int pontosExtra) throws DificuldadeInvalidaException {
-        return cacheL.MultiCache(ref, coords, sessao.getMail(), descricao, pontosIntermedios, dificuldade, pontosExtra);
+        GregorianCalendar date = new GregorianCalendar();
+        boolean add = cacheL.MultiCache(ref, coords, sessao.getMail(), descricao, pontosIntermedios, dificuldade, pontosExtra);
+        if (add) {
+            try {
+                ativL.addCache(sessao.getMail(), sessao.getNome(), 4, ref, cacheL.getPontos(ref), date);
+            } catch (TipoDeCacheNaoExisteException ex) {
+                Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return add;
     }
-    
+
     /**
-     * Verifica se existe uma cache com uma dada referencia 
-     * 
+     * Verifica se existe uma cache com uma dada referencia
+     *
      * @param ref Referencia da cache
-     * @return 
+     * @return
      */
     public boolean containsCache(String ref) {
         return cacheL.containsCache(ref);
     }
-    
+
     /**
      * Verifica se a cache suporta tesouros.
-     * 
+     *
      * @param cache Referencia da Cache a verificar.
-     * @return 
+     * @return
      */
     public boolean suportaTesouros(String cache) {
         return cacheL.suportaTesouros(cache);
     }
-    
+
     /**
      * Verifica se a cache suporta eventos.
-     * 
+     *
      * @param cache Referencia da cache a verificar
-     * @return 
+     * @return
      */
     public boolean suportaEventos(String cache) {
         return cacheL.suportaEventos(cache);
     }
-    
+
     /**
      * Altera a descrição de uma cache.
-     * 
+     *
      * @param cache Cache que tem a descrição alterada.
      * @param desc Nova descrição para a cache.
-     * @return True se a descrição foi alterada ou False se não foi possivel alterar a descrição
+     * @return True se a descrição foi alterada ou False se não foi possivel
+     * alterar a descrição
      */
     public boolean setDescricaoCache(String cache, String desc) {
         return cacheL.setDescricaoCache(cache, desc);
     }
+
     /**
      * Remove uma cache do sistema.
-     * 
+     *
      * @param cache Cache que vai ser removida.
-     * @return True se a cache foi removida ou FALSE se não foi possivel remover a cache.
+     * @return True se a cache foi removida ou FALSE se não foi possivel remover
+     * a cache.
      */
     public boolean remCache(String cache) {
-        return cacheL.remCache(cache);
+        boolean rem = cacheL.remCache(cache);
+        if (rem) {
+            try {
+                ativL.removeCache(sessao.getMail(), cacheL.getCacheType(cache), cache, sessao.getNome(), new GregorianCalendar());
+            } catch (TipoDeCacheNaoExisteException | CacheNaoExisteException ex) {
+                return false;
+            }
+        }
+
+        return rem;
     }
-    
-    
+
     /**
      * Permite ao utilizador com sessão iniciada assinar a cache.
-     * 
+     *
      * @param cache Cache que vai ser assinada.
-     * @return 
+     * @return
+     * @throws Exceptions.CacheNaoExisteException
      */
-    public boolean assinarCache(String cache) {
-        return cacheL.assinarCache(cache, sessao.getMail());
+    public boolean assinarCache(String cache) throws CacheNaoExisteException {
+        boolean ass = cacheL.assinarCache(cache, sessao.getMail());
+        int weather = this.calculateWeather();
+        int pontos = cacheL.getPontos(cache) + weather;
+        if (ass) {
+            sessao.addPontos(pontos);
+            try {
+                ativL.assinouCache(sessao.getMail(), cacheL.getCacheType(cache), cache, sessao.getNome(), pontos, this.weatherToString(weather), new GregorianCalendar());
+            } catch (TipoDeCacheNaoExisteException ex) {
+                Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return ass;
     }
-    
+
     /**
      * Devolve a lista dos assinantes de uma cache.
-     * 
+     *
      * @param cache Referencia da cache.
      * @return Lista de Assinantes.
      */
     public ArrayList<String> getListaAssinantes(String cache) {
-        return new ArrayList<> (cacheL.getListaAssinantes(cache));
+        return new ArrayList<>(cacheL.getListaAssinantes(cache));
     }
-    
+
     /**
      * Devolve a lista de tesouros de uma cache.
-     * 
+     *
      * @param cache Referencia da cache.
      * @return Lista de tesouros
      */
@@ -503,38 +574,82 @@ public class Core implements Serializable {
         }
         return null;
     }
-    
+
     /**
      * Adiciona um tesouro a uma cache.
-     * 
+     *
      * @param tesouro Nome/Descrição do tesouro
      * @param cache Referencia da cache.
      * @return TRUE se adicionou o tesouro ou FALSE sde nao adicionou.
-     * @throws CacheNaoSuportaFuncionalidadeException 
+     * @throws CacheNaoSuportaFuncionalidadeException
      */
     public boolean addTesouro(String tesouro, String cache) throws CacheNaoSuportaFuncionalidadeException {
         return cacheL.addTesouro(tesouro, cache);
     }
-    
+
     public boolean takeTesouro(String tesouro, String cache) throws CacheNaoSuportaFuncionalidadeException {
         return cacheL.takeTesouro(tesouro, cache);
     }
-    
+
     public ArrayList<String> getListBugs(String tradCache) throws CacheNaoSuportaFuncionalidadeException {
-        return  cacheL.getListBugs(tradCache);
+        return cacheL.getListBugs(tradCache);
     }
-    
+
     public boolean addBug(String bug, String tradCache) throws CacheNaoSuportaFuncionalidadeException {
         return cacheL.addBug(bug, tradCache);
     }
-    
+
     public boolean takeBug(String bug, String tradCache) throws CacheNaoSuportaFuncionalidadeException {
         return cacheL.takeBug(bug, tradCache);
     }
-    
-     public ArrayList<String> getListaOrg(String cache) throws CacheNaoSuportaFuncionalidadeException {
-          return cacheL.getListaOrg(cache);
-     }
+
+    public ArrayList<String> getListaOrg(String cache) throws CacheNaoSuportaFuncionalidadeException {
+        return cacheL.getListaOrg(cache);
+    }
+
+    public ArrayList<String> getAtividadesProprio() {
+        ArrayList<String> a = new ArrayList<>();
+        a.add(sessao.getMail());
+        return ativL.getAtividades(a);
+    }
+
+    public ArrayList<String> getAtividadesAmigos() {
+        ArrayList<String> a = new ArrayList<>();
+        for (String s : sessao.listaIdentAmigos()) {
+            a.add(s);
+        }
+        return ativL.getAtividades(a);
+    }
+
+    public ArrayList<String> getAtividadesAmigo(String amigo) throws EmailInvalidoException {
+        if (userL.existeUser(amigo) && sessao.listaIdentAmigos().contains(amigo)) {
+            ArrayList<String> a = new ArrayList<>();
+            a.add(amigo);
+            return ativL.getAtividades(a);
+        } else {
+            throw new EmailInvalidoException();
+        }
+
+    }
+
+    private int calculateWeather() {
+        Random randomGenerator = new Random();
+        return randomGenerator.nextInt(3);
+    }
+
+    private String weatherToString(int w) {
+        switch (w) {
+            case 0:
+                return "ceu limpo";
+            case 1:
+                return "ceu nublado";
+            case 2:
+                return "chuva";
+            default:
+                return null;
+        }
+    }
+
     /**
      * Grava os dados em ficheiro.
      *

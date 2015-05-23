@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import Exceptions.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -13,7 +14,7 @@ import java.util.Objects;
  * @author Nuno Oliveira
  * @author Rui Pereira
  */
-public class User implements Serializable{
+public class User implements Serializable {
 
     private String mail;
     private String pw;
@@ -49,29 +50,32 @@ public class User implements Serializable{
         this.pedidosAmigo = u.clonePedidos();
         //this.ativs = u.cloneAtividades();
     }
+
     /**
-     * 
+     *
      * @return total de Pontos
      */
     public int getTotalPontos() {
         return totalPontos;
     }
+
     /**
-     * 
-     * @param TotalPontos 
+     *
+     * @param TotalPontos
      */
     public void setTotalPontos(int TotalPontos) {
         this.totalPontos = TotalPontos;
     }
-    
+
     /**
      * Adiciona um valor à pontuação total.
+     *
      * @param pontos Pontos a adicionar.
      */
     public void addPontos(int pontos) {
-        totalPontos+= pontos;
+        totalPontos += pontos;
     }
-    
+
     /**
      * @return the mail
      */
@@ -262,8 +266,6 @@ public class User implements Serializable{
             System.out.println("FATAL ERROR: User.java -> aceitaPedido");
         }
     }
-     
-
 
     /**
      * Remove um utilizador da lista de pedidos de amizade e adiciona-o à lista
@@ -326,6 +328,14 @@ public class User implements Serializable{
     public HashMap verAmigos() {
         return cloneAmigos();
     }
+    /**
+     * Devolve uma lista de identificadores de amigos.
+     * 
+     * @return ArrayList que contem os identificadores dos amigos.
+     */
+    public ArrayList<String> listaIdentAmigos() {
+        return new ArrayList<> (amigos.keySet());
+    }
 
     /**
      * Gera um HashMap que é um clone do HashMap que guarda a informação dos
@@ -336,7 +346,6 @@ public class User implements Serializable{
     public HashMap verPedidosAmizade() {
         return clonePedidos();
     }
-   
 
     /**
      * Testa de um objecto dado, é igual a uma instância de User.
@@ -375,7 +384,7 @@ public class User implements Serializable{
             if (!u.verPedidosAmizade().equals(this.pedidosAmigo.keySet())) {
                 return false;
             }
-            
+
         } else {
             return false;
         }
@@ -413,8 +422,6 @@ public class User implements Serializable{
      *
      * @return Lista de atividades clonadas.
      */
-    
-
     @Override
     public int hashCode() {
         int hash = 7;
@@ -426,19 +433,20 @@ public class User implements Serializable{
         hash = 89 * hash + Objects.hashCode(this.dn);
         hash = 89 * hash + Objects.hashCode(this.amigos);
         hash = 89 * hash + Objects.hashCode(this.pedidosAmigo);
-        
+
         return hash;
     }
 
     @Override
     public String toString() {
-        return "E-Mail: "+this.mail+
-                "\nNome: "+this.nome+
-                "\nGenero: "+this.genero+
-                "\nMorada: "+this.morada+
-                "\nData de Nascimento: "+this.dn.toString()+
-                "\nAmigos: "+this.amigos.keySet().toString();
-                
+        return "E-Mail: " + this.mail
+                + "\nNome: " + this.nome
+                + "\nGenero: " + this.genero
+                + "\nMorada: " + this.morada
+                + "\nData de Nascimento: " + this.dn.toString()
+                + "\nAmigos: " + this.amigos.keySet().toString()
+                + "\nPontos: " + this.totalPontos;
+
     }
 
     @Override

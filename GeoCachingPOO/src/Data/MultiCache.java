@@ -7,6 +7,7 @@ package Data;
 
 import Exceptions.DificuldadeInvalidaException;
 import Exceptions.PontosExtraInvalidosException;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.logging.Level;
@@ -16,7 +17,7 @@ import java.util.logging.Logger;
  *
  * @author Nuno Oliveira
  */
-public class MultiCache extends TradCache {
+public class MultiCache extends TradCache implements Serializable {
 
     private HashMap<Integer, Coords> pontosIntermedios;
     private int pontosExtra;
@@ -164,5 +165,12 @@ public class MultiCache extends TradCache {
     public String getCacheType() {
         return "Multi-Cache";
     }
+
+    @Override
+    public int getCacheCode() {
+        return 4; 
+    }
+    
+    
 
 }

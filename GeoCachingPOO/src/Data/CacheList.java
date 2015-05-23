@@ -14,8 +14,6 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -42,14 +40,14 @@ public class CacheList implements Serializable {
      * @return the caches
      */
     public HashMap<String, Cache> getCaches() {
-        return caches;
+        return new HashMap<>(caches);
     }
 
     /**
      * @param caches the caches to set
      */
     public void setCaches(HashMap<String, Cache> caches) {
-        this.caches = caches;
+        this.caches = new HashMap<>(caches);
     }
 
     public Cache getCache(String Ref) {
@@ -98,20 +96,25 @@ public class CacheList implements Serializable {
      * Operações com detalhes de Cache 
      * ***************************************
      */
-    public String getDetalhesCache(String cache) {
+    public String getDetalhesCache(String cache) throws CacheNaoExisteException {
 
         if (caches.containsKey(cache)) {
             return "Tipo de Cache: " + caches.get(cache).getCacheType() + "\n" + caches.get(cache).toString();
         } else {
-            try {
+            
                 throw new CacheNaoExisteException();
-            } catch (CacheNaoExisteException ex) {
-                Logger.getLogger(CacheList.class.getName()).log(Level.SEVERE, null, ex);
-                return null;
-            }
+            
         }
     }
-
+    public int getCacheType(String cache) throws CacheNaoExisteException {
+        if (caches.containsKey(cache)) {
+            return caches.get(cache).getPontosExtra();
+        } else {
+                throw new CacheNaoExisteException();
+            
+        }
+    }
+    
     /*
      * *****************************************
      * Operações com assinantes 
@@ -137,6 +140,12 @@ public class CacheList implements Serializable {
      * *****************************************
      * Operações com dificuldades 
      * *****************************************
+     */
+    /**
+     * 
+     * @param dif
+     * @param cache
+     * @throws DificuldadeInvalidaException 
      */
     public void setDificuldade(int dif, String cache) throws DificuldadeInvalidaException {
         this.caches.get(cache).setDificuldade(dif);
@@ -311,6 +320,10 @@ public class CacheList implements Serializable {
 
     public void setPontosExtra(int p, String cache) throws CacheNaoSuportaFuncionalidadeException {
         this.getCache(cache).setPontosExtra(p);
+    }
+    
+    public int getPontos(String cache) {
+        return this.getCache(cache).getPoints();
     }
 
     /*

@@ -6,6 +6,7 @@
 package Data;
 
 import Exceptions.DificuldadeInvalidaException;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -17,7 +18,7 @@ import java.util.logging.Logger;
  *
  * @author Nuno Oliveira
  */
-public class CacheEvento extends Cache {
+public class CacheEvento extends Cache implements Serializable {
 
     private HashSet<String> organizadores;
     private GregorianCalendar dataEvento;
@@ -161,5 +162,13 @@ public class CacheEvento extends Cache {
     public String getCacheType() {
         return "Cache Evento";
     }
+
+    @Override
+    public int getCacheCode() {
+        return 5;
+    }
+
+    
+    
 
 }

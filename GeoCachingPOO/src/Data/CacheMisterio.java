@@ -6,7 +6,7 @@
 package Data;
 
 import Exceptions.DificuldadeInvalidaException;
-import java.util.HashMap;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  *
  * @author Nuno Oliveira
  */
-public class CacheMisterio extends TradCache {
+public class CacheMisterio extends TradCache implements Serializable  {
 
     private String descPuzzle;
     private int pontosExtra;
@@ -113,5 +113,12 @@ public class CacheMisterio extends TradCache {
     public String getCacheType() {
         return "Cache-Mistério";
     }
+
+    @Override
+    public int getCacheCode() {
+        return 3; //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 
 }

@@ -5,13 +5,14 @@
  */
 package Data;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
  *
  * @author Nuno Oliveira
  */
-public class TravelBugL {
+public class TravelBugL implements Serializable  {
 
     private HashMap<String, TravelBug> bugs;
 

@@ -7,6 +7,7 @@ package Data;
 
 
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 import java.util.Objects;
 
@@ -16,7 +17,7 @@ import java.util.Objects;
  * @author Nuno Oliveira
  * @author Rui Pereira
  */
-public class CacheRegBug {
+public class CacheRegBug implements Serializable {
     private String cache;
     private GregorianCalendar date;
     
