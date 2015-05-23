@@ -68,7 +68,7 @@ class Atividade implements Serializable, Comparable<Atividade> {
                 throw new TipoDeCacheNaoExisteException();
 
         }
-        ret += ", com a referencia " + ref + " e ganhou " + pontos + "pontos.";
+        ret += ", com a referencia " + ref + " num dia de " + clima + ", e ganhou " + pontos + " pontos.";
         atividade = ret;
         this.date = (GregorianCalendar) date.clone();
         return ret;

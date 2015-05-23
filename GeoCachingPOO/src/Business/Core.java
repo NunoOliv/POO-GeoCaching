@@ -323,8 +323,9 @@ public class Core implements Serializable {
      *
      * @param cache Identificador da cache
      * @return Identificador do criador da cache
+     * @throws Exceptions.CacheNaoExisteException
      */
-    public String getCriadorCache(String cache) {
+    public String getCriadorCache(String cache) throws CacheNaoExisteException {
         return cacheL.getCriador(cache);
     }
 
@@ -333,8 +334,9 @@ public class Core implements Serializable {
      *
      * @param cache Identificador da cache
      * @return Verdadeiro se
+     * @throws Exceptions.CacheNaoExisteException
      */
-    public boolean isCriador(String cache) {
+    public boolean isCriador(String cache) throws CacheNaoExisteException {
         return cacheL.isCriador(cache, this.sessao.getMail());
     }
 
@@ -343,14 +345,14 @@ public class Core implements Serializable {
      *
      * @param ref Referencia da Cache
      * @param coords Coordenadas da Cache
-     * @param creator Criador da Cache
      * @param descricao Descrição da Cache
      * @param dificuldade Dificuldade da Cache
      * @return True se a cache foi cridada e adicionada ou False se nao foi
      * possivel criar a Cache
      * @throws DificuldadeInvalidaException
+     * @throws Exceptions.CacheNaoExisteException
      */
-    public boolean addTradCache(String ref, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public boolean addTradCache(String ref, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException, CacheNaoExisteException {
         GregorianCalendar date = new GregorianCalendar();
         boolean add = cacheL.addTradCache(ref, coords, sessao.getMail(), descricao, dificuldade);
         if (add) {
@@ -377,7 +379,7 @@ public class Core implements Serializable {
      * possivel criar a Cache
      * @throws DificuldadeInvalidaException
      */
-    public boolean addCacheEvento(String ref, HashSet<String> organizadores, GregorianCalendar dataEvento, int pontosExtra, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public boolean addCacheEvento(String ref, HashSet<String> organizadores, GregorianCalendar dataEvento, int pontosExtra, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException, CacheNaoExisteException {
         GregorianCalendar date = new GregorianCalendar();
         boolean add = cacheL.addCacheEvento(ref, organizadores, dataEvento, pontosExtra, coords, sessao.getMail(), descricao, dificuldade);
         if (add) {
@@ -403,7 +405,7 @@ public class Core implements Serializable {
      * possivel criar a Cache
      * @throws DificuldadeInvalidaException
      */
-    public boolean addCacheMisterio(String ref, String DescPuzzle, int pontosExtra, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public boolean addCacheMisterio(String ref, String DescPuzzle, int pontosExtra, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException, CacheNaoExisteException {
         GregorianCalendar date = new GregorianCalendar();
         boolean add = cacheL.addCacheMisterio(ref, DescPuzzle, pontosExtra, coords, sessao.getMail(), descricao, dificuldade);
         if (add) {
@@ -427,7 +429,7 @@ public class Core implements Serializable {
      * possivel criar a Cache
      * @throws DificuldadeInvalidaException
      */
-    public boolean addMicroCache(String ref, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public boolean addMicroCache(String ref, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException, CacheNaoExisteException {
         GregorianCalendar date = new GregorianCalendar();
         boolean add = cacheL.addMicroCache(ref, coords, sessao.getMail(), descricao, dificuldade);
         if (add) {
@@ -453,7 +455,7 @@ public class Core implements Serializable {
      * possivel criar a Cache
      * @throws DificuldadeInvalidaException
      */
-    public boolean addmultiCache(String ref, Coords coords, String descricao, HashMap<Integer, Coords> pontosIntermedios, int dificuldade, int pontosExtra) throws DificuldadeInvalidaException {
+    public boolean addmultiCache(String ref, Coords coords, String descricao, HashMap<Integer, Coords> pontosIntermedios, int dificuldade, int pontosExtra) throws DificuldadeInvalidaException, CacheNaoExisteException {
         GregorianCalendar date = new GregorianCalendar();
         boolean add = cacheL.MultiCache(ref, coords, sessao.getMail(), descricao, pontosIntermedios, dificuldade, pontosExtra);
         if (add) {
@@ -556,7 +558,7 @@ public class Core implements Serializable {
      * @param cache Referencia da cache.
      * @return Lista de Assinantes.
      */
-    public ArrayList<String> getListaAssinantes(String cache) {
+    public ArrayList<String> getListaAssinantes(String cache) throws CacheNaoExisteException {
         return new ArrayList<>(cacheL.getListaAssinantes(cache));
     }
 
@@ -566,7 +568,7 @@ public class Core implements Serializable {
      * @param cache Referencia da cache.
      * @return Lista de tesouros
      */
-    public ArrayList<String> getListTesouros(String cache) {
+    public ArrayList<String> getListTesouros(String cache) throws CacheNaoExisteException {
         try {
             return cacheL.getListTesouros(cache);
         } catch (CacheNaoSuportaFuncionalidadeException ex) {
@@ -583,27 +585,27 @@ public class Core implements Serializable {
      * @return TRUE se adicionou o tesouro ou FALSE sde nao adicionou.
      * @throws CacheNaoSuportaFuncionalidadeException
      */
-    public boolean addTesouro(String tesouro, String cache) throws CacheNaoSuportaFuncionalidadeException {
+    public boolean addTesouro(String tesouro, String cache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
         return cacheL.addTesouro(tesouro, cache);
     }
 
-    public boolean takeTesouro(String tesouro, String cache) throws CacheNaoSuportaFuncionalidadeException {
+    public boolean takeTesouro(String tesouro, String cache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
         return cacheL.takeTesouro(tesouro, cache);
     }
 
-    public ArrayList<String> getListBugs(String tradCache) throws CacheNaoSuportaFuncionalidadeException {
+    public ArrayList<String> getListBugs(String tradCache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
         return cacheL.getListBugs(tradCache);
     }
 
-    public boolean addBug(String bug, String tradCache) throws CacheNaoSuportaFuncionalidadeException {
+    public boolean addBug(String bug, String tradCache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
         return cacheL.addBug(bug, tradCache);
     }
 
-    public boolean takeBug(String bug, String tradCache) throws CacheNaoSuportaFuncionalidadeException {
+    public boolean takeBug(String bug, String tradCache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
         return cacheL.takeBug(bug, tradCache);
     }
 
-    public ArrayList<String> getListaOrg(String cache) throws CacheNaoSuportaFuncionalidadeException {
+    public ArrayList<String> getListaOrg(String cache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
         return cacheL.getListaOrg(cache);
     }
 

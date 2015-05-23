@@ -153,7 +153,7 @@ public class MultiCache extends TradCache implements Serializable {
         ret = ret.concat("Pontos intermédios:\n");
 
         for (Integer i : pontosIntermedios.keySet()) {
-            ret = ret.concat("Ponto " + i + ": Latitude = " + pontosIntermedios.get(i).getLatitude() + "  Longitude = " + pontosIntermedios.get(i).getLongitude() + "\n");
+            ret = ret.concat("Ponto " + i+1 + ": Latitude = " + pontosIntermedios.get(i).getLatitude() + "  Longitude = " + pontosIntermedios.get(i).getLongitude() + "\n");
         }
 
         ret = ret.concat("Pontos Extra: " + pontosExtra + "\n");

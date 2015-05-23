@@ -50,8 +50,10 @@ public class CacheList implements Serializable {
         this.caches = new HashMap<>(caches);
     }
 
-    public Cache getCache(String Ref) {
-        return (Cache) (caches.get(Ref)).clone();
+    private Cache getCache(String ref) throws CacheNaoExisteException {
+        if (caches.containsKey(ref)) return caches.get(ref);
+        else throw new CacheNaoExisteException();
+        
     }
 
     public ArrayList<String> getListaCacheNames() {
@@ -120,15 +122,15 @@ public class CacheList implements Serializable {
      * Operações com assinantes 
      * *****************************************S
      */
-    public HashSet<String> getListaAssinantes(String cache) {
+    public HashSet<String> getListaAssinantes(String cache) throws CacheNaoExisteException {
         return this.getCache(cache).listaAssinantes();
     }
 
-    public boolean addAssinantes(String assinante, String cache) {
+    public boolean addAssinantes(String assinante, String cache) throws CacheNaoExisteException {
         return this.getCache(cache).addAssinante(assinante);
     }
 
-    public boolean remAssinantes(String assinante, String cache) {
+    public boolean remAssinantes(String assinante, String cache) throws CacheNaoExisteException {
         return this.getCache(cache).remAssinante(assinante);
     }
 
@@ -151,7 +153,7 @@ public class CacheList implements Serializable {
         this.caches.get(cache).setDificuldade(dif);
     }
 
-    public int getDificuldade(String cache) {
+    public int getDificuldade(String cache) throws CacheNaoExisteException {
         return this.getCache(cache).getDificuldade();
     }
 
@@ -160,11 +162,11 @@ public class CacheList implements Serializable {
      * Operações com coordenadas 
      ****************************************
      */
-    public Coords getCoords(String cache) {
+    public Coords getCoords(String cache) throws CacheNaoExisteException {
         return this.getCache(cache).getCoords();
     }
 
-    public void setCoords(String cache, Coords coords) {
+    public void setCoords(String cache, Coords coords) throws CacheNaoExisteException {
         this.getCache(cache).setCoords(coords);
     }
 
@@ -179,7 +181,7 @@ public class CacheList implements Serializable {
      * @param cache Identificador da cache.
      * @return Identificador do criador da cache.
      */
-    public String getCriador(String cache) {
+    public String getCriador(String cache) throws CacheNaoExisteException {
         return this.getCache(cache).getCreator();
     }
 
@@ -190,7 +192,7 @@ public class CacheList implements Serializable {
      * @param nome Identificador do utilizador.
      * @return Verdade se for o criador, false caso contrário.
      */
-    public boolean isCriador(String cache, String nome) {
+    public boolean isCriador(String cache, String nome) throws CacheNaoExisteException {
         return (this.getCache(cache).getCreator()).equals(nome);
     }
 
@@ -199,7 +201,7 @@ public class CacheList implements Serializable {
      * Operações com tesouros 
      ****************************************
      */
-    public ArrayList<String> getListTesouros(String tradCache) throws CacheNaoSuportaFuncionalidadeException {
+    public ArrayList<String> getListTesouros(String tradCache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
         if (this.getCache(tradCache) instanceof TradCache) {
             return ((TradCache) this.getCache(tradCache)).getListTesouros();
         } else {
@@ -207,7 +209,7 @@ public class CacheList implements Serializable {
         }
     }
 
-    public boolean addTesouro(String tesouro, String tradCache) throws CacheNaoSuportaFuncionalidadeException {
+    public boolean addTesouro(String tesouro, String tradCache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
 
         if (this.getCache(tradCache) instanceof TradCache) {
             return ((TradCache) this.getCache(tradCache)).putTesouro(tesouro);
@@ -216,7 +218,7 @@ public class CacheList implements Serializable {
         }
     }
 
-    public boolean takeTesouro(String tesouro, String tradCache) throws CacheNaoSuportaFuncionalidadeException {
+    public boolean takeTesouro(String tesouro, String tradCache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
 
         if (this.getCache(tradCache) instanceof TradCache) {
             return ((TradCache) this.getCache(tradCache)).takeTesouro(tesouro);
@@ -234,7 +236,7 @@ public class CacheList implements Serializable {
      * ****************************************
      */
 
-    public ArrayList<String> getListBugs(String tradCache) throws CacheNaoSuportaFuncionalidadeException {
+    public ArrayList<String> getListBugs(String tradCache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
         if (this.getCache(tradCache) instanceof TradCache) {
             return ((TradCache) this.getCache(tradCache)).getListBugs();
         } else {
@@ -243,7 +245,7 @@ public class CacheList implements Serializable {
 
     }
 
-    public boolean addBug(String bug, String tradCache) throws CacheNaoSuportaFuncionalidadeException {
+    public boolean addBug(String bug, String tradCache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
         TradCache c;
         if (this.getCache(tradCache) instanceof TradCache) {
             c = (TradCache) this.caches.get(tradCache);
@@ -268,7 +270,7 @@ public class CacheList implements Serializable {
         }
     }
 
-    public boolean takeBug(String bug, String tradCache) throws CacheNaoSuportaFuncionalidadeException {
+    public boolean takeBug(String bug, String tradCache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
         TradCache c;
         if (this.getCache(tradCache) instanceof TradCache) {
             c = (TradCache) this.caches.get(tradCache);
@@ -293,7 +295,7 @@ public class CacheList implements Serializable {
      * Operações com pontos intermedios 
      * ***************************************
      */
-    public HashMap<Integer, Coords> getPontosIntermedios(String cache) throws CacheNaoSuportaFuncionalidadeException {
+    public HashMap<Integer, Coords> getPontosIntermedios(String cache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
         if (this.getCache(cache) instanceof MultiCache) {
             return ((MultiCache) this.getCache(cache)).getPontosIntermedios();
         } else {
@@ -301,7 +303,7 @@ public class CacheList implements Serializable {
         }
     }
 
-    public void setPontosIntermedios(String cache, HashMap<Integer, Coords> coords) throws CacheNaoSuportaFuncionalidadeException {
+    public void setPontosIntermedios(String cache, HashMap<Integer, Coords> coords) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
         if (this.getCache(cache) instanceof MultiCache) {
             ((MultiCache) this.getCache(cache)).setPontosIntermedios(coords);
         } else {
@@ -314,15 +316,15 @@ public class CacheList implements Serializable {
      * Operações com pontos Extra 
      * ***************************************
      */
-    public int getPontosExtra(String cache) {
+    public int getPontosExtra(String cache) throws CacheNaoExisteException {
         return this.getCache(cache).getPontosExtra();
     }
 
-    public void setPontosExtra(int p, String cache) throws CacheNaoSuportaFuncionalidadeException {
+    public void setPontosExtra(int p, String cache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
         this.getCache(cache).setPontosExtra(p);
     }
     
-    public int getPontos(String cache) {
+    public int getPontos(String cache) throws CacheNaoExisteException {
         return this.getCache(cache).getPoints();
     }
 
@@ -331,7 +333,7 @@ public class CacheList implements Serializable {
      * Operações com organizadores 
      * ***************************************
      */
-    public ArrayList<String> getListaOrg(String cache) throws CacheNaoSuportaFuncionalidadeException {
+    public ArrayList<String> getListaOrg(String cache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
 
         if (this.getCache(cache) instanceof CacheEvento) {
             return ((CacheEvento) this.getCache(cache)).getListaOrg();
@@ -340,7 +342,7 @@ public class CacheList implements Serializable {
         }
     }
 
-    public boolean addOrganizador(String user, String cache) throws CacheNaoSuportaFuncionalidadeException {
+    public boolean addOrganizador(String user, String cache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
         if (this.getCache(cache) instanceof CacheEvento) {
             return ((CacheEvento) this.getCache(cache)).addOrganizador(user);
         } else {
@@ -348,7 +350,7 @@ public class CacheList implements Serializable {
         }
     }
 
-    public boolean remOrganizador(String user, String cache) throws CacheNaoSuportaFuncionalidadeException {
+    public boolean remOrganizador(String user, String cache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
         if (this.getCache(cache) instanceof CacheEvento) {
             return ((CacheEvento) this.getCache(cache)).removeOrganizador(user);
         } else {
@@ -361,7 +363,7 @@ public class CacheList implements Serializable {
      * Operações com data eventos 
      * ***************************************
      */
-    public GregorianCalendar getDataEvento(String cache) throws CacheNaoSuportaFuncionalidadeException {
+    public GregorianCalendar getDataEvento(String cache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
         if (this.getCache(cache) instanceof CacheEvento) {
             return ((CacheEvento) this.getCache(cache)).getDataEvento();
         } else {
@@ -369,7 +371,7 @@ public class CacheList implements Serializable {
         }
     }
 
-    public void putDataEvento(GregorianCalendar data, String cache) throws CacheNaoSuportaFuncionalidadeException {
+    public void putDataEvento(GregorianCalendar data, String cache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
         if (this.getCache(cache) instanceof CacheEvento) {
             ((CacheEvento) this.getCache(cache)).setDataEvento(data);
         } else {
@@ -386,7 +388,7 @@ public class CacheList implements Serializable {
      * Operações com descrição de puzzles
      * ******************************************
      */
-    public String getPuzzle(String cache) throws CacheNaoSuportaFuncionalidadeException {
+    public String getPuzzle(String cache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
         if (this.getCache(cache) instanceof CacheMisterio) {
             return ((CacheMisterio) this.getCache(cache)).getDescPuzzle();
         } else {
@@ -394,7 +396,7 @@ public class CacheList implements Serializable {
         }
     }
 
-    public void setPuzzle(String cache, String puzzle) throws CacheNaoSuportaFuncionalidadeException {
+    public void setPuzzle(String cache, String puzzle) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
         if (this.getCache(cache) instanceof CacheMisterio) {
             ((CacheMisterio) this.getCache(cache)).setDescPuzzle(puzzle);
         } else {

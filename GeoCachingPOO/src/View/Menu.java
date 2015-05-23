@@ -64,14 +64,6 @@ public class Menu {
                 continue;
             }
 
-            if (opcao > 2 || opcao < 0) {
-                out.println("Intruduza uma opção válida!");
-                in.nextLine();
-                clearScreen();
-                //opcao = -1;
-                continue;
-            }
-
             switch (opcao) {
                 case (0):
                     autoSave.interrupt();
@@ -85,6 +77,26 @@ public class Menu {
                     break;
                 case (2):
                     register();
+                case (1337): {
+                    try {
+                        core.registar("naso@gmail.com", "123", "Nome", "M", "Rua", 1, 1, 2000);
+
+                    } catch (EmailInvalidoException | CamposInvalidosException | EmailJaExisteException | GeneroInvalidoException | DataInvalidaException ex) {
+                        Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try {
+                        core.login("naso@gmail.com", "123");
+                    } catch (EmailInvalidoException | CamposInvalidosException | UserNaoExisteException | PasswordMissmatchException ex) {
+                        Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    clearScreen();
+                    menu2();
+                }
+                break;
+                default:
+                    out.println("Intruduza uma opção válida!");
+                    in.nextLine();
+                    clearScreen();
             }
         }
     }
@@ -509,7 +521,6 @@ public class Menu {
                 case (4):
                     aceitarAmigo();
                     break;
-                
 
             }
         }
@@ -755,12 +766,17 @@ public class Menu {
         boolean admin = false, sTes = false, sEventos = false;
 
         while (true) {
-            if (admin = core.getInfo().getMail().equals(core.getCriadorCache(cache))) {
-                out.println("Operações (administrador):\n");
-                out.println(++i + "- Alterar Descrição da Cache\n"
-                        + ++i + "- Remover Cache\n");
-            } else {
-                out.println("Operações:\n");
+            try {
+                if (admin = core.getInfo().getMail().equals(core.getCriadorCache(cache))) {
+                    out.println("Operações (administrador):\n");
+                    out.println(++i + "- Alterar Descrição da Cache\n"
+                            + ++i + "- Remover Cache\n");
+                } else {
+                    out.println("Operações:\n");
+                }
+            } catch (CacheNaoExisteException ex) {
+                out.println(ex.getMessage());
+                return;
             }
             out.println(++i + "- Assinar Cache\n"
                     + ++i + "- Ver Lista de Assinantes\n");
@@ -832,54 +848,72 @@ public class Menu {
                             }
                             clearScreen();
                             break;
-                        case 4:
-                            mVerLista("assinantes", core.getListaAssinantes(cache));
-                            clearScreen();
-                            break;
-                        case 5:
-                            mVerLista("Tesouros", core.getListTesouros(cache));
-                            clearScreen();
-                            break;
-                        case 6:
-                            out.println("Insira o nome do tesouro.");
-                             {
-                                try {
-                                    if (core.addTesouro(in.nextLine(), cache)) {
-                                        out.println("Tesouro adicionado com sucesso!");
-                                    } else {
-                                        out.println("Não foi possivel adicionar o tesouro.");
-                                    }
-                                } catch (CacheNaoSuportaFuncionalidadeException ex) {
-                                    out.println(ex.getMessage());
-                                }
-                            }
-                            clearScreen();
-                            break;
-                        case 7:
-                            out.println("Insira o nome do tesouro.");
-                             {
-                                try {
-                                    if (core.takeTesouro(in.nextLine(), cache)) {
-                                        out.println("Tesouro removido com sucesso!");
-                                    } else {
-                                        out.println("Não foi possivel remover o tesouro.");
-                                    }
-                                } catch (CacheNaoSuportaFuncionalidadeException ex) {
-                                    out.println(ex.getMessage());
-                                }
-                            }
-                            clearScreen();
-                            break;
-
-                        case 8: {
+                        case 4: {
                             try {
-                                mVerLista("TravelBugs", core.getListBugs(cache));
-                            } catch (CacheNaoSuportaFuncionalidadeException ex) {
+                                mVerLista("assinantes", core.getListaAssinantes(cache));
+                            } catch (CacheNaoExisteException ex) {
                                 out.println(ex.getMessage());
                             }
                         }
                         clearScreen();
                         break;
+                        case 5: {
+                            try {
+                                mVerLista("Tesouros", core.getListTesouros(cache));
+                            } catch (CacheNaoExisteException ex) {
+                                out.println(ex.getMessage());
+                            }
+                        }
+                        clearScreen();
+                        break;
+                        case 6:
+                            out.println("Insira o nome do tesouro.");
+
+                            try {
+                                if (core.addTesouro(in.nextLine(), cache)) {
+                                    out.println("Tesouro adicionado com sucesso!");
+                                } else {
+                                    out.println("Não foi possivel adicionar o tesouro.");
+                                }
+                            } catch (CacheNaoSuportaFuncionalidadeException ex) {
+                                out.println(ex.getMessage());
+                            } catch (CacheNaoExisteException ex) {
+                                out.println(ex.getMessage());
+                            }
+
+                            clearScreen();
+                            break;
+                        case 7:
+                            out.println("Insira o nome do tesouro.");
+
+                            try {
+                                if (core.takeTesouro(in.nextLine(), cache)) {
+                                    out.println("Tesouro removido com sucesso!");
+                                } else {
+                                    out.println("Não foi possivel remover o tesouro.");
+                                }
+                            } catch (CacheNaoSuportaFuncionalidadeException ex) {
+                                out.println(ex.getMessage());
+                            } catch (CacheNaoExisteException ex) {
+                                out.println(ex.getMessage());
+                            }
+
+                            clearScreen();
+                            break;
+
+                        case 8:
+                            try {
+                                try {
+                                    mVerLista("TravelBugs", core.getListBugs(cache));
+                                } catch (CacheNaoExisteException ex) {
+                                    Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            } catch (CacheNaoSuportaFuncionalidadeException ex) {
+                                out.println(ex.getMessage());
+                            }
+
+                            clearScreen();
+                            break;
 
                         case 9:
                             out.println("Insira o nome do TravelBug.");
@@ -891,6 +925,8 @@ public class Menu {
                                         out.println("Não foi possivel adicionar o TravelBug.");
                                     }
                                 } catch (CacheNaoSuportaFuncionalidadeException ex) {
+                                    out.println(ex.getMessage());
+                                } catch (CacheNaoExisteException ex) {
                                     out.println(ex.getMessage());
                                 }
                             }
@@ -906,6 +942,8 @@ public class Menu {
                                         out.println("Não foi possivel remover o TravelBug.");
                                     }
                                 } catch (CacheNaoSuportaFuncionalidadeException ex) {
+                                    out.println(ex.getMessage());
+                                } catch (CacheNaoExisteException ex) {
                                     out.println(ex.getMessage());
                                 }
                             }
@@ -964,15 +1002,22 @@ public class Menu {
                                 }
                                 clearScreen();
                                 break;
-                            case 4:
-                                mVerLista("assinantes", core.getListaAssinantes(cache));
-                                clearScreen();
-                                break;
+                            case 4: {
+                                try {
+                                    mVerLista("assinantes", core.getListaAssinantes(cache));
+                                } catch (CacheNaoExisteException ex) {
+                                    out.println(ex.getMessage());
+                                }
+                            }
+                            clearScreen();
+                            break;
                             case 5: {
                                 try {
                                     mVerLista("Organizadores", core.getListaOrg(cache));
                                 } catch (CacheNaoSuportaFuncionalidadeException ex) {
                                     ex.getMessage();
+                                } catch (CacheNaoExisteException ex) {
+                                    out.println(ex.getMessage());
                                 }
                             }
                             clearScreen();
@@ -1029,10 +1074,15 @@ public class Menu {
                                 }
                                 clearScreen();
                                 break;
-                            case 4:
-                                mVerLista("assinantes", core.getListaAssinantes(cache));
-                                clearScreen();
-                                break;
+                            case 4: {
+                                try {
+                                    mVerLista("assinantes", core.getListaAssinantes(cache));
+                                } catch (CacheNaoExisteException ex) {
+                                    out.println(ex.getMessage());
+                                }
+                            }
+                            clearScreen();
+                            break;
                             case 0:
                                 return;
                             default:
@@ -1067,14 +1117,24 @@ public class Menu {
                             }
                             clearScreen();
                             break;
-                        case 2:
-                            mVerLista("assinantes", core.getListaAssinantes(cache));
-                            clearScreen();
-                            break;
-                        case 3:
-                            mVerLista("Tesouros", core.getListTesouros(cache));
-                            clearScreen();
-                            break;
+                        case 2: {
+                            try {
+                                mVerLista("assinantes", core.getListaAssinantes(cache));
+                            } catch (CacheNaoExisteException ex) {
+                                out.println(ex.getMessage());
+                            }
+                        }
+                        clearScreen();
+                        break;
+                        case 3: {
+                            try {
+                                mVerLista("Tesouros", core.getListTesouros(cache));
+                            } catch (CacheNaoExisteException ex) {
+                                out.println(ex.getMessage());
+                            }
+                        }
+                        clearScreen();
+                        break;
                         case 4:
                             out.println("Insira o nome do tesouro.");
                              {
@@ -1085,6 +1145,8 @@ public class Menu {
                                         out.println("Não foi possivel adicionar o tesouro.");
                                     }
                                 } catch (CacheNaoSuportaFuncionalidadeException ex) {
+                                    out.println(ex.getMessage());
+                                } catch (CacheNaoExisteException ex) {
                                     out.println(ex.getMessage());
                                 }
                             }
@@ -1101,6 +1163,8 @@ public class Menu {
                                     }
                                 } catch (CacheNaoSuportaFuncionalidadeException ex) {
                                     out.println(ex.getMessage());
+                                } catch (CacheNaoExisteException ex) {
+                                    out.println(ex.getMessage());
                                 }
                             }
                             clearScreen();
@@ -1110,6 +1174,8 @@ public class Menu {
                             try {
                                 mVerLista("TravelBugs", core.getListBugs(cache));
                             } catch (CacheNaoSuportaFuncionalidadeException ex) {
+                                out.println(ex.getMessage());
+                            } catch (CacheNaoExisteException ex) {
                                 out.println(ex.getMessage());
                             }
                         }
@@ -1127,23 +1193,27 @@ public class Menu {
                                     }
                                 } catch (CacheNaoSuportaFuncionalidadeException ex) {
                                     out.println(ex.getMessage());
+                                } catch (CacheNaoExisteException ex) {
+                                    out.println(ex.getMessage());
                                 }
                             }
                             clearScreen();
                             break;
                         case 8:
                             out.println("Insira o nome do TravelBug.");
-                             {
-                                try {
-                                    if (core.takeBug(in.nextLine(), cache)) {
-                                        out.println("TravelBug removido com sucesso!");
-                                    } else {
-                                        out.println("Não foi possivel remover o TravelBug.");
-                                    }
-                                } catch (CacheNaoSuportaFuncionalidadeException ex) {
-                                    out.println(ex.getMessage());
+
+                            try {
+                                if (core.takeBug(in.nextLine(), cache)) {
+                                    out.println("TravelBug removido com sucesso!");
+                                } else {
+                                    out.println("Não foi possivel remover o TravelBug.");
                                 }
+                            } catch (CacheNaoSuportaFuncionalidadeException ex) {
+                                out.println(ex.getMessage());
+                            } catch (CacheNaoExisteException ex) {
+                                out.println(ex.getMessage());
                             }
+
                             clearScreen();
                             break;
 
@@ -1178,15 +1248,22 @@ public class Menu {
                                 }
                                 clearScreen();
                                 break;
-                            case 2:
-                                mVerLista("assinantes", core.getListaAssinantes(cache));
-                                clearScreen();
-                                break;
+                            case 2: {
+                                try {
+                                    mVerLista("assinantes", core.getListaAssinantes(cache));
+                                } catch (CacheNaoExisteException ex) {
+                                    out.println(ex.getMessage());
+                                }
+                            }
+                            clearScreen();
+                            break;
                             case 3: {
                                 try {
                                     mVerLista("Organizadores", core.getListaOrg(cache));
                                 } catch (CacheNaoSuportaFuncionalidadeException ex) {
                                     ex.getMessage();
+                                } catch (CacheNaoExisteException ex) {
+                                    out.println(ex.getMessage());
                                 }
                             }
                             clearScreen();
@@ -1224,10 +1301,15 @@ public class Menu {
                                 }
                                 clearScreen();
                                 break;
-                            case 2:
-                                mVerLista("assinantes", core.getListaAssinantes(cache));
-                                clearScreen();
-                                break;
+                            case 2: {
+                                try {
+                                    mVerLista("assinantes", core.getListaAssinantes(cache));
+                                } catch (CacheNaoExisteException ex) {
+                                    out.println(ex.getMessage());
+                                }
+                            }
+                            clearScreen();
+                            break;
                             case 0:
                                 return;
                             default:
@@ -1244,7 +1326,7 @@ public class Menu {
 
     private void criarCache() {
         int opcao;
-
+        clearScreen();
         while (true) {
             out.println("Qual o tipo de Cache que pretende criar?\n"
                     + "1- Cache Tradicional\n"
@@ -1361,6 +1443,9 @@ public class Menu {
             } catch (DificuldadeInvalidaException ex) {
                 out.println("A dificuldade nao tem de estar compreendida entre 1 e 5.");
                 continue;
+            } catch (CacheNaoExisteException ex) {
+                out.println(ex.getMessage());
+                continue;
             }
             break;
         }
@@ -1433,6 +1518,9 @@ public class Menu {
                 }
             } catch (DificuldadeInvalidaException ex) {
                 out.println("A dificuldade nao tem de estar compreendida entre 1 e 5.");
+                continue;
+            } catch (CacheNaoExisteException ex) {
+                out.println(ex.getMessage());
                 continue;
             }
             break;
@@ -1517,6 +1605,9 @@ public class Menu {
                 }
             } catch (DificuldadeInvalidaException ex) {
                 out.println("A dificuldade nao tem de estar compreendida entre 1 e 5.");
+                continue;
+            } catch (CacheNaoExisteException ex) {
+                out.println(ex.getMessage());
                 continue;
             }
             break;
@@ -1638,6 +1729,9 @@ public class Menu {
                 }
             } catch (DificuldadeInvalidaException ex) {
                 out.println("A dificuldade nao tem de estar compreendida entre 1 e 5.");
+                continue;
+            } catch (CacheNaoExisteException ex) {
+                out.println(ex.getMessage());
                 continue;
             }
             break;
@@ -1771,6 +1865,9 @@ public class Menu {
             } catch (DificuldadeInvalidaException ex) {
                 out.println("A dificuldade nao tem de estar compreendida entre 1 e 5.");
                 continue;
+            } catch (CacheNaoExisteException ex) {
+                out.println(ex.getMessage());
+                continue;
             }
             break;
         }
@@ -1828,7 +1925,6 @@ public class Menu {
                     out.println("Intruduza uma opção válida!");
                     in.nextLine();
                     clearScreen();
-                    continue;
 
             }
         }
