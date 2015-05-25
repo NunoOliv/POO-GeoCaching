@@ -166,9 +166,6 @@ public class CacheList implements Serializable {
         return this.getCache(cache).getCoords();
     }
 
-    public void setCoords(String cache, Coords coords) throws CacheNaoExisteException {
-        this.getCache(cache).setCoords(coords);
-    }
 
     /*
      * *****************************************

@@ -4,6 +4,7 @@ import Exceptions.TipoDeCacheNaoExisteException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
+import java.util.Objects;
 
 /**
  *
@@ -14,7 +15,7 @@ import java.util.GregorianCalendar;
 class Atividade implements Serializable, Comparable<Atividade> {
 
     private GregorianCalendar date;
-    private String user;
+    private final String user;
     private String atividade;
     
 
@@ -23,26 +24,46 @@ class Atividade implements Serializable, Comparable<Atividade> {
         atividade = null;
     }
 
+    
+    public Atividade(GregorianCalendar date, String user, String atividade) {
+        this.date = date;
+        this.user = user;
+        this.atividade = atividade;
+    }
+    
+    
+
+    /**
+     * Altera a data da cache.
+     * 
+     * @param date Nova data da cache.
+     */
     public void setDate(GregorianCalendar date) {
         this.date = (GregorianCalendar) date.clone();
     }
 
-    public void setUser(String user) {
-        this.user = user;
-    }
-
+    /**
+     * Devolve o utilizador que realizou a actividade.
+     * 
+     * @return referencia do utilizador.
+     */
     public String getUser() {
         return user;
     }
-    
-    
-
-    public void setAtividade(String atividade) {
-        this.atividade = atividade;
-    }
 
     
-    
+    /**
+     * Adiciona a descrição da subscrição de uma cache à actividade 
+     * 
+     * @param cache Codigo do tipo de cache assinada
+     * @param ref Referencia da cache assinada
+     * @param user Nome do utilizador que assinou a cache
+     * @param pontos Nomero de pontos que o utilizador obteve com a subscrição da cache.
+     * @param clima Codigo do clima no momento em que a cache foi assinada.
+     * @param date Data da subscrição da cache.
+     * @return String com a descrição da actividade
+     * @throws TipoDeCacheNaoExisteException 
+     */
     public String assinouCache(int cache, String ref, String user, int pontos, String clima, GregorianCalendar date) throws TipoDeCacheNaoExisteException {
         String ret;
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-YYY");
@@ -74,6 +95,16 @@ class Atividade implements Serializable, Comparable<Atividade> {
         return ret;
     }
 
+    /**
+     * Adiciona a descrição da remoção de uma cache  à actividade 
+     * 
+     * @param cache Codigo do tipo de cache removida
+     * @param ref Referencia da cache removida
+     * @param user Nome do utilizador que removeu a cache
+     * @param date Data da remoção da cache.
+     * @return String com a descrição da actividade
+     * @throws TipoDeCacheNaoExisteException Exceção atirada quando o codigo do tipo de cache nao é valido.
+     */
     public String removeCache(int cache, String ref, String user, GregorianCalendar date) throws TipoDeCacheNaoExisteException {
         String ret;
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-YYY");
@@ -105,6 +136,17 @@ class Atividade implements Serializable, Comparable<Atividade> {
         return ret;
     }
 
+    /**
+     * Adiciona a descrição da criação de uma cache à atividades 
+     * 
+     * @param user Nome do utilizador que adicionou a cache
+     * @param cache Codigo do tipo de cache criada
+     * @param ref Referencia da cache criada
+     * @param pontos Pontos que vale a cache
+     * @param date Data da criação da cache.
+     * @return String com a descrição da actividade
+     * @throws TipoDeCacheNaoExisteException Exceção atirada quando o codigo do tipo de cache nao é valido.
+     */
     public String addCache(String user, int cache, String ref, int pontos, GregorianCalendar date) throws TipoDeCacheNaoExisteException {
         String ret;
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-YYY");
@@ -136,15 +178,58 @@ class Atividade implements Serializable, Comparable<Atividade> {
         return ret;
     }
 
+    /**
+     * Adiciona a descrição da confirmação do pedido de amizade à actividade
+     * 
+     * @param sender nome do utilizador que enviou o pedido de amizade.
+     * @param friend nomedo utilizador que aceitou o pedido de amizade.
+     * @param date Data em que o pedido de amizade foi aceite.
+     * @return  String com a descrição da actividade
+     */
     public String addFriend(String sender, String friend, GregorianCalendar date) {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-YYY");
         String dateS = formatter.format(date.getTime());
         this.date = (GregorianCalendar) date.clone();
         return "(" + dateS + ") - " +sender + " adicionou " + friend + " como amigo.";
     }
-    
-    
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 11 * hash + Objects.hashCode(this.date);
+        hash = 11 * hash + Objects.hashCode(this.user);
+        hash = 11 * hash + Objects.hashCode(this.atividade);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Atividade other = (Atividade) obj;
+        if (!this.date.equals(other.getDate()) ) {
+            return false;
+        }
+        if (!this.user.equals(other.getUser())) {
+            return false;
+        }
+        if (!this.atividade.equals(other.toString())) {
+            return false;
+        }
+        return true;
+    }
+    
+    
+    
+    /**
+     * Devolve uma copia da data da realização da atividade.
+     * 
+     * @return Data da atividade
+     */
     public GregorianCalendar getDate() {
         return (GregorianCalendar) date.clone();
     }
@@ -165,12 +250,7 @@ class Atividade implements Serializable, Comparable<Atividade> {
 
     @Override
     protected Object clone() throws CloneNotSupportedException {
-        Atividade c = new Atividade(user);
-        c.setAtividade(atividade);
-        c.setDate((GregorianCalendar) date.clone());
+        Atividade c = new Atividade((GregorianCalendar) date.clone(),user, atividade);
         return c;
-    }
-
-    
-    
+    } 
 }
