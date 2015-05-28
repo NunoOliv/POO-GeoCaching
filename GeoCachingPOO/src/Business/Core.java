@@ -245,7 +245,7 @@ public class Core implements Serializable {
     /**
      * Devolve uma lista que contem todas as caches da cacheList
      *
-     * @return ArrayList<Strings> correspondente a lista de caches
+     * @return ArrayList&lt;String&gt; correspondente a lista de caches
      */
     public ArrayList<String> getListaCaches() {
         ArrayList<String> ret = cacheL.getListaCacheNames();
