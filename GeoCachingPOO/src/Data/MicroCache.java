@@ -9,14 +9,12 @@ import Exceptions.CacheNaoSuportaFuncionalidadeException;
 import Exceptions.DificuldadeInvalidaException;
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author Nuno Oliveira
  */
-public class MicroCache extends Cache implements Serializable  {
+public class MicroCache extends Cache implements Serializable {
 
     private static final int difExtra = 2;
 
@@ -52,7 +50,7 @@ public class MicroCache extends Cache implements Serializable  {
         try {
             return new MicroCache(this);
         } catch (DificuldadeInvalidaException ex) {
-            Logger.getLogger(MicroCache.class.getName()).log(Level.SEVERE, null, ex);
+
             return null;
         }
     }

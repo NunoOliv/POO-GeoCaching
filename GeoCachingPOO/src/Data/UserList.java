@@ -27,7 +27,7 @@ public class UserList implements Serializable {
     public void setUserList(HashMap<String, User> userL) {
         this.userL = userL;
     }
-    
+
     /**
      * Adiciona um novo utilizador à lista.
      *

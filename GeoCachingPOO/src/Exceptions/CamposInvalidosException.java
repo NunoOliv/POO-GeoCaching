@@ -11,6 +11,6 @@ package Exceptions;
  * @author Nuno Oliveira
  * @author Rui Pereira
  */
-public class CamposInvalidosException extends Exception{
-    
+public class CamposInvalidosException extends Exception {
+
 }

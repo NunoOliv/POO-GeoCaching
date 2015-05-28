@@ -10,8 +10,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import static java.lang.Thread.sleep;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -19,7 +17,7 @@ import java.util.logging.Logger;
  */
 public class AutoSaveThread implements Runnable {
 
-    private Core core;
+    private final Core core;
 
     public AutoSaveThread(Core core) {
         this.core = core;
@@ -27,11 +25,10 @@ public class AutoSaveThread implements Runnable {
 
     @Override
     public void run() {
-        while(true){
+        while (true) {
             try {
-                sleep(2*60*1000);//2 min * 60 segs * 1000 milisegundos.
+                sleep(2 * 60 * 1000);//2 min * 60 segs * 1000 milisegundos.
             } catch (InterruptedException ex) {
-                Logger.getLogger(AutoSaveThread.class.getName()).log(Level.SEVERE, null, ex);
             }
             guardar();
         }

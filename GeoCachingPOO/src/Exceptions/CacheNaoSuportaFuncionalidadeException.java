@@ -10,6 +10,7 @@ package Exceptions;
  * @author Nuno
  */
 public class CacheNaoSuportaFuncionalidadeException extends Exception {
+
     String funcionalidade;
     String log = "Erro - Esta Cache nao suporta a funcionalidade";
 
@@ -19,10 +20,11 @@ public class CacheNaoSuportaFuncionalidadeException extends Exception {
 
     @Override
     public String getMessage() {
-        if(funcionalidade!=null) return log+": "+funcionalidade;
-        else return log;
+        if (funcionalidade != null) {
+            return log + ": " + funcionalidade;
+        } else {
+            return log;
+        }
     }
-    
-    
-    
+
 }

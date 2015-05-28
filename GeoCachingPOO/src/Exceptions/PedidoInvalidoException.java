@@ -9,10 +9,14 @@ package Exceptions;
  *
  * @author Nuno
  */
-public class TipoDeCacheNaoExisteException extends Exception {
+public class PedidoInvalidoException extends Exception {
 
-    @Override
-    public String getMessage() {
-        return "Número de Tipo de Cache Inválido!";
+    public PedidoInvalidoException() {
+        super("Pedido de amizade invalido");
     }
+
+    public PedidoInvalidoException(String message) {
+        super(message);
+    }
+
 }

@@ -1,4 +1,3 @@
-
 package Exceptions;
 
 /**
@@ -8,5 +7,5 @@ package Exceptions;
  * @author Rui Pereira
  */
 public class AtividadeNaoExisteException extends Exception {
-    
+
 }

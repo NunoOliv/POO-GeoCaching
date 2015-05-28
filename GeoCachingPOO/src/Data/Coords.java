@@ -1,4 +1,3 @@
-
 package Data;
 
 import java.io.Serializable;
@@ -9,7 +8,7 @@ import java.io.Serializable;
  * @author Nuno Oliveira
  * @author Rui Pereira
  */
-public class Coords implements Serializable{
+public class Coords implements Serializable {
 
     private float latitude;
     private float longitude;
@@ -46,7 +45,7 @@ public class Coords implements Serializable{
     public void setLongitude(float longitude) {
         this.longitude = longitude;
     }
-    
+
     @Override
     public Coords clone() {
         return new Coords(this.getLatitude(), this.getLongitude());
@@ -80,9 +79,7 @@ public class Coords implements Serializable{
 
     @Override
     public String toString() {
-        return "Latitude: "+this.latitude+"\nLongitude: "+this.getLongitude();
+        return "Latitude: " + this.latitude + "\nLongitude: " + this.getLongitude();
     }
-    
-    
 
 }

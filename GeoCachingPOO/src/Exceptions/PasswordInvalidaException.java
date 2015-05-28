@@ -6,6 +6,6 @@ package Exceptions;
  * @author Nuno Oliveira
  * @author Rui Pereira
  */
-public class PasswordInvalidaException extends Exception{
-    
+public class PasswordInvalidaException extends Exception {
+
 }

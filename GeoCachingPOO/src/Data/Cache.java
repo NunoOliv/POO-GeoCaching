@@ -12,8 +12,7 @@ import java.util.Objects;
  * @author Nuno Oliveira
  * @author Rui Pereira
  */
-
-public abstract class Cache  implements Serializable{
+public abstract class Cache implements Serializable {
 
     private final String ref;
     private final Coords coords;
@@ -21,8 +20,7 @@ public abstract class Cache  implements Serializable{
     private final HashSet<String> assinantes;
     private String descricao;
     private int dificuldade;
-    
-    
+
     public Cache(String ref, Coords coords, String creator, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
 
         if (dificuldade > 5 || dificuldade < 1) {
@@ -50,7 +48,7 @@ public abstract class Cache  implements Serializable{
 
     /**
      * Devolve referencia da cache.
-     * 
+     *
      * @return referencia da cache
      */
     public String getRef() {
@@ -59,7 +57,7 @@ public abstract class Cache  implements Serializable{
 
     /**
      * Devolve uma cópia das coordenadas da cache
-     * 
+     *
      * @return Coordenadas da cache
      */
     public Coords getCoords() {
@@ -68,7 +66,7 @@ public abstract class Cache  implements Serializable{
 
     /**
      * Devolve uma lista com todos os assinantes da cache.
-     * 
+     *
      * @return lista com todos os assinantes da cache
      */
     public HashSet<String> listaAssinantes() {
@@ -77,9 +75,9 @@ public abstract class Cache  implements Serializable{
 
     /**
      * Adiciona um assinante à cache.
-     * 
+     *
      * @param nome Identificador do utilizador a adicionar à cache.
-     * @return 
+     * @return
      */
     public boolean addAssinante(String nome) {
         return this.assinantes.add(nome);
@@ -87,10 +85,11 @@ public abstract class Cache  implements Serializable{
 
     /**
      * Remove um assinante da cache.
-     * 
+     *
      * @param nome Identificador do utilizador a remover da cache.
-     * 
-     * @return Retorna true se removeu o assinante ou false se nao foi possivel remover.
+     *
+     * @return Retorna true se removeu o assinante ou false se nao foi possivel
+     * remover.
      */
     public boolean remAssinante(String nome) {
         return this.assinantes.remove(nome);
@@ -98,7 +97,7 @@ public abstract class Cache  implements Serializable{
 
     /**
      * Devolve a descrição da cache.
-     * 
+     *
      * @return Descricao da cahce.
      */
     public String getDescricao() {
@@ -107,7 +106,7 @@ public abstract class Cache  implements Serializable{
 
     /**
      * Altera a descrição da cache.
-     * 
+     *
      * @param descricao Nova descricao da cahce
      */
     public void setDescricao(String descricao) {
@@ -116,7 +115,7 @@ public abstract class Cache  implements Serializable{
 
     /**
      * Devolve a dificuldade da cache.
-     * 
+     *
      * @return dificuldade
      */
     public int getDificuldade() {
@@ -124,10 +123,12 @@ public abstract class Cache  implements Serializable{
     }
 
     /**
-     * Altera a dificuldade da cache. Este valor tem de estar compreendido entre 1 e 5.
-     * 
+     * Altera a dificuldade da cache. Este valor tem de estar compreendido entre
+     * 1 e 5.
+     *
      * @param dificuldade nova dificuldade da cache
-     * @throws Exceptions.DificuldadeInvalidaException Exceção atirada se dificuldade não estiver entre 1 e 5;
+     * @throws Exceptions.DificuldadeInvalidaException Exceção atirada se
+     * dificuldade não estiver entre 1 e 5;
      */
     public void setDificuldade(int dificuldade) throws DificuldadeInvalidaException {
         if (dificuldade > 5) {
@@ -137,8 +138,10 @@ public abstract class Cache  implements Serializable{
     }
 
     /**
-     * Devolve a pontuação base da cache (sem ter em conta as condições climatericas).
-     * @return 
+     * Devolve a pontuação base da cache (sem ter em conta as condições
+     * climatericas).
+     *
+     * @return
      */
     public int getPoints() {
         return dificuldade;
@@ -146,26 +149,28 @@ public abstract class Cache  implements Serializable{
 
     /**
      * Devolve os pontos extra da classe.
-     * 
+     *
      * @return pontos extra
      */
     public abstract int getPontosExtra();
 
     /**
      * Altera os pontos extra da classe.
-     * 
+     *
      * @param i novo valor de pontuação extra.
-     * @throws CacheNaoSuportaFuncionalidadeException  atira exceção se a cache nao suportar a alteração de dificuldade extra.
+     * @throws CacheNaoSuportaFuncionalidadeException atira exceção se a cache
+     * nao suportar a alteração de dificuldade extra.
+     * @throws Exceptions.DificuldadeInvalidaException
      */
-    public abstract void setPontosExtra(int i) throws CacheNaoSuportaFuncionalidadeException;
+    public abstract void setPontosExtra(int i) throws CacheNaoSuportaFuncionalidadeException, DificuldadeInvalidaException;
 
     /**
      * Devolve Código do tipo de cache.
-     * 
+     *
      * @return codigo da cache
      */
     public abstract int getCacheCode();
-    
+
     @Override
     public int hashCode() {
         int hash = 5;
@@ -204,8 +209,6 @@ public abstract class Cache  implements Serializable{
         return true;
     }
 
-    
-
     @Override
     public abstract Cache clone();
 
@@ -224,14 +227,13 @@ public abstract class Cache  implements Serializable{
 
     /**
      * Devolve string correspondente ao tipo de cache.
-     * 
-     * @return 
+     *
+     * @return
      */
     public abstract String getCacheType();
 
     public String getCreator() {
         return creator;
     }
-
 
 }

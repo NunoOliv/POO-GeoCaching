@@ -11,8 +11,11 @@ package Exceptions;
  * @author Nuno Oliveira
  * @author Rui Pereira
  */
-public class UserNaoExisteException extends Exception{
-    
-    
-    
+public class UserNaoExisteException extends Exception {
+
+    @Override
+    public String getMessage() {
+        return "Email não corresponde a nenhum utilizador!";
+    }
+
 }

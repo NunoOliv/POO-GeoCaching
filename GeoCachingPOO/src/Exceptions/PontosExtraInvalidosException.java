@@ -10,5 +10,5 @@ package Exceptions;
  * @author Nuno
  */
 public class PontosExtraInvalidosException extends Exception {
-    
+
 }

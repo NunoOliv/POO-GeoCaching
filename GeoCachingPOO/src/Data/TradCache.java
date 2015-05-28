@@ -5,8 +5,6 @@ import Exceptions.DificuldadeInvalidaException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -14,7 +12,7 @@ import java.util.logging.Logger;
  * @author Nuno Oliveira
  * @author Rui Pereira
  */
-public class TradCache extends Cache implements Serializable  {
+public class TradCache extends Cache implements Serializable {
 
     private HashSet<String> tesouros;
     private HashSet<String> bugs;
@@ -63,11 +61,12 @@ public class TradCache extends Cache implements Serializable  {
     }
 
     public HashSet<String> getBugs() {
-        return new HashSet<> (bugs);
+        return new HashSet<>(bugs);
     }
+
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public ArrayList<String> getListBugs() {
         ArrayList<String> ret = new ArrayList<>();
@@ -76,10 +75,10 @@ public class TradCache extends Cache implements Serializable  {
         }
         return ret;
     }
-    
+
     /**
-     * 
-     * @param bugs 
+     *
+     * @param bugs
      */
     public void setBugs(HashSet<String> bugs) {
         this.bugs = new HashSet<>(bugs);
@@ -144,7 +143,7 @@ public class TradCache extends Cache implements Serializable  {
             return false;
         }
     }
-    
+
     public boolean containsBug(String bug) {
         return bugs.contains(bug);
     }
@@ -154,13 +153,18 @@ public class TradCache extends Cache implements Serializable  {
         return getDificuldade();
     }
 
+    /**
+     * DevolvePontos extra da cache.
+     *
+     * @return pontos extra.
+     */
     @Override
     public int getPontosExtra() {
         return 0;
     }
 
     @Override
-    public void setPontosExtra(int i) throws CacheNaoSuportaFuncionalidadeException {
+    public void setPontosExtra(int i) throws CacheNaoSuportaFuncionalidadeException, DificuldadeInvalidaException {
         throw new CacheNaoSuportaFuncionalidadeException("Alterar Pontos de Dificuldade"); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -169,7 +173,7 @@ public class TradCache extends Cache implements Serializable  {
         try {
             return new TradCache(this);
         } catch (DificuldadeInvalidaException ex) {
-            Logger.getLogger(TradCache.class.getName()).log(Level.SEVERE, null, ex);
+
         }
         return null;
     }
@@ -193,7 +197,5 @@ public class TradCache extends Cache implements Serializable  {
     public int getCacheCode() {
         return 1;
     }
-    
-    
 
 }

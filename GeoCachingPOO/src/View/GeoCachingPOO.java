@@ -31,7 +31,7 @@ public class GeoCachingPOO {
             System.out.println("\nConcluído!\n");
             in.close();
             fileIn.close();
-          
+
         } catch (FileNotFoundException ex) {
             System.out.println("Ficheiro de recuperação de dados não encontrado.");
             core = new Core();
@@ -42,8 +42,8 @@ public class GeoCachingPOO {
             System.out.println("ClassNotFoundException: " + ex.getMessage());
             core = new Core();
         }
-            menu = new Menu(core);
-            //core.inicialize();
-            menu.start();
+        menu = new Menu(core);
+        //core.inicialize();
+        menu.start();
     }
 }

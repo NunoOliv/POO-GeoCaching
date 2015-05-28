@@ -12,7 +12,7 @@ import java.util.HashMap;
  *
  * @author Nuno Oliveira
  */
-public class TravelBugL implements Serializable  {
+public class TravelBugL implements Serializable {
 
     private HashMap<String, TravelBug> bugs;
 
@@ -38,19 +38,18 @@ public class TravelBugL implements Serializable  {
         this.bugs.put(nome, newTb);
         return true;
     }
-    
+
     public void addCacheRec(String bug, String cache) {
         bugs.get(bug).addCache(cache);
         bugs.get(bug).setCurrentCache(cache);
     }
-    
+
     public void takeFromCache(String bug, String cache) {
         bugs.get(bug).setCurrentCache(null);
     }
-    
+
     public boolean containsBug(String bug) {
         return bugs.containsKey(bug);
     }
-    
-    
+
 }

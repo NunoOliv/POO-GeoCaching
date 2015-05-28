@@ -1,4 +1,3 @@
-
 package Exceptions;
 
 /**
@@ -7,6 +6,6 @@ package Exceptions;
  * @author Nuno Oliveira
  * @author Rui Pereira
  */
-public class NomeInvalidoException extends Exception{
-    
+public class NomeInvalidoException extends Exception {
+
 }

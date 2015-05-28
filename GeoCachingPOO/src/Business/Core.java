@@ -12,14 +12,11 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.Random;
 
 /**
@@ -40,58 +37,6 @@ public class Core implements Serializable {
         sessao = null;
         cacheL = new CacheList();
         ativL = new AtivList();
-    }
-
-    public void inicialize() {
-        User rafa, nuno, rui;
-        LocalDate dn1 = LocalDate.of(1994, Month.OCTOBER, 27);
-        LocalDate dn2 = LocalDate.of(1994, Month.JUNE, 10);
-        LocalDate dn3 = LocalDate.of(1994, Month.MAY, 4);
-        try {
-            userL.addUser("rafa@mail.com", "123", "Rafael", "Masculino", "Rua da Pera", dn1);
-            userL.addUser("nuno@mail.com", "123", "Nuno", "Masculino", "Rua da Laranja", dn2);
-            userL.addUser("rui@mail.com", "123", "Rui", "Masculino", "Rua da Maçâ", dn3);
-            try {//Adicionar amigos!
-                rafa = userL.getUser("rafa@mail.com");
-                nuno = userL.getUser("nuno@mail.com");
-                rui = userL.getUser("rui@mail.com");
-
-                rafa.addPedido(nuno);
-                rafa.aceitaPedido(nuno);
-                rafa.addPedido(rui);
-                rafa.aceitaPedido(rui);
-            } catch (EmailInvalidoException | UserNaoExisteException | JaEAmigoException | PedidoNaoExisteException ex) {
-                System.out.println("ERRO na inicialização!");
-                Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            cacheL.addMicroCache("cache1", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
-            cacheL.addMicroCache("cache2", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
-            cacheL.addMicroCache("cache3", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
-            cacheL.addMicroCache("cache4", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
-            cacheL.addMicroCache("cache5", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
-            cacheL.addMicroCache("cache6", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
-            cacheL.addMicroCache("cache7", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
-            cacheL.addMicroCache("cache8", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
-            cacheL.addMicroCache("cache9", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
-            cacheL.addMicroCache("cache10", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
-            cacheL.addMicroCache("cache11", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
-            cacheL.addMicroCache("cache12", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
-            cacheL.addMicroCache("cache13", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
-            cacheL.addMicroCache("cache14", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
-            cacheL.addMicroCache("cache15", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
-            cacheL.addMicroCache("cache16", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
-            cacheL.addMicroCache("cache17", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
-            cacheL.addMicroCache("cache18", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
-            cacheL.addMicroCache("cache19", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
-            cacheL.addMicroCache("cache20", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
-            cacheL.addMicroCache("cache21", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
-            cacheL.addMicroCache("cache22", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
-            cacheL.addMicroCache("cache23", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
-            cacheL.addMicroCache("cache24", new Coords(3265, 54654), "nuno@mail.com", "Cache teste", 3);
-
-        } catch (EmailJaExisteException | CamposInvalidosException | GeneroInvalidoException | DataInvalidaException | DificuldadeInvalidaException ex) {
-            Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     public void login(String mail, String pass) throws EmailInvalidoException, CamposInvalidosException, UserNaoExisteException, PasswordMissmatchException {
@@ -265,9 +210,13 @@ public class Core implements Serializable {
      * @throws EmailInvalidoException
      * @throws UserNaoExisteException
      * @throws JaEAmigoException
+     * @throws Exceptions.PedidoInvalidoException
      */
-    public void pedeAmigo(String m) throws EmailInvalidoException, UserNaoExisteException, JaEAmigoException {
+    public void pedeAmigo(String m) throws EmailInvalidoException, UserNaoExisteException, JaEAmigoException, PedidoInvalidoException {
         checkMail(m);
+        if (sessao.getMail().equals(m)) {
+            throw new PedidoInvalidoException("Não é possivel adicionar o próprio email como amigo");
+        }
         User u = userL.getUser(m);
         u.addPedido(sessao);
     }
@@ -351,16 +300,13 @@ public class Core implements Serializable {
      * possivel criar a Cache
      * @throws DificuldadeInvalidaException
      * @throws Exceptions.CacheNaoExisteException
+     * @throws Exceptions.TipoDeCacheNaoExisteException
      */
-    public boolean addTradCache(String ref, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException, CacheNaoExisteException {
+    public boolean addTradCache(String ref, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException, CacheNaoExisteException, TipoDeCacheNaoExisteException {
         GregorianCalendar date = new GregorianCalendar();
         boolean add = cacheL.addTradCache(ref, coords, sessao.getMail(), descricao, dificuldade);
         if (add) {
-            try {
-                ativL.addCache(sessao.getMail(), sessao.getNome(), 1, ref, cacheL.getPontos(ref), date);
-            } catch (TipoDeCacheNaoExisteException ex) {
-                Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            ativL.addCache(sessao.getMail(), sessao.getNome(), 1, ref, cacheL.getPontos(ref), date);
         }
         return add;
     }
@@ -378,16 +324,15 @@ public class Core implements Serializable {
      * @return True se a cache foi cridada e adicionada ou False se nao foi
      * possivel criar a Cache
      * @throws DificuldadeInvalidaException
+     * @throws Exceptions.CacheNaoExisteException
+     * @throws Exceptions.TipoDeCacheNaoExisteException
      */
-    public boolean addCacheEvento(String ref, HashSet<String> organizadores, GregorianCalendar dataEvento, int pontosExtra, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException, CacheNaoExisteException {
+    public boolean addCacheEvento(String ref, HashSet<String> organizadores, GregorianCalendar dataEvento, int pontosExtra, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException, CacheNaoExisteException, TipoDeCacheNaoExisteException {
         GregorianCalendar date = new GregorianCalendar();
         boolean add = cacheL.addCacheEvento(ref, organizadores, dataEvento, pontosExtra, coords, sessao.getMail(), descricao, dificuldade);
         if (add) {
-            try {
-                ativL.addCache(sessao.getMail(), sessao.getNome(), 5, ref, cacheL.getPontos(ref), date);
-            } catch (TipoDeCacheNaoExisteException ex) {
-                Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            ativL.addCache(sessao.getMail(), sessao.getNome(), 5, ref, cacheL.getPontos(ref), date);
+
         }
         return add;
     }
@@ -404,16 +349,14 @@ public class Core implements Serializable {
      * @return True se a cache foi cridada e adicionada ou False se nao foi
      * possivel criar a Cache
      * @throws DificuldadeInvalidaException
+     * @throws Exceptions.CacheNaoExisteException
+     * @throws Exceptions.TipoDeCacheNaoExisteException
      */
-    public boolean addCacheMisterio(String ref, String DescPuzzle, int pontosExtra, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException, CacheNaoExisteException {
+    public boolean addCacheMisterio(String ref, String DescPuzzle, int pontosExtra, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException, CacheNaoExisteException, TipoDeCacheNaoExisteException {
         GregorianCalendar date = new GregorianCalendar();
         boolean add = cacheL.addCacheMisterio(ref, DescPuzzle, pontosExtra, coords, sessao.getMail(), descricao, dificuldade);
         if (add) {
-            try {
-                ativL.addCache(sessao.getMail(), sessao.getNome(), 3, ref, cacheL.getPontos(ref), date);
-            } catch (TipoDeCacheNaoExisteException ex) {
-                Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            ativL.addCache(sessao.getMail(), sessao.getNome(), 3, ref, cacheL.getPontos(ref), date);
         }
         return add;
     }
@@ -428,16 +371,14 @@ public class Core implements Serializable {
      * @return True se a cache foi cridada e adicionada ou False se nao foi
      * possivel criar a Cache
      * @throws DificuldadeInvalidaException
+     * @throws Exceptions.CacheNaoExisteException
+     * @throws Exceptions.TipoDeCacheNaoExisteException
      */
-    public boolean addMicroCache(String ref, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException, CacheNaoExisteException {
+    public boolean addMicroCache(String ref, Coords coords, String descricao, int dificuldade) throws DificuldadeInvalidaException, CacheNaoExisteException, TipoDeCacheNaoExisteException {
         GregorianCalendar date = new GregorianCalendar();
         boolean add = cacheL.addMicroCache(ref, coords, sessao.getMail(), descricao, dificuldade);
         if (add) {
-            try {
-                ativL.addCache(sessao.getMail(), sessao.getNome(), 2, ref, cacheL.getPontos(ref), date);
-            } catch (TipoDeCacheNaoExisteException ex) {
-                Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            ativL.addCache(sessao.getMail(), sessao.getNome(), 2, ref, cacheL.getPontos(ref), date);
         }
         return add;
     }
@@ -454,16 +395,14 @@ public class Core implements Serializable {
      * @return True se a cache foi cridada e adicionada ou False se nao foi
      * possivel criar a Cache
      * @throws DificuldadeInvalidaException
+     * @throws Exceptions.CacheNaoExisteException
+     * @throws Exceptions.TipoDeCacheNaoExisteException
      */
-    public boolean addmultiCache(String ref, Coords coords, String descricao, HashMap<Integer, Coords> pontosIntermedios, int dificuldade, int pontosExtra) throws DificuldadeInvalidaException, CacheNaoExisteException {
+    public boolean addmultiCache(String ref, Coords coords, String descricao, HashMap<Integer, Coords> pontosIntermedios, int dificuldade, int pontosExtra) throws DificuldadeInvalidaException, CacheNaoExisteException, TipoDeCacheNaoExisteException {
         GregorianCalendar date = new GregorianCalendar();
         boolean add = cacheL.MultiCache(ref, coords, sessao.getMail(), descricao, pontosIntermedios, dificuldade, pontosExtra);
         if (add) {
-            try {
-                ativL.addCache(sessao.getMail(), sessao.getNome(), 4, ref, cacheL.getPontos(ref), date);
-            } catch (TipoDeCacheNaoExisteException ex) {
-                Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            ativL.addCache(sessao.getMail(), sessao.getNome(), 4, ref, cacheL.getPontos(ref), date);
         }
         return add;
     }
@@ -536,18 +475,15 @@ public class Core implements Serializable {
      * @param cache Cache que vai ser assinada.
      * @return
      * @throws Exceptions.CacheNaoExisteException
+     * @throws Exceptions.TipoDeCacheNaoExisteException
      */
-    public boolean assinarCache(String cache) throws CacheNaoExisteException {
+    public boolean assinarCache(String cache) throws CacheNaoExisteException, TipoDeCacheNaoExisteException {
         boolean ass = cacheL.assinarCache(cache, sessao.getMail());
         int weather = this.calculateWeather();
         int pontos = cacheL.getPontos(cache) + weather;
         if (ass) {
             sessao.addPontos(pontos);
-            try {
-                ativL.assinouCache(sessao.getMail(), cacheL.getCacheType(cache), cache, sessao.getNome(), pontos, this.weatherToString(weather), new GregorianCalendar());
-            } catch (TipoDeCacheNaoExisteException ex) {
-                Logger.getLogger(Core.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            ativL.assinouCache(sessao.getMail(), cacheL.getCacheType(cache), cache, sessao.getNome(), pontos, this.weatherToString(weather), new GregorianCalendar());
         }
         return ass;
     }
@@ -557,6 +493,7 @@ public class Core implements Serializable {
      *
      * @param cache Referencia da cache.
      * @return Lista de Assinantes.
+     * @throws Exceptions.CacheNaoExisteException
      */
     public ArrayList<String> getListaAssinantes(String cache) throws CacheNaoExisteException {
         return new ArrayList<>(cacheL.getListaAssinantes(cache));
@@ -567,6 +504,7 @@ public class Core implements Serializable {
      *
      * @param cache Referencia da cache.
      * @return Lista de tesouros
+     * @throws Exceptions.CacheNaoExisteException
      */
     public ArrayList<String> getListTesouros(String cache) throws CacheNaoExisteException {
         try {
@@ -584,6 +522,7 @@ public class Core implements Serializable {
      * @param cache Referencia da cache.
      * @return TRUE se adicionou o tesouro ou FALSE sde nao adicionou.
      * @throws CacheNaoSuportaFuncionalidadeException
+     * @throws Exceptions.CacheNaoExisteException
      */
     public boolean addTesouro(String tesouro, String cache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
         return cacheL.addTesouro(tesouro, cache);

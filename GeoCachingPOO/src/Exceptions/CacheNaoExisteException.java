@@ -15,6 +15,5 @@ public class CacheNaoExisteException extends Exception {
     public String getMessage() {
         return "Cache não existe"; //To change body of generated methods, choose Tools | Templates.
     }
-    
 
 }

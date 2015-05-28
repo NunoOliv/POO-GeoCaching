@@ -10,8 +10,6 @@ import Exceptions.PontosExtraInvalidosException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -141,7 +139,7 @@ public class MultiCache extends TradCache implements Serializable {
         try {
             return new MultiCache(this);
         } catch (DificuldadeInvalidaException ex) {
-            Logger.getLogger(MultiCache.class.getName()).log(Level.SEVERE, null, ex);
+
         }
         return null;
     }
@@ -153,7 +151,7 @@ public class MultiCache extends TradCache implements Serializable {
         ret = ret.concat("Pontos intermédios:\n");
 
         for (Integer i : pontosIntermedios.keySet()) {
-            ret = ret.concat("Ponto " + i+1 + ": Latitude = " + pontosIntermedios.get(i).getLatitude() + "  Longitude = " + pontosIntermedios.get(i).getLongitude() + "\n");
+            ret = ret.concat("Ponto " + i + 1 + ": Latitude = " + pontosIntermedios.get(i).getLatitude() + "  Longitude = " + pontosIntermedios.get(i).getLongitude() + "\n");
         }
 
         ret = ret.concat("Pontos Extra: " + pontosExtra + "\n");
@@ -168,9 +166,7 @@ public class MultiCache extends TradCache implements Serializable {
 
     @Override
     public int getCacheCode() {
-        return 4; 
+        return 4;
     }
-    
-    
 
 }

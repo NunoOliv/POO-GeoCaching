@@ -11,8 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -87,6 +85,7 @@ public class CacheEvento extends Cache implements Serializable {
     /**
      * @return the pontosExtra
      */
+    @Override
     public int getPontosExtra() {
         return pontosExtra;
     }
@@ -94,6 +93,7 @@ public class CacheEvento extends Cache implements Serializable {
     /**
      * @param pontosExtra the pontosExtra to set
      */
+    @Override
     public void setPontosExtra(int pontosExtra) {
         this.pontosExtra = pontosExtra;
     }
@@ -129,7 +129,6 @@ public class CacheEvento extends Cache implements Serializable {
         try {
             return new CacheEvento(this);
         } catch (DificuldadeInvalidaException ex) {
-            Logger.getLogger(CacheEvento.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -167,8 +166,5 @@ public class CacheEvento extends Cache implements Serializable {
     public int getCacheCode() {
         return 5;
     }
-
-    
-    
 
 }

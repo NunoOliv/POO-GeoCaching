@@ -6,6 +6,6 @@ package Exceptions;
  * @author Nuno Oliveira
  * @author Rui Pereira
  */
-public class MoradaInvalidaException extends Exception{
-    
+public class MoradaInvalidaException extends Exception {
+
 }

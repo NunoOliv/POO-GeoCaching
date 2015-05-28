@@ -51,9 +51,12 @@ public class CacheList implements Serializable {
     }
 
     private Cache getCache(String ref) throws CacheNaoExisteException {
-        if (caches.containsKey(ref)) return caches.get(ref);
-        else throw new CacheNaoExisteException();
-        
+        if (caches.containsKey(ref)) {
+            return caches.get(ref);
+        } else {
+            throw new CacheNaoExisteException();
+        }
+
     }
 
     public ArrayList<String> getListaCacheNames() {
@@ -103,20 +106,21 @@ public class CacheList implements Serializable {
         if (caches.containsKey(cache)) {
             return "Tipo de Cache: " + caches.get(cache).getCacheType() + "\n" + caches.get(cache).toString();
         } else {
-            
-                throw new CacheNaoExisteException();
-            
+
+            throw new CacheNaoExisteException();
+
         }
     }
+
     public int getCacheType(String cache) throws CacheNaoExisteException {
         if (caches.containsKey(cache)) {
             return caches.get(cache).getPontosExtra();
         } else {
-                throw new CacheNaoExisteException();
-            
+            throw new CacheNaoExisteException();
+
         }
     }
-    
+
     /*
      * *****************************************
      * Operações com assinantes 
@@ -140,14 +144,13 @@ public class CacheList implements Serializable {
 
     /**
      * *****************************************
-     * Operações com dificuldades 
-     * *****************************************
+     * Operações com dificuldades *****************************************
      */
     /**
-     * 
+     *
      * @param dif
      * @param cache
-     * @throws DificuldadeInvalidaException 
+     * @throws DificuldadeInvalidaException
      */
     public void setDificuldade(int dif, String cache) throws DificuldadeInvalidaException {
         this.caches.get(cache).setDificuldade(dif);
@@ -317,10 +320,10 @@ public class CacheList implements Serializable {
         return this.getCache(cache).getPontosExtra();
     }
 
-    public void setPontosExtra(int p, String cache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
+    public void setPontosExtra(int p, String cache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException, DificuldadeInvalidaException {
         this.getCache(cache).setPontosExtra(p);
     }
-    
+
     public int getPontos(String cache) throws CacheNaoExisteException {
         return this.getCache(cache).getPoints();
     }

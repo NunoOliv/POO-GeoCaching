@@ -8,14 +8,12 @@ package Data;
 import Exceptions.DificuldadeInvalidaException;
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author Nuno Oliveira
  */
-public class CacheMisterio extends TradCache implements Serializable  {
+public class CacheMisterio extends TradCache implements Serializable {
 
     private String descPuzzle;
     private int pontosExtra;
@@ -32,7 +30,7 @@ public class CacheMisterio extends TradCache implements Serializable  {
         this.pontosExtra = 0;
     }
 
-    public CacheMisterio(String ref, String DescPuzzle, int pontosExtra, HashSet<String> tesouros,HashSet<String> bugs, Coords coords, String creator, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
+    public CacheMisterio(String ref, String DescPuzzle, int pontosExtra, HashSet<String> tesouros, HashSet<String> bugs, Coords coords, String creator, HashSet<String> Assinantes, String Descricao, int dificuldade) throws DificuldadeInvalidaException {
         super(ref, tesouros, bugs, coords, creator, Assinantes, Descricao, dificuldade);
         this.descPuzzle = DescPuzzle;
         this.pontosExtra = pontosExtra;
@@ -94,7 +92,7 @@ public class CacheMisterio extends TradCache implements Serializable  {
         try {
             return new CacheMisterio(this);
         } catch (DificuldadeInvalidaException ex) {
-            Logger.getLogger(CacheMisterio.class.getName()).log(Level.SEVERE, null, ex);
+
         }
         return null;
     }
@@ -118,7 +116,5 @@ public class CacheMisterio extends TradCache implements Serializable  {
     public int getCacheCode() {
         return 3; //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
 
 }

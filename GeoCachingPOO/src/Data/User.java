@@ -328,13 +328,14 @@ public class User implements Serializable {
     public HashMap verAmigos() {
         return cloneAmigos();
     }
+
     /**
      * Devolve uma lista de identificadores de amigos.
-     * 
+     *
      * @return ArrayList que contem os identificadores dos amigos.
      */
     public ArrayList<String> listaIdentAmigos() {
-        return new ArrayList<> (amigos.keySet());
+        return new ArrayList<>(amigos.keySet());
     }
 
     /**

@@ -11,6 +11,6 @@ package Exceptions;
  * @author Nuno Oliveira
  * @author Rui Pereira
  */
-public class EmailJaExisteException extends Exception{
-    
+public class EmailJaExisteException extends Exception {
+
 }

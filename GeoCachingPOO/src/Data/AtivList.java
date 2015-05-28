@@ -15,7 +15,7 @@ import java.util.GregorianCalendar;
  *
  * @author naso
  */
-public class AtivList implements Serializable{
+public class AtivList implements Serializable {
 
     private final ArrayList<Atividade> atividades;
 
@@ -24,8 +24,8 @@ public class AtivList implements Serializable{
     }
 
     /**
-     * Adiciona a descrição da criação de uma cache à lista de actividades 
-     * 
+     * Adiciona a descrição da criação de uma cache à lista de actividades
+     *
      * @param mail endereço de email do utilizador que criou a cache.
      * @param user Nome do utilizador que adicionou a cache
      * @param cache Codigo do tipo de cache criada
@@ -33,7 +33,8 @@ public class AtivList implements Serializable{
      * @param pontos Pontos que vale a cache
      * @param date Data da criação da cache.
      * @return String com a descrição da actividade
-     * @throws TipoDeCacheNaoExisteException Exceção atirada quando o codigo do tipo de cache nao é valido.
+     * @throws TipoDeCacheNaoExisteException Exceção atirada quando o codigo do
+     * tipo de cache nao é valido.
      */
     public String addCache(String mail, String user, int cache, String ref, int pontos, GregorianCalendar date) throws TipoDeCacheNaoExisteException {
         //GregorianCalendar date = new GregorianCalendar();
@@ -44,17 +45,17 @@ public class AtivList implements Serializable{
         return ativ.toString();
     }
 
-    
     /**
-     * Adiciona a descrição da remoção de uma cache à lista de actividades 
-     * 
+     * Adiciona a descrição da remoção de uma cache à lista de actividades
+     *
      * @param mail endereço de email do utilizador que removeu a cache.
      * @param cache Codigo do tipo de cache removida
      * @param ref Referencia da cache removida
      * @param user Nome do utilizador que removeu a cache
      * @param date Data da remoção da cache.
      * @return String com a descrição da actividade
-     * @throws TipoDeCacheNaoExisteException Exceção atirada quando o codigo do tipo de cache nao é valido.
+     * @throws TipoDeCacheNaoExisteException Exceção atirada quando o codigo do
+     * tipo de cache nao é valido.
      */
     public String removeCache(String mail, int cache, String ref, String user, GregorianCalendar date) throws TipoDeCacheNaoExisteException {
         //GregorianCalendar date = new GregorianCalendar();
@@ -65,17 +66,18 @@ public class AtivList implements Serializable{
     }
 
     /**
-     * Adiciona a descrição da subscrição de uma cache à lista de actividades 
-     * 
+     * Adiciona a descrição da subscrição de uma cache à lista de actividades
+     *
      * @param mail endereço de email do utilizador que assinou a cache.
      * @param cache Codigo do tipo de cache assinada
      * @param ref Referencia da cache assinada
      * @param user Nome do utilizador que assinou a cache
-     * @param pontos Nomero de pontos que o utilizador obteve com a subscrição da cache.
+     * @param pontos Nomero de pontos que o utilizador obteve com a subscrição
+     * da cache.
      * @param clima Codigo do clima no momento em que a cache foi assinada.
      * @param date Data da Subscrição da cache.
      * @return String com a descrição da actividade
-     * @throws TipoDeCacheNaoExisteException 
+     * @throws TipoDeCacheNaoExisteException
      */
     public String assinouCache(String mail, int cache, String ref, String user, int pontos, String clima, GregorianCalendar date) throws TipoDeCacheNaoExisteException {
         Atividade ativ = new Atividade(mail);
@@ -85,14 +87,17 @@ public class AtivList implements Serializable{
     }
 
     /**
-     * Adiciona a descrição da confirmação do pedido de amizade à lista de actividades 
-     * 
-     * @param mails endereço de email do utilizador que enviou o pedido de amizade.
+     * Adiciona a descrição da confirmação do pedido de amizade à lista de
+     * actividades
+     *
+     * @param mails endereço de email do utilizador que enviou o pedido de
+     * amizade.
      * @param sender nome do utilizador que enviou o pedido de amizade.
-     * @param mailf endereço de email do utilizador que aceitou o pedido de amizade.
+     * @param mailf endereço de email do utilizador que aceitou o pedido de
+     * amizade.
      * @param friend nomedo utilizador que aceitou o pedido de amizade.
      * @param date Data em que o pedido de amizade foi aceite.
-     * @return  String com a descrição da actividade
+     * @return String com a descrição da actividade
      */
     public String addFriend(String mails, String sender, String mailf, String friend, GregorianCalendar date) {
         Atividade ativ = new Atividade(mails);
@@ -105,8 +110,9 @@ public class AtivList implements Serializable{
     }
 
     /**
-     * Devolve uma lista de actividades realizadas por um grupo de utilizadores ordenada pela data, do mais rececente para o mais antigo.
-     * 
+     * Devolve uma lista de actividades realizadas por um grupo de utilizadores
+     * ordenada pela data, do mais rececente para o mais antigo.
+     *
      * @param amigos lista de utilizadores.
      * @return lista de actividades
      */
@@ -124,6 +130,7 @@ public class AtivList implements Serializable{
         }
 
         Collections.sort(aux);
+        Collections.reverse(aux);
         for (Atividade a : aux) {
             ret.add(a.toString());
         }

@@ -12,5 +12,5 @@ package Exceptions;
  * @author Rui Pereira
  */
 public class JaEAmigoException extends Exception {
-    
+
 }

@@ -11,11 +11,11 @@ package Exceptions;
  * @author Nuno Oliveira
  * @author Rui Pereira
  */
-public class EmailInvalidoException extends Exception{
+public class EmailInvalidoException extends Exception {
 
     @Override
     public String getMessage() {
         return "O endereço introduzido não é um endereço válido!";
     }
-    
+
 }

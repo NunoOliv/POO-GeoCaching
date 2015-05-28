@@ -11,8 +11,6 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -77,17 +75,20 @@ public class Menu {
                     break;
                 case (2):
                     register();
+                    break;
+
+                //apagar
                 case (1337): {
                     try {
                         core.registar("naso@gmail.com", "123", "Nome", "M", "Rua", 1, 1, 2000);
 
                     } catch (EmailInvalidoException | CamposInvalidosException | EmailJaExisteException | GeneroInvalidoException | DataInvalidaException ex) {
-                        Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+
                     }
                     try {
                         core.login("naso@gmail.com", "123");
                     } catch (EmailInvalidoException | CamposInvalidosException | UserNaoExisteException | PasswordMissmatchException ex) {
-                        Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+
                     }
                     clearScreen();
                     menu2();
@@ -581,15 +582,19 @@ public class Menu {
             in.nextLine();
             clearScreen();
         } catch (EmailInvalidoException ex) {
-            out.println("Email introduzido inválido inválido!");
+            out.println("Email introduzido inválido!");
             in.nextLine();
             clearScreen();
         } catch (UserNaoExisteException ex) {
-            out.println("Email não corresponde a nenhum utilizador!");
+            out.println(ex.getMessage());
             in.nextLine();
             clearScreen();
         } catch (JaEAmigoException ex) {
             out.println("Já é amigo desse utilizador");
+            in.nextLine();
+            clearScreen();
+        } catch (PedidoInvalidoException ex) {
+            out.println(ex.getMessage());
             in.nextLine();
             clearScreen();
         }
@@ -766,11 +771,12 @@ public class Menu {
         boolean admin = false, sTes = false, sEventos = false;
 
         while (true) {
+            i = 0;
             try {
                 if (admin = core.getInfo().getMail().equals(core.getCriadorCache(cache))) {
                     out.println("Operações (administrador):\n");
                     out.println(++i + "- Alterar Descrição da Cache\n"
-                            + ++i + "- Remover Cache\n");
+                            + ++i + "- Remover Cache");
                 } else {
                     out.println("Operações:\n");
                 }
@@ -779,14 +785,14 @@ public class Menu {
                 return;
             }
             out.println(++i + "- Assinar Cache\n"
-                    + ++i + "- Ver Lista de Assinantes\n");
+                    + ++i + "- Ver Lista de Assinantes");
             if (sTes = core.suportaTesouros(cache)) {
                 out.println(++i + "- Ver Lista de Tesouros\n"
                         + ++i + "- Adicionar tesouro\n"
                         + ++i + "- Remover Tesouro\n"
-                        + ++i + "- Ver Lista de Bugs"
+                        + ++i + "- Ver Lista de Bugs\n"
                         + ++i + "- Adicionar bug\n"
-                        + ++i + "- Remover Bug\n");
+                        + ++i + "- Remover Bug");
             } else {
                 if (sEventos = core.suportaEventos(cache)) {
                     out.println(++i + "- Ver Lista de Organizadores\n");
@@ -836,6 +842,8 @@ public class Menu {
                                             out.println("Não foi possivel assinar a cache. Verifique se esta cache já se encontra assinada.");
                                         }
                                     } catch (CacheNaoExisteException ex) {
+                                        out.println(ex.getMessage());
+                                    } catch (TipoDeCacheNaoExisteException ex) {
                                         out.println(ex.getMessage());
                                     }
                                     break;
@@ -906,7 +914,7 @@ public class Menu {
                                 try {
                                     mVerLista("TravelBugs", core.getListBugs(cache));
                                 } catch (CacheNaoExisteException ex) {
-                                    Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                                    out.println(ex.getMessage());
                                 }
                             } catch (CacheNaoSuportaFuncionalidadeException ex) {
                                 out.println(ex.getMessage());
@@ -992,6 +1000,8 @@ public class Menu {
                                             break;
                                         } catch (CacheNaoExisteException ex) {
                                             out.println(ex.getMessage());
+                                        } catch (TipoDeCacheNaoExisteException ex) {
+                                            out.println(ex.getMessage());
                                         }
                                     } else if (aux.equals("N")) {
                                         out.println("Cache não foi assinada!");
@@ -1063,6 +1073,8 @@ public class Menu {
                                             }
                                         } catch (CacheNaoExisteException ex) {
                                             out.println(ex.getMessage());
+                                        } catch (TipoDeCacheNaoExisteException ex) {
+                                            out.println(ex.getMessage());
                                         }
                                         break;
                                     } else if (aux.equals("N")) {
@@ -1105,6 +1117,8 @@ public class Menu {
                                             out.println("Não foi possivel assinar a cache. Verifique se esta cache já se encontra assinada.");
                                         }
                                     } catch (CacheNaoExisteException ex) {
+                                        out.println(ex.getMessage());
+                                    } catch (TipoDeCacheNaoExisteException ex) {
                                         out.println(ex.getMessage());
                                     }
                                     break;
@@ -1237,6 +1251,8 @@ public class Menu {
                                             }
                                         } catch (CacheNaoExisteException ex) {
                                             out.println(ex.getMessage());
+                                        } catch (TipoDeCacheNaoExisteException ex) {
+                                            out.println(ex.getMessage());
                                         }
                                         break;
                                     } else if (aux.equals("N")) {
@@ -1289,6 +1305,8 @@ public class Menu {
                                                 out.println("Não foi possivel assinar a cache. Verifique se esta cache já se encontra assinada.");
                                             }
                                         } catch (CacheNaoExisteException ex) {
+                                            out.println(ex.getMessage());
+                                        } catch (TipoDeCacheNaoExisteException ex) {
                                             out.println(ex.getMessage());
                                         }
                                         break;
@@ -1446,6 +1464,8 @@ public class Menu {
             } catch (CacheNaoExisteException ex) {
                 out.println(ex.getMessage());
                 continue;
+            } catch (TipoDeCacheNaoExisteException ex) {
+                out.println(ex.getMessage());
             }
             break;
         }
@@ -1522,6 +1542,8 @@ public class Menu {
             } catch (CacheNaoExisteException ex) {
                 out.println(ex.getMessage());
                 continue;
+            } catch (TipoDeCacheNaoExisteException ex) {
+                out.println(ex.getMessage());
             }
             break;
         }
@@ -1609,6 +1631,8 @@ public class Menu {
             } catch (CacheNaoExisteException ex) {
                 out.println(ex.getMessage());
                 continue;
+            } catch (TipoDeCacheNaoExisteException ex) {
+                out.println(ex.getMessage());
             }
             break;
         }
@@ -1733,6 +1757,8 @@ public class Menu {
             } catch (CacheNaoExisteException ex) {
                 out.println(ex.getMessage());
                 continue;
+            } catch (TipoDeCacheNaoExisteException ex) {
+                out.println(ex.getMessage());
             }
             break;
         }
@@ -1810,7 +1836,11 @@ public class Menu {
                 try {
                     if (core.existeUser(org)) {
                         orgList.add(org);
+                    } else {
+                        out.println("Email não corresponde a nenhum utilizador!");
+                        continue;
                     }
+
                 } catch (EmailInvalidoException ex) {
                     out.println(ex.getMessage());
                     continue;
@@ -1868,6 +1898,8 @@ public class Menu {
             } catch (CacheNaoExisteException ex) {
                 out.println(ex.getMessage());
                 continue;
+            } catch (TipoDeCacheNaoExisteException ex) {
+                out.println(ex.getMessage());
             }
             break;
         }
