@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -30,10 +32,12 @@ public class CacheList implements Serializable {
      */
     public CacheList(HashMap<String, Cache> caches) {
         this.caches = caches;
+        this.bugs = new TravelBugL();
     }
 
     public CacheList() {
         this.caches = new HashMap<>();
+        this.bugs = new TravelBugL();
     }
 
     /**
@@ -246,20 +250,30 @@ public class CacheList implements Serializable {
     }
 
     public boolean addBug(String bug, String tradCache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
-        TradCache c;
+        TradCache c, e;
+        System.out.println(bug);
         if (this.getCache(tradCache) instanceof TradCache) {
             c = (TradCache) this.caches.get(tradCache);
-            if (bugs.containsBug(bug)) {
+            if (this.bugs.containsBug(bug)) {
                 if (!c.containsBug(bug)) {
-                    bugs.addCacheRec(bug, tradCache);
+                    try {
+                        e = (TradCache) this.caches.get(bugs.getCurrCache(bug));
+                        e.takeBug(bug);
+                    } catch (Exception ex) { }                      
+                    this.bugs.addCacheRec(bug, tradCache);
                     return (c.putBug(bug));
                 } else {
                     return false;
                 }
             } else {
                 if (!c.containsBug(bug)) {
-                    bugs.newTB(bug);
-                    bugs.addCacheRec(bug, tradCache);
+                    try {
+                        e = (TradCache) this.caches.get(bugs.getCurrCache(bug));
+                        e.takeBug(bug);
+                    } catch (Exception ex) { }
+                    this.bugs.newTB(bug);
+                    this.bugs.addCacheRec(bug, tradCache);
+
                     return (c.putBug(bug));
                 } else {
                     return false;
@@ -274,9 +288,9 @@ public class CacheList implements Serializable {
         TradCache c;
         if (this.getCache(tradCache) instanceof TradCache) {
             c = (TradCache) this.caches.get(tradCache);
-            if (bugs.containsBug(bug)) {
+            if (this.bugs.containsBug(bug)) {
                 if (c.containsBug(bug)) {
-                    bugs.takeFromCache(bug, tradCache);
+                    this.bugs.takeFromCache(bug, tradCache);
                     return (c.takeBug(bug));
                 } else {
                     return false;
@@ -595,4 +609,17 @@ public class CacheList implements Serializable {
         }
         return true;
     }
+
+    public ArrayList<String> getFreeBugs() {
+        return bugs.getFreeBugs();
+    }
+
+    public String getBugDetails(String bug) {
+        return bugs.getBugDetails(bug);
+    }
+
+    public boolean containsBug(String bug) {
+        return bugs.containsBug(bug);
+    }
+
 }

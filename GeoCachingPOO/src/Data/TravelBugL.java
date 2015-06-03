@@ -6,6 +6,7 @@
 package Data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -16,6 +17,13 @@ public class TravelBugL implements Serializable {
 
     private HashMap<String, TravelBug> bugs;
 
+    public TravelBugL() {
+        this.bugs = new HashMap<>();
+    }
+
+    
+    
+    
     /**
      * @return the bugs
      */
@@ -47,9 +55,29 @@ public class TravelBugL implements Serializable {
     public void takeFromCache(String bug, String cache) {
         bugs.get(bug).setCurrentCache(null);
     }
+    
+    public ArrayList<String> getFreeBugs() {
+        ArrayList<String> ret = new ArrayList<>();
+        for(String tb : bugs.keySet()) {
+            if (bugs.get(tb).getCurrentCache() == null) {
+                ret.add(tb);
+            }
+        }
+        return ret;
+    }
 
     public boolean containsBug(String bug) {
-        return bugs.containsKey(bug);
+         if(bugs.containsKey(bug) == true) return true; else return false;
+    }
+
+    String getBugDetails(String bug) {
+        return bugs.get(bug).toString();
+    }
+    
+    public String getCurrCache(String bug) throws Exception {
+        if(bugs.get(bug).getCurrentCache() !=null) return bugs.get(bug).getCurrentCache();
+        else throw new Exception();
+        
     }
 
 }

@@ -27,10 +27,10 @@ import java.util.Random;
  */
 public class Core implements Serializable {
 
-    private final UserList userL;
+    private UserList userL;
     private User sessao;
-    private final CacheList cacheL;
-    private final AtivList ativL;
+    private CacheList cacheL;
+    private AtivList ativL;
 
     public Core() {
         userL = new UserList();
@@ -38,6 +38,15 @@ public class Core implements Serializable {
         cacheL = new CacheList();
         ativL = new AtivList();
     }
+    
+    public void erase() {
+        userL = new UserList();
+        sessao = null;
+        cacheL = new CacheList();
+        ativL = new AtivList();
+        
+    }
+            
 
     public void login(String mail, String pass) throws EmailInvalidoException, CamposInvalidosException, UserNaoExisteException, PasswordMissmatchException {
         userL.existeUser(mail);
@@ -544,6 +553,13 @@ public class Core implements Serializable {
         return cacheL.takeBug(bug, tradCache);
     }
 
+    public ArrayList<String> getFreeBugs(){
+        return cacheL.getFreeBugs();
+    }
+    public String getBugDetails(String bug){
+        return cacheL.getBugDetails(bug);
+    }
+    
     public ArrayList<String> getListaOrg(String cache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
         return cacheL.getListaOrg(cache);
     }
@@ -612,4 +628,10 @@ public class Core implements Serializable {
             System.out.println("IOException: " + ex.getMessage());
         }
     }
+
+    public boolean containsBug(String bug) {
+        return cacheL.containsBug(bug);
+    }
+
+    
 }

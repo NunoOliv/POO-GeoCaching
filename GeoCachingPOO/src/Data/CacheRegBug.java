@@ -6,6 +6,8 @@
 package Data;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.Objects;
 
@@ -43,6 +45,14 @@ public class CacheRegBug implements Serializable {
         this.date = date;
     }
 
+    @Override
+    public String toString() {
+        DateFormat formatter = new SimpleDateFormat("dd MM yyyy");
+        return "Cache: "+cache+"     Data: "+ formatter.format(date.getTime())+"\n";
+    }
+
+    
+    
     @Override
     public int hashCode() {
         int hash = 5;

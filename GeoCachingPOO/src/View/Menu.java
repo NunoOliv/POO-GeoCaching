@@ -1,7 +1,7 @@
 package View;
 
 import Business.AutoSaveThread;
-import Business.Core;
+import Business.*;
 import Data.Coords;
 import Data.User;
 import Exceptions.*;
@@ -76,19 +76,20 @@ public class Menu {
                 case (2):
                     register();
                     break;
-
+                case (3):
+                    core.erase();
+                    new TestClass(core, 20);
+                    break;
                 //apagar
                 case (1337): {
                     try {
                         core.registar("naso@gmail.com", "123", "Nome", "M", "Rua", 1, 1, 2000);
 
                     } catch (EmailInvalidoException | CamposInvalidosException | EmailJaExisteException | GeneroInvalidoException | DataInvalidaException ex) {
-
                     }
                     try {
                         core.login("naso@gmail.com", "123");
                     } catch (EmailInvalidoException | CamposInvalidosException | UserNaoExisteException | PasswordMissmatchException ex) {
-
                     }
                     clearScreen();
                     menu2();
@@ -648,6 +649,8 @@ public class Menu {
                 + i + "- Ver Caches\n"
                 + (++i) + "- Detalhes Cache\n"
                 + (++i) + "- Criar Cache\n"
+                + (++i) + "- Ver TravelBugs livres\n"
+                + (++i) + "- Ver Detalhes de um TravelBug\n"
                 + "0-Voltar";
     }
 
@@ -673,8 +676,9 @@ public class Menu {
             if (cont >= screensize) {
                 out.println("Página: " + currPage + " de: " + maxPages);
                 out.println("Mostrar proxima pagina?(S/N)");
-                m = in.nextLine();
+                
                 while (!exit && cont != 0) {
+                    m = in.nextLine();
                     switch (m) {
                         case ("S"):
                             cont = 0;
@@ -684,6 +688,7 @@ public class Menu {
                             return;
                         default:
                             out.println("Opção invalida: Escreva S para sim ou N para não.");
+                            
 
                     }
                 }
@@ -728,6 +733,14 @@ public class Menu {
                     break;
                 case (3):
                     criarCache();
+                    break;
+                case (4):
+                    mVerLista("TravelBugs", core.getFreeBugs());
+                    clearScreen();
+                    break;
+                case (5):
+                    detalhesTB();
+                    clearScreen();
                     break;
                 default:
                     out.println("Intruduza uma opção válida!");
@@ -792,12 +805,14 @@ public class Menu {
                         + ++i + "- Remover Tesouro\n"
                         + ++i + "- Ver Lista de Bugs\n"
                         + ++i + "- Adicionar bug\n"
-                        + ++i + "- Remover Bug");
+                        + ++i + "- Remover Bug\n"
+                        + ++i + "- Ver TravelBug");
             } else {
                 if (sEventos = core.suportaEventos(cache)) {
                     out.println(++i + "- Ver Lista de Organizadores\n");
                 }
             }
+            out.println("0- Sair");
             try {
                 opcao = Integer.parseInt(in.nextLine());
             } catch (Exception e) {
@@ -957,7 +972,9 @@ public class Menu {
                             }
                             clearScreen();
                             break;
-
+                        case 11:
+                            detalhesTB();
+                            break;
                         case 0:
                             return;
                         default:
@@ -1230,6 +1247,9 @@ public class Menu {
 
                             clearScreen();
                             break;
+                        case 9:
+                            detalhesTB();
+                            break;
 
                         case 0:
                             return;
@@ -1335,11 +1355,21 @@ public class Menu {
                         }
                     }
                 }
-
             }
-
         }
+    }
 
+    private void detalhesTB() {
+        out.println("Insira o nome do TravelBug.");
+
+        String bug = in.nextLine();
+        if (core.containsBug(bug)) {
+            out.println(core.getBugDetails(bug));
+        } else {
+            out.println("TravelBug não existe.");
+        }
+        in.nextLine();
+        clearScreen();
     }
 
     private void criarCache() {

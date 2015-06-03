@@ -78,7 +78,27 @@ public class TravelBug implements Serializable {
     public TravelBug(TravelBug tb) {
         this.caches = tb.cloneCaches();
         this.descricao = tb.getDescricao();
+        this.currentCache = tb.getCurrentCache();
     }
+
+    @Override
+    public String toString() {
+        String ret = "Descrição: "+ descricao + "\n Cache actual:";
+        if (currentCache == null) {
+            ret += "TravelBug Livre\n";
+        } else {
+            ret += currentCache+"\n";
+        }
+        
+        ret += "Caches: \n";
+        for (CacheRegBug cgb : caches) {
+            ret = ret +cgb.toString();
+        }
+        return ret;
+        
+    }
+    
+    
 
     /**
      * Adiciona registo de inserção de uma cache com data.

@@ -136,7 +136,7 @@ public class TradCache extends Cache implements Serializable {
      */
     public boolean putBug(String bug) {
 
-        if (bugs.contains(bug)) {
+        if (!bugs.contains(bug)) {
             bugs.add(bug);
             return true;
         } else {
@@ -145,7 +145,7 @@ public class TradCache extends Cache implements Serializable {
     }
 
     public boolean containsBug(String bug) {
-        return bugs.contains(bug);
+        if(bugs.contains(bug)== true) return true; else return false;
     }
 
     @Override
