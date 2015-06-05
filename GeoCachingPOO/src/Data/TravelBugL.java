@@ -70,7 +70,7 @@ public class TravelBugL implements Serializable {
          if(bugs.containsKey(bug) == true) return true; else return false;
     }
 
-    String getBugDetails(String bug) {
+    public String getBugDetails(String bug) {
         return bugs.get(bug).toString();
     }
     

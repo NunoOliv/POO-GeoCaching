@@ -188,7 +188,9 @@ class Atividade implements Serializable, Comparable<Atividade> {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-YYY");
         String dateS = formatter.format(date.getTime());
         this.date = (GregorianCalendar) date.clone();
-        return "(" + dateS + ") - " + sender + " adicionou " + friend + " como amigo.";
+        String ret = "(" + dateS + ") - " + sender + " adicionou " + friend + " como amigo.";
+        atividade = ret;
+        return ret;
     }
 
     @Override

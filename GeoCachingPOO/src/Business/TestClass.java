@@ -60,23 +60,33 @@ public class TestClass {
         }
 
         //adicionar amigos
-        for (int i = 0; i < cont; i++) {
+        for (int i = 1; i <= cont; i++) {
             try {
-                core.login("user" + (i + 1) + "@mail.com", "123");
+                core.login("user" + (i) + "@mail.com", "123");
 
-                for (int j = 0; j < cont; j = j + 2) {
+                for (int j = i+2; j <= cont; j = j + 2) {
                     try {
-                        core.pedeAmigo("user" + (j + 1) + "@mail.com");
+                        core.pedeAmigo("user" + (j) + "@mail.com");
                     } catch (JaEAmigoException | PedidoInvalidoException ex) {
+                        System.out.println(ex.getMessage());
                         Logger.getLogger(TestClass.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             } catch (EmailInvalidoException | CamposInvalidosException | UserNaoExisteException | PasswordMissmatchException ex) {
                 Logger.getLogger(TestClass.class.getName()).log(Level.SEVERE, null, ex);
             }
-            for (int j = 0; j < i; j = j + 4) {
+           
+        }
+        for (int i = 1; i <= cont; i++) {
+            try {
+                core.login("user" + (i) + "@mail.com", "123");
+            } catch (EmailInvalidoException | CamposInvalidosException | UserNaoExisteException | PasswordMissmatchException ex) {
+                Logger.getLogger(TestClass.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            for (int j = i-4; j >0; j = j - 4) {
                 try {
-                    core.aceitaAmigo("user" + (j + 1) + "@mail.com");
+                    core.aceitaAmigo("user" + (j) + "@mail.com");
                 } catch (EmailInvalidoException | UserNaoExisteException | PedidoNaoExisteException | JaEAmigoException ex) {
                     Logger.getLogger(TestClass.class.getName()).log(Level.SEVERE, null, ex);
                 }

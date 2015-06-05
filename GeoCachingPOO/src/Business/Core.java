@@ -225,6 +225,7 @@ public class Core implements Serializable {
         checkMail(m);
         if (sessao.getMail().equals(m)) {
             throw new PedidoInvalidoException("Não é possivel adicionar o próprio email como amigo");
+            
         }
         User u = userL.getUser(m);
         u.addPedido(sessao);
