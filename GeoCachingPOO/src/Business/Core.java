@@ -72,6 +72,13 @@ public class Core implements Serializable {
         userL.addUser(mail, pass, nome, genero, morada, dn);
     }
 
+    /**
+     * Verifica se existe um utilizador
+     * 
+     * @param user
+     * @return
+     * @throws EmailInvalidoException 
+     */
     public boolean existeUser(String user) throws EmailInvalidoException {
         return userL.existeUser(user);
     }
@@ -634,5 +641,16 @@ public class Core implements Serializable {
         return cacheL.containsBug(bug);
     }
 
+    
+    public boolean reportCache(String cache) throws CacheNaoExisteException {
+         int i = cacheL.report(cache);
+         if (i>=10) {
+             cacheL.remCache(cache);
+             return true;
+         }
+         else {
+             return false;
+         }
+    }
     
 }

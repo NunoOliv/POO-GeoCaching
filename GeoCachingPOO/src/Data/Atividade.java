@@ -62,7 +62,7 @@ class Atividade implements Serializable, Comparable<Atividade> {
      */
     public String assinouCache(int cache, String ref, String user, int pontos, String clima, GregorianCalendar date) throws TipoDeCacheNaoExisteException {
         String ret;
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-YYY");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
         String dateS = formatter.format(date.getTime());
         ret = "(" + dateS + ") - " + user + " assinmou uma ";
         switch (cache) {

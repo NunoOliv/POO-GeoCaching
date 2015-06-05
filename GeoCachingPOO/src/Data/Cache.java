@@ -19,6 +19,7 @@ public abstract class Cache implements Serializable {
     private final String creator;
     private final HashSet<String> assinantes;
     private String descricao;
+    private int report;
     private int dificuldade;
 
     public Cache(String ref, Coords coords, String creator, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
@@ -32,6 +33,7 @@ public abstract class Cache implements Serializable {
         this.assinantes = assinantes;
         this.descricao = descricao;
         this.dificuldade = dificuldade;
+        this.report = 0;
     }
 
     public Cache(String ref, Coords coords, String creator, String descricao, int dificuldade) throws DificuldadeInvalidaException {
@@ -44,6 +46,7 @@ public abstract class Cache implements Serializable {
         this.descricao = descricao;
         this.dificuldade = dificuldade;
         this.assinantes = new HashSet<>();
+        this.report = 0;
     }
 
     /**
@@ -232,8 +235,31 @@ public abstract class Cache implements Serializable {
      */
     public abstract String getCacheType();
 
+    /**
+     * Devolve criador da cache;
+     * 
+     * @return 
+     */
     public String getCreator() {
         return creator;
+    }
+    
+    /**
+     * Reporta cache como impropria
+     * 
+     * @return numero de reports da cache 
+     */
+    public int report() {
+        return this.report +=1;
+    }
+    
+    /**
+     * Devolve numero de reports da cache
+     * 
+     * @return  numero de reports da cache
+     */
+    public int nReport() {
+        return this.report;
     }
 
 }

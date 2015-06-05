@@ -11,6 +11,8 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -81,20 +83,7 @@ public class Menu {
                     new TestClass(core, 20);
                     break;
                 //apagar
-                case (1337): {
-                    try {
-                        core.registar("naso@gmail.com", "123", "Nome", "M", "Rua", 1, 1, 2000);
 
-                    } catch (EmailInvalidoException | CamposInvalidosException | EmailJaExisteException | GeneroInvalidoException | DataInvalidaException ex) {
-                    }
-                    try {
-                        core.login("naso@gmail.com", "123");
-                    } catch (EmailInvalidoException | CamposInvalidosException | UserNaoExisteException | PasswordMissmatchException ex) {
-                    }
-                    clearScreen();
-                    menu2();
-                }
-                break;
                 default:
                     out.println("Intruduza uma opção válida!");
                     in.nextLine();
@@ -676,7 +665,7 @@ public class Menu {
             if (cont >= screensize) {
                 out.println("Página: " + currPage + " de: " + maxPages);
                 out.println("Mostrar proxima pagina?(S/N)");
-                
+
                 while (!exit && cont != 0) {
                     m = in.nextLine();
                     switch (m) {
@@ -688,7 +677,6 @@ public class Menu {
                             return;
                         default:
                             out.println("Opção invalida: Escreva S para sim ou N para não.");
-                            
 
                     }
                 }
@@ -798,7 +786,8 @@ public class Menu {
                 return;
             }
             out.println(++i + "- Assinar Cache\n"
-                    + ++i + "- Ver Lista de Assinantes");
+                    + ++i + "- Ver Lista de Assinantes\n");
+
             if (sTes = core.suportaTesouros(cache)) {
                 out.println(++i + "- Ver Lista de Tesouros\n"
                         + ++i + "- Adicionar tesouro\n"
@@ -812,6 +801,7 @@ public class Menu {
                     out.println(++i + "- Ver Lista de Organizadores\n");
                 }
             }
+            out.println(i++ + "- Reportar abuso.");
             out.println("0- Sair");
             try {
                 opcao = Integer.parseInt(in.nextLine());
@@ -975,6 +965,13 @@ public class Menu {
                         case 11:
                             detalhesTB();
                             break;
+                        case 12: {
+                            try {
+                                core.reportCache(cache);
+                            } catch (CacheNaoExisteException ex) {
+                                out.println(ex.getMessage());
+                            }
+                        }
                         case 0:
                             return;
                         default:
@@ -1049,6 +1046,13 @@ public class Menu {
                             }
                             clearScreen();
                             break;
+                            case 6: {
+                                try {
+                                    core.reportCache(cache);
+                                } catch (CacheNaoExisteException ex) {
+                                    out.println(ex.getMessage());
+                                }
+                            }
 
                             case 0:
                                 return;
@@ -1250,7 +1254,13 @@ public class Menu {
                         case 9:
                             detalhesTB();
                             break;
-
+                        case 10: {
+                            try {
+                                core.reportCache(cache);
+                            } catch (CacheNaoExisteException ex) {
+                                out.println(ex.getMessage());
+                            }
+                        }
                         case 0:
                             return;
 
@@ -1304,6 +1314,13 @@ public class Menu {
                             }
                             clearScreen();
                             break;
+                            case 4: {
+                                try {
+                                    core.reportCache(cache);
+                                } catch (CacheNaoExisteException ex) {
+                                    out.println(ex.getMessage());
+                                }
+                            }
 
                             case 0:
                                 return;
@@ -1348,6 +1365,13 @@ public class Menu {
                             }
                             clearScreen();
                             break;
+                            case 3: {
+                                try {
+                                    core.reportCache(cache);
+                                } catch (CacheNaoExisteException ex) {
+                                    out.println(ex.getMessage());
+                                }
+                            }
                             case 0:
                                 return;
                             default:

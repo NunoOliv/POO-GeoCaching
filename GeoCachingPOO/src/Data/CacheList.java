@@ -619,5 +619,13 @@ public class CacheList implements Serializable {
     public boolean containsBug(String bug) {
         return bugs.containsBug(bug);
     }
+    
+    public int report(String cache) throws CacheNaoExisteException {
+        return (this.getCache(cache)).report();
+    }
+    
+    public int nReports(String cache) throws CacheNaoExisteException {
+        return (this.getCache(cache)).nReport();
+    }
 
 }
