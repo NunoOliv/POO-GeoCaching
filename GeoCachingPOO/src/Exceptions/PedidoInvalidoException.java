@@ -11,10 +11,17 @@ package Exceptions;
  */
 public class PedidoInvalidoException extends Exception {
 
+    /**
+     *
+     */
     public PedidoInvalidoException() {
         super("Pedido de amizade invalido");
     }
 
+    /**
+     *
+     * @param message
+     */
     public PedidoInvalidoException(String message) {
         super(message);
     }

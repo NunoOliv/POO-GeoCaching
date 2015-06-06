@@ -25,6 +25,10 @@ public class Menu {
     private final Core core;
     private final String ficheiro;
 
+    /**
+     *
+     * @param c
+     */
     public Menu(Core c) {
         out = System.out;
         in = new Scanner(System.in);

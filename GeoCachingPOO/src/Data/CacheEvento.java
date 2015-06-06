@@ -22,6 +22,18 @@ public class CacheEvento extends Cache implements Serializable {
     private GregorianCalendar dataEvento;
     private int pontosExtra;
 
+    /**
+     *
+     * @param ref
+     * @param organizadores
+     * @param dataEvento
+     * @param pontosExtra
+     * @param coords
+     * @param creator
+     * @param descricao
+     * @param dificuldade
+     * @throws DificuldadeInvalidaException
+     */
     public CacheEvento(String ref, HashSet<String> organizadores, GregorianCalendar dataEvento, int pontosExtra, Coords coords, String creator, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         super(ref, coords, creator, descricao, dificuldade);
         this.organizadores = organizadores;
@@ -29,6 +41,16 @@ public class CacheEvento extends Cache implements Serializable {
         this.pontosExtra = pontosExtra;
     }
 
+    /**
+     *
+     * @param ref
+     * @param coords
+     * @param creator
+     * @param assinantes
+     * @param descricao
+     * @param dificuldade
+     * @throws DificuldadeInvalidaException
+     */
     public CacheEvento(String ref, Coords coords, String creator, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         super(ref, coords, creator, assinantes, descricao, dificuldade);
         this.organizadores = new HashSet<>();
@@ -36,6 +58,11 @@ public class CacheEvento extends Cache implements Serializable {
         this.pontosExtra = 0;
     }
 
+    /**
+     *
+     * @param c
+     * @throws DificuldadeInvalidaException
+     */
     public CacheEvento(CacheEvento c) throws DificuldadeInvalidaException {
         super(c.getRef(), c.getCoords(), c.getCreator(), c.listaAssinantes(), c.getDescricao(), c.getDificuldade());
         this.setDataEvento(c.getDataEvento());
@@ -43,6 +70,15 @@ public class CacheEvento extends Cache implements Serializable {
         this.setPontosExtra(this.getPontosExtra());
     }
 
+    /**
+     *
+     * @param ref
+     * @param coords
+     * @param creator
+     * @param descricao
+     * @param dificuldade
+     * @throws DificuldadeInvalidaException
+     */
     public CacheEvento(String ref, Coords coords, String creator, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         super(ref, coords, creator, descricao, dificuldade);
         this.organizadores = new HashSet<>();
@@ -78,6 +114,12 @@ public class CacheEvento extends Cache implements Serializable {
         this.dataEvento = dataEvento;
     }
 
+    /**
+     *
+     * @param dia
+     * @param mes
+     * @param ano
+     */
     public void setDataEvento(int dia, int mes, int ano) {
         this.dataEvento = new GregorianCalendar(ano, mes, dia);
     }
@@ -98,10 +140,20 @@ public class CacheEvento extends Cache implements Serializable {
         this.pontosExtra = pontosExtra;
     }
 
+    /**
+     *
+     * @param user
+     * @return
+     */
     public boolean addOrganizador(String user) {
         return this.organizadores.add(user);
     }
 
+    /**
+     *
+     * @param user
+     * @return
+     */
     public boolean removeOrganizador(String user) {
         return this.organizadores.remove(user);
     }
@@ -116,6 +168,10 @@ public class CacheEvento extends Cache implements Serializable {
         return super.getPoints() + getPontosExtra();
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<String> getListaOrg() {
         ArrayList<String> ret = new ArrayList<>();
         for (String t : organizadores) {

@@ -22,6 +22,16 @@ public abstract class Cache implements Serializable {
     private int report;
     private int dificuldade;
 
+    /**
+     *
+     * @param ref
+     * @param coords
+     * @param creator
+     * @param assinantes
+     * @param descricao
+     * @param dificuldade
+     * @throws DificuldadeInvalidaException
+     */
     public Cache(String ref, Coords coords, String creator, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
 
         if (dificuldade > 5 || dificuldade < 1) {
@@ -36,6 +46,15 @@ public abstract class Cache implements Serializable {
         this.report = 0;
     }
 
+    /**
+     *
+     * @param ref
+     * @param coords
+     * @param creator
+     * @param descricao
+     * @param dificuldade
+     * @throws DificuldadeInvalidaException
+     */
     public Cache(String ref, Coords coords, String creator, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         if (dificuldade > 5 || dificuldade < 1) {
             throw new DificuldadeInvalidaException();

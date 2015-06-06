@@ -27,6 +27,15 @@ public class User implements Serializable {
     private final HashMap<String, User> pedidosAmigo; //users q querem ser amigos deste.
     //private final HashSet<Atividade> ativs;
 
+    /**
+     *
+     * @param mail
+     * @param pw
+     * @param nome
+     * @param genero
+     * @param morada
+     * @param dn
+     */
     public User(String mail, String pw, String nome, String genero, String morada, LocalDate dn) {
         this.mail = mail;
         this.pw = pw;
@@ -39,6 +48,10 @@ public class User implements Serializable {
         //this.ativs = new HashSet<>();
     }
 
+    /**
+     *
+     * @param u
+     */
     public User(User u) {
         this.mail = u.getMail();
         this.pw = u.getPw();
@@ -248,6 +261,7 @@ public class User implements Serializable {
      *
      * @param mail Email do utilizador a mover para a lista de amigos.
      * @throws PedidoNaoExisteException
+     * @throws Exceptions.JaEAmigoException
      */
     public void aceitaPedido(String mail) throws PedidoNaoExisteException, JaEAmigoException {
         if (!pedidosAmigo.containsKey(mail)) {

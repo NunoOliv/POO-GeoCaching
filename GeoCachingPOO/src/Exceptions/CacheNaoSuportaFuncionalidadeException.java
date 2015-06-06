@@ -14,6 +14,10 @@ public class CacheNaoSuportaFuncionalidadeException extends Exception {
     String funcionalidade;
     String log = "Erro - Esta Cache nao suporta a funcionalidade";
 
+    /**
+     *
+     * @param funcionalidade
+     */
     public CacheNaoSuportaFuncionalidadeException(String funcionalidade) {
         this.funcionalidade = funcionalidade;
     }

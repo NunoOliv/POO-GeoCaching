@@ -18,14 +18,38 @@ public class MicroCache extends Cache implements Serializable {
 
     private static final int difExtra = 2;
 
+    /**
+     *
+     * @param ref
+     * @param coords
+     * @param creator
+     * @param assinantes
+     * @param descricao
+     * @param dificuldade
+     * @throws DificuldadeInvalidaException
+     */
     public MicroCache(String ref, Coords coords, String creator, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         super(ref, coords, creator, assinantes, descricao, dificuldade);
     }
 
+    /**
+     *
+     * @param ref
+     * @param coords
+     * @param creator
+     * @param descricao
+     * @param dificuldade
+     * @throws DificuldadeInvalidaException
+     */
     public MicroCache(String ref, Coords coords, String creator, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         super(ref, coords, creator, descricao, dificuldade);
     }
 
+    /**
+     *
+     * @param m
+     * @throws DificuldadeInvalidaException
+     */
     public MicroCache(MicroCache m) throws DificuldadeInvalidaException {
         super(m.getRef(), m.getCoords(), m.getCreator(), m.listaAssinantes(), m.getDescricao(), m.getDificuldade());
     }

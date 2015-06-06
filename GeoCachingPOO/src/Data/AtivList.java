@@ -19,6 +19,9 @@ public class AtivList implements Serializable {
 
     private final ArrayList<Atividade> atividades;
 
+    /**
+     *
+     */
     public AtivList() {
         this.atividades = new ArrayList<>();
     }

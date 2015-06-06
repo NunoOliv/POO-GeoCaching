@@ -34,6 +34,11 @@ public class TestClass {
     private final int cont;
     private int cacheCont;
 
+    /**
+     *
+     * @param core
+     * @param cont
+     */
     public TestClass(Core core, int cont) {
         this.core = core;
         this.cont=cont;

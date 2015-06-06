@@ -67,6 +67,7 @@ public class MultiCache extends TradCache implements Serializable {
      * @param tesouros
      * @param bugs
      * @param coords
+     * @param creator
      * @param Assinantes
      * @param Descricao
      * @param dificuldade
@@ -83,6 +84,11 @@ public class MultiCache extends TradCache implements Serializable {
         this.pontosExtra = pontosExtra;
     }
 
+    /**
+     *
+     * @param c
+     * @throws DificuldadeInvalidaException
+     */
     public MultiCache(MultiCache c) throws DificuldadeInvalidaException {
         super(c.getRef(), c.getTesouros(), c.getBugs(), c.getCoords(), c.getCreator(), c.listaAssinantes(), c.getDescricao(), c.getDificuldade());
         this.pontosIntermedios = c.getPontosIntermedios();

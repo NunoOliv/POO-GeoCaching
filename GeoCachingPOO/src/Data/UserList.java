@@ -17,14 +17,25 @@ public class UserList implements Serializable {
 
     private HashMap<String, User> userL;
 
+    /**
+     *
+     */
     public UserList() {
         userL = new HashMap<>();
     }
 
+    /**
+     *
+     * @param ul
+     */
     public UserList(UserList ul) {
         userL = ul.cloneUsers();
     }
 
+    /**
+     *
+     * @param userL
+     */
     public void setUserList(HashMap<String, User> userL) {
         this.userL = userL;
     }
@@ -179,6 +190,10 @@ public class UserList implements Serializable {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public HashMap<String, User> cloneUsers() {
         HashMap<String, User> r = new HashMap<>();
         User u;

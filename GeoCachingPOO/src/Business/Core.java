@@ -33,6 +33,9 @@ public class Core implements Serializable {
     private CacheList cacheL;
     private AtivList ativL;
 
+    /**
+     *
+     */
     public Core() {
         userL = new UserList();
         sessao = null;
@@ -40,6 +43,9 @@ public class Core implements Serializable {
         ativL = new AtivList();
     }
     
+    /**
+     *
+     */
     public void erase() {
         userL = new UserList();
         sessao = null;
@@ -48,7 +54,15 @@ public class Core implements Serializable {
         
     }
             
-
+    /**
+     *
+     * @param mail
+     * @param pass
+     * @throws EmailInvalidoException
+     * @throws CamposInvalidosException
+     * @throws UserNaoExisteException
+     * @throws PasswordMissmatchException
+     */
     public void login(String mail, String pass) throws EmailInvalidoException, CamposInvalidosException, UserNaoExisteException, PasswordMissmatchException {
         userL.existeUser(mail);
         if (userL.checkPass(mail, pass)) {
@@ -58,6 +72,22 @@ public class Core implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param mail
+     * @param pass
+     * @param nome
+     * @param genero
+     * @param morada
+     * @param dia
+     * @param mes
+     * @param ano
+     * @throws CamposInvalidosException
+     * @throws EmailJaExisteException
+     * @throws GeneroInvalidoException
+     * @throws DataInvalidaException
+     * @throws EmailInvalidoException
+     */
     public void registar(String mail, String pass, String nome, String genero, String morada, int dia, int mes, int ano) throws CamposInvalidosException, EmailJaExisteException, GeneroInvalidoException, DataInvalidaException, EmailInvalidoException {
         checkMail(mail);
         LocalDate dn = buildDate(dia, mes, ano);
@@ -546,39 +576,95 @@ public class Core implements Serializable {
         return cacheL.addTesouro(tesouro, cache);
     }
 
+    /**
+     *
+     * @param tesouro
+     * @param cache
+     * @return
+     * @throws CacheNaoSuportaFuncionalidadeException
+     * @throws CacheNaoExisteException
+     */
     public boolean takeTesouro(String tesouro, String cache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
         return cacheL.takeTesouro(tesouro, cache);
     }
 
+    /**
+     *
+     * @param tradCache
+     * @return
+     * @throws CacheNaoSuportaFuncionalidadeException
+     * @throws CacheNaoExisteException
+     */
     public ArrayList<String> getListBugs(String tradCache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
         return cacheL.getListBugs(tradCache);
     }
 
+    /**
+     *
+     * @param bug
+     * @param tradCache
+     * @return
+     * @throws CacheNaoSuportaFuncionalidadeException
+     * @throws CacheNaoExisteException
+     */
     public boolean addBug(String bug, String tradCache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
         return cacheL.addBug(bug, tradCache);
     }
 
+    /**
+     *
+     * @param bug
+     * @param tradCache
+     * @return
+     * @throws CacheNaoSuportaFuncionalidadeException
+     * @throws CacheNaoExisteException
+     */
     public boolean takeBug(String bug, String tradCache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
         return cacheL.takeBug(bug, tradCache);
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<String> getFreeBugs(){
         return cacheL.getFreeBugs();
     }
+
+    /**
+     *
+     * @param bug
+     * @return
+     */
     public String getBugDetails(String bug){
         return cacheL.getBugDetails(bug);
     }
     
+    /**
+     *
+     * @param cache
+     * @return
+     * @throws CacheNaoSuportaFuncionalidadeException
+     * @throws CacheNaoExisteException
+     */
     public ArrayList<String> getListaOrg(String cache) throws CacheNaoSuportaFuncionalidadeException, CacheNaoExisteException {
         return cacheL.getListaOrg(cache);
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<String> getAtividadesProprio() {
         ArrayList<String> a = new ArrayList<>();
         a.add(sessao.getMail());
         return ativL.getAtividades(a);
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<String> getAtividadesAmigos() {
         ArrayList<String> a = new ArrayList<>();
         for (String s : sessao.listaIdentAmigos()) {
@@ -587,6 +673,12 @@ public class Core implements Serializable {
         return ativL.getAtividades(a);
     }
 
+    /**
+     *
+     * @param amigo
+     * @return
+     * @throws EmailInvalidoException
+     */
     public ArrayList<String> getAtividadesAmigo(String amigo) throws EmailInvalidoException {
         if (userL.existeUser(amigo) && sessao.listaIdentAmigos().contains(amigo)) {
             ArrayList<String> a = new ArrayList<>();
@@ -638,11 +730,21 @@ public class Core implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param bug
+     * @return
+     */
     public boolean containsBug(String bug) {
         return cacheL.containsBug(bug);
     }
 
-    
+    /**
+     *
+     * @param cache
+     * @return
+     * @throws CacheNaoExisteException
+     */
     public boolean reportCache(String cache) throws CacheNaoExisteException {
          int i = cacheL.report(cache);
          if (i>=10) {
@@ -654,6 +756,10 @@ public class Core implements Serializable {
          }
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<String> getEventos() {
         Map<GregorianCalendar, String> map =  cacheL.getEventos();
         ArrayList<String> ret = new ArrayList<> ();

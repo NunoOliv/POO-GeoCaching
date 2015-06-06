@@ -18,24 +18,61 @@ public class TradCache extends Cache implements Serializable {
     private HashSet<String> bugs;
 
 // Construtores 
-    public TradCache(String ref, Coords coords, String creator, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
+
+    /**
+     *
+     * @param ref
+     * @param coords
+     * @param creator
+     * @param assinantes
+     * @param descricao
+     * @param dificuldade
+     * @throws DificuldadeInvalidaException
+     */
+        public TradCache(String ref, Coords coords, String creator, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         super(ref, coords, creator, assinantes, descricao, dificuldade);
         tesouros = new HashSet<>();
         bugs = new HashSet<>();
     }
 
+    /**
+     *
+     * @param ref
+     * @param tesouros
+     * @param bugs
+     * @param coords
+     * @param creator
+     * @param assinantes
+     * @param descricao
+     * @param dificuldade
+     * @throws DificuldadeInvalidaException
+     */
     public TradCache(String ref, HashSet<String> tesouros, HashSet<String> bugs, Coords coords, String creator, HashSet<String> assinantes, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         super(ref, coords, creator, assinantes, descricao, dificuldade);
         this.tesouros = tesouros;
         this.bugs = bugs;
     }
 
+    /**
+     *
+     * @param ref
+     * @param coords
+     * @param creator
+     * @param descricao
+     * @param dificuldade
+     * @throws DificuldadeInvalidaException
+     */
     public TradCache(String ref, Coords coords, String creator, String descricao, int dificuldade) throws DificuldadeInvalidaException {
         super(ref, coords, creator, descricao, dificuldade);
         tesouros = new HashSet<>();
         bugs = new HashSet<>();
     }
 
+    /**
+     *
+     * @param t
+     * @throws DificuldadeInvalidaException
+     */
     public TradCache(TradCache t) throws DificuldadeInvalidaException {
         super(t.getRef(), t.getCoords(), t.getCreator(), t.listaAssinantes(), t.getDescricao(), t.getDificuldade());
         this.tesouros = t.getTesouros();
@@ -44,14 +81,27 @@ public class TradCache extends Cache implements Serializable {
     }
 
     //Getters e Setters
-    public HashSet getTesouros() {
+
+    /**
+     *
+     * @return
+     */
+        public HashSet getTesouros() {
         return new HashSet<>(tesouros);
     }
 
+    /**
+     *
+     * @param tesouros
+     */
     public void setTesouros(HashSet tesouros) {
         this.tesouros = tesouros;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<String> getListTesouros() {
         ArrayList<String> ret = new ArrayList<>();
         for (String t : tesouros) {
@@ -60,6 +110,10 @@ public class TradCache extends Cache implements Serializable {
         return ret;
     }
 
+    /**
+     *
+     * @return
+     */
     public HashSet<String> getBugs() {
         return new HashSet<>(bugs);
     }
@@ -144,6 +198,11 @@ public class TradCache extends Cache implements Serializable {
         }
     }
 
+    /**
+     *
+     * @param bug
+     * @return
+     */
     public boolean containsBug(String bug) {
         if(bugs.contains(bug)== true) return true; else return false;
     }
