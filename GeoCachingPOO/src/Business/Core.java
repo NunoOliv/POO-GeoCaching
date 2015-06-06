@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -494,7 +495,7 @@ public class Core implements Serializable {
      * @throws Exceptions.CacheNaoExisteException
      * @throws Exceptions.TipoDeCacheNaoExisteException
      */
-    public boolean assinarCache(String cache) throws CacheNaoExisteException, TipoDeCacheNaoExisteException {
+    public boolean assinarCache(String cache) throws CacheNaoExisteException, TipoDeCacheNaoExisteException, Exception {
         boolean ass = cacheL.assinarCache(cache, sessao.getMail());
         int weather = this.calculateWeather();
         int pontos = cacheL.getPontos(cache) + weather;
@@ -651,6 +652,17 @@ public class Core implements Serializable {
          else {
              return false;
          }
+    }
+
+    public ArrayList<String> getEventos() {
+        Map<GregorianCalendar, String> map =  cacheL.getEventos();
+        ArrayList<String> ret = new ArrayList<> ();
+        for(GregorianCalendar date : map.keySet()) {
+            if((new GregorianCalendar().compareTo(date)) <= 0) {
+                ret.add(map.get(date));
+            }
+        }
+        return ret;
     }
     
 }

@@ -125,6 +125,17 @@ public class CacheEvento extends Cache implements Serializable {
     }
 
     @Override
+    public boolean addAssinante(String nome) throws Exception {
+        if ((new GregorianCalendar().compareTo(dataEvento)) <0 ) 
+        {
+            throw new  Exception("Evento já Expirou! Não e possivel assinar este Evento");
+        }
+        return super.addAssinante(nome); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
+    
+    @Override
     public Cache clone() {
         try {
             return new CacheEvento(this);

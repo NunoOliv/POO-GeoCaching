@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import Exceptions.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  *
@@ -203,13 +204,27 @@ public class UserList implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        return super.equals(o); //To change body of generated methods, choose Tools | Templates.
+    public int hashCode() {
+        int hash = 5;
+        hash = 67 * hash + Objects.hashCode(this.userL);
+        return hash;
     }
 
     @Override
-    public int hashCode() {
-        return super.hashCode(); //To change body of generated methods, choose Tools | Templates.
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final UserList other = (UserList) obj;
+        if (!Objects.equals(this.userL, other.userL)) {
+            return false;
+        }
+        return true;
     }
+
+    
 
 }

@@ -11,8 +11,6 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -640,6 +638,7 @@ public class Menu {
                 + (++i) + "- Criar Cache\n"
                 + (++i) + "- Ver TravelBugs livres\n"
                 + (++i) + "- Ver Detalhes de um TravelBug\n"
+                + (++i) + "- Ver Eventos\n"
                 + "0-Voltar";
     }
 
@@ -730,6 +729,9 @@ public class Menu {
                     detalhesTB();
                     clearScreen();
                     break;
+                case (6) :
+                    listaEventos();
+                    break;
                 default:
                     out.println("Intruduza uma opção válida!");
                     in.nextLine();
@@ -786,7 +788,7 @@ public class Menu {
                 return;
             }
             out.println(++i + "- Assinar Cache\n"
-                    + ++i + "- Ver Lista de Assinantes\n");
+                    + ++i + "- Ver Lista de Assinantes");
 
             if (sTes = core.suportaTesouros(cache)) {
                 out.println(++i + "- Ver Lista de Tesouros\n"
@@ -798,7 +800,7 @@ public class Menu {
                         + ++i + "- Ver TravelBug");
             } else {
                 if (sEventos = core.suportaEventos(cache)) {
-                    out.println(++i + "- Ver Lista de Organizadores\n");
+                    out.println(++i + "- Ver Lista de Organizadores");
                 }
             }
             out.println(i++ + "- Reportar abuso.");
@@ -848,8 +850,13 @@ public class Menu {
                                         }
                                     } catch (CacheNaoExisteException ex) {
                                         out.println(ex.getMessage());
+                                        break;
                                     } catch (TipoDeCacheNaoExisteException ex) {
                                         out.println(ex.getMessage());
+                                        break;
+                                    } catch (Exception ex) {
+                                        out.println(ex.getMessage());
+                                        break;
                                     }
                                     break;
                                 } else if (aux.equals("N")) {
@@ -1014,8 +1021,13 @@ public class Menu {
                                             break;
                                         } catch (CacheNaoExisteException ex) {
                                             out.println(ex.getMessage());
+                                            break;
                                         } catch (TipoDeCacheNaoExisteException ex) {
                                             out.println(ex.getMessage());
+                                            break;
+                                        } catch (Exception ex) {
+                                            out.println(ex.getMessage());
+                                            break;
                                         }
                                     } else if (aux.equals("N")) {
                                         out.println("Cache não foi assinada!");
@@ -1094,8 +1106,13 @@ public class Menu {
                                             }
                                         } catch (CacheNaoExisteException ex) {
                                             out.println(ex.getMessage());
+                                            break;
                                         } catch (TipoDeCacheNaoExisteException ex) {
                                             out.println(ex.getMessage());
+                                            break;
+                                        } catch (Exception ex) {
+                                            out.println(ex.getMessage());
+                                            break;
                                         }
                                         break;
                                     } else if (aux.equals("N")) {
@@ -1139,8 +1156,13 @@ public class Menu {
                                         }
                                     } catch (CacheNaoExisteException ex) {
                                         out.println(ex.getMessage());
+                                        break;
                                     } catch (TipoDeCacheNaoExisteException ex) {
                                         out.println(ex.getMessage());
+                                        break;
+                                    } catch (Exception ex) {
+                                        out.println(ex.getMessage());
+                                        break;
                                     }
                                     break;
                                 } else if (aux.equals("N")) {
@@ -1281,8 +1303,13 @@ public class Menu {
                                             }
                                         } catch (CacheNaoExisteException ex) {
                                             out.println(ex.getMessage());
+                                            break;
                                         } catch (TipoDeCacheNaoExisteException ex) {
                                             out.println(ex.getMessage());
+                                            break;
+                                        } catch (Exception ex) {
+                                            out.println(ex.getMessage());
+                                            break;
                                         }
                                         break;
                                     } else if (aux.equals("N")) {
@@ -1343,8 +1370,13 @@ public class Menu {
                                             }
                                         } catch (CacheNaoExisteException ex) {
                                             out.println(ex.getMessage());
+                                            break;
                                         } catch (TipoDeCacheNaoExisteException ex) {
                                             out.println(ex.getMessage());
+                                            break;
+                                        } catch (Exception ex) {
+                                            out.println(ex.getMessage());
+                                            break;
                                         }
                                         break;
                                     } else if (aux.equals("N")) {
@@ -2014,6 +2046,10 @@ public class Menu {
 
             }
         }
+    }
+
+    private void listaEventos() {
+        mVerLista("Eventos", core.getEventos());
     }
 
 }

@@ -11,9 +11,12 @@ import Exceptions.DificuldadeInvalidaException;
 import Exceptions.PontosExtraInvalidosException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  *
@@ -90,13 +93,7 @@ public class CacheList implements Serializable {
         return true;
     }
 
-    public boolean assinarCache(String cache, String user) {
-        if (this.containsCache(cache)) {
-            return caches.get(cache).addAssinante(user);
-        } else {
-            return false;
-        }
-    }
+
 
     /*
      * *****************************************
@@ -132,16 +129,20 @@ public class CacheList implements Serializable {
         return this.getCache(cache).listaAssinantes();
     }
 
-    public boolean addAssinantes(String assinante, String cache) throws CacheNaoExisteException {
-        return this.getCache(cache).addAssinante(assinante);
-    }
 
     public boolean remAssinantes(String assinante, String cache) throws CacheNaoExisteException {
         return this.getCache(cache).remAssinante(assinante);
     }
 
-    public boolean addAssinante(String nome, String refCache) {
-        return caches.get(refCache).addAssinante(nome);
+
+    
+        public boolean assinarCache(String cache, String user) throws Exception {
+        if (this.containsCache(cache)) {
+
+            return caches.get(cache).addAssinante(user);
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -626,6 +627,18 @@ public class CacheList implements Serializable {
     
     public int nReports(String cache) throws CacheNaoExisteException {
         return (this.getCache(cache)).nReport();
+    }
+
+    public Map<GregorianCalendar, String> getEventos() {
+       
+        Map ret = new TreeMap(Collections.reverseOrder());
+        for(Cache c : caches.values()) {
+           if (c instanceof CacheEvento) {
+               ret.put(((CacheEvento) c).getDataEvento(), c.getRef());
+           }
+       }
+        
+       return ret;
     }
 
 }

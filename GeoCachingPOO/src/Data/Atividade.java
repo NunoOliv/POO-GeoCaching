@@ -104,7 +104,7 @@ class Atividade implements Serializable, Comparable<Atividade> {
      */
     public String removeCache(int cache, String ref, String user, GregorianCalendar date) throws TipoDeCacheNaoExisteException {
         String ret;
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-YYY");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
         String dateS = formatter.format(date.getTime());
         ret = user + " removeu uma ";
         switch (cache) {
@@ -147,7 +147,7 @@ class Atividade implements Serializable, Comparable<Atividade> {
      */
     public String addCache(String user, int cache, String ref, int pontos, GregorianCalendar date) throws TipoDeCacheNaoExisteException {
         String ret;
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-YYY");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
         String dateS = formatter.format(date.getTime());
         ret = "(" + dateS + ") - " + user + " criou uma ";
         switch (cache) {
@@ -185,7 +185,7 @@ class Atividade implements Serializable, Comparable<Atividade> {
      * @return String com a descrição da actividade
      */
     public String addFriend(String sender, String friend, GregorianCalendar date) {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-YYY");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
         String dateS = formatter.format(date.getTime());
         this.date = (GregorianCalendar) date.clone();
         String ret = "(" + dateS + ") - " + sender + " adicionou " + friend + " como amigo.";

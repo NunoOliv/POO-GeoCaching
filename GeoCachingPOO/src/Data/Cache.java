@@ -81,8 +81,9 @@ public abstract class Cache implements Serializable {
      *
      * @param nome Identificador do utilizador a adicionar à cache.
      * @return
+     * @throws java.lang.Exception
      */
-    public boolean addAssinante(String nome) {
+    public boolean addAssinante(String nome) throws Exception {
         return this.assinantes.add(nome);
     }
 
