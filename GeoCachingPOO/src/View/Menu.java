@@ -99,7 +99,7 @@ public class Menu {
      */
     public void clearScreen() {
         int i = 0;
-        while (i < 25) {
+        while (i < 50) {
             out.println();
             i++;
         }
