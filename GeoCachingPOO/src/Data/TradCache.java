@@ -5,9 +5,9 @@ import Exceptions.DificuldadeInvalidaException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Objects;
 
 /**
- *
  * @author Rafael Antunes
  * @author Nuno Oliveira
  * @author Rui Pereira
@@ -257,4 +257,31 @@ public class TradCache extends Cache implements Serializable {
         return 1;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 53 * hash + Objects.hashCode(this.tesouros);
+        hash = 53 * hash + Objects.hashCode(this.bugs);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final TradCache other = (TradCache) obj;
+        if (!Objects.equals(this.tesouros, other.getTesouros())) {
+            return false;
+        }
+        if (!Objects.equals(this.bugs, other.getBugs())) {
+            return false;
+        }
+        return true;
+    }
+
+    
 }

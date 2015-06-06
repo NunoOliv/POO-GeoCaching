@@ -1,16 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Data;
 
 import java.io.Serializable;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
+import java.util.Objects;
 
 /**
- *
  * @author Rafael Antunes
  * @author Nuno Oliveira
  * @author Rui Pereira
@@ -149,4 +144,35 @@ public class TravelBug implements Serializable {
         return new TravelBug(this); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + Objects.hashCode(this.descricao);
+        hash = 29 * hash + Objects.hashCode(this.caches);
+        hash = 29 * hash + Objects.hashCode(this.currentCache);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final TravelBug other = (TravelBug) obj;
+        if (!Objects.equals(this.descricao, other.getDescricao())) {
+            return false;
+        }
+        if (!Objects.equals(this.caches, other.getCaches())) {
+            return false;
+        }
+        if (!Objects.equals(this.currentCache, other.getCurrentCache())) {
+            return false;
+        }
+        return true;
+    }
+
+    
 }

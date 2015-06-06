@@ -1,17 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
- *
+ * @author Rafael Antunes
  * @author Nuno Oliveira
+ * @author Rui Pereira
  */
 public class TravelBugL implements Serializable {
 
@@ -115,4 +112,27 @@ public class TravelBugL implements Serializable {
         
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 53 * hash + Objects.hashCode(this.bugs);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final TravelBugL other = (TravelBugL) obj;
+        if (!Objects.equals(this.bugs, other.getBugs())) {
+            return false;
+        }
+        return true;
+    }
+
+    
 }

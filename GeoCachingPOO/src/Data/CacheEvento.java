@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Data;
 
 import Exceptions.DificuldadeInvalidaException;
@@ -11,10 +6,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
+import java.util.Objects;
 
 /**
- *
+ * @author Rafael Antunes
  * @author Nuno Oliveira
+ * @author Rui Pereira
  */
 public class CacheEvento extends Cache implements Serializable {
 
@@ -233,5 +230,37 @@ public class CacheEvento extends Cache implements Serializable {
     public int getCacheCode() {
         return 5;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 23 * hash + Objects.hashCode(this.organizadores);
+        hash = 23 * hash + Objects.hashCode(this.dataEvento);
+        hash = 23 * hash + this.pontosExtra;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final CacheEvento other = (CacheEvento) obj;
+        if (!Objects.equals(this.organizadores, other.getOrganizadores())) {
+            return false;
+        }
+        if (!Objects.equals(this.dataEvento, other.getDataEvento())) {
+            return false;
+        }
+        if (this.pontosExtra != other.getPontosExtra()) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 
 }

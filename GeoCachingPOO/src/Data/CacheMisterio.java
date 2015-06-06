@@ -1,17 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Data;
 
 import Exceptions.DificuldadeInvalidaException;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 
 /**
- *
+ * @author Rafael Antunes
  * @author Nuno Oliveira
+ * @author Rui Pereira
  */
 public class CacheMisterio extends TradCache implements Serializable {
 
@@ -144,9 +141,8 @@ public class CacheMisterio extends TradCache implements Serializable {
         try {
             return new CacheMisterio(this);
         } catch (DificuldadeInvalidaException ex) {
-
+            return null;
         }
-        return null;
     }
 
     @Override
@@ -169,4 +165,31 @@ public class CacheMisterio extends TradCache implements Serializable {
         return 3; //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.descPuzzle);
+        hash = 89 * hash + this.pontosExtra;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final CacheMisterio other = (CacheMisterio) obj;
+        if (!Objects.equals(this.descPuzzle, other.getDescPuzzle())) {
+            return false;
+        }
+        if (this.pontosExtra != other.getPontosExtra()) {
+            return false;
+        }
+        return true;
+    }
+
+    
 }

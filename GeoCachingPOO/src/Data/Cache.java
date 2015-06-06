@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Objects;
 
 /**
- *
  * @author Rafael Antunes
  * @author Nuno Oliveira
  * @author Rui Pereira
@@ -220,13 +219,13 @@ public abstract class Cache implements Serializable {
         if (!this.creator.equals(other.getCreator())) {
             return false;
         }
-        if (!Objects.equals(this.assinantes, other.assinantes)) {
+        if (!Objects.equals(this.assinantes, other.listaAssinantes())) {
             return false;
         }
         if (!this.descricao.equals(other.getDescricao())) {
             return false;
         }
-        if (this.dificuldade != other.dificuldade) {
+        if (this.dificuldade != other.getDificuldade()) {
             return false;
         }
         return true;

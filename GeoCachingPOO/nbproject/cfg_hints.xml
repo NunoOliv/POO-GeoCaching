@@ -44,5 +44,8 @@
         <node name="org.netbeans.modules.java.hints.jdk.mapreduce.ForLoopToFunctionalHint">
             <attribute name="enabled" value="false"/>
         </node>
+        <node name="org.netbeans.modules.java.hints.OverridableMethodCallInConstructor">
+            <attribute name="enabled" value="false"/>
+        </node>
     </tool>
 </configuration>

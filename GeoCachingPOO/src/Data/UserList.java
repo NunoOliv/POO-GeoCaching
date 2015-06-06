@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- *
  * @author Rafael Antunes
  * @author Nuno Oliveira
  * @author Rui Pereira
@@ -32,6 +31,7 @@ public class UserList implements Serializable {
         userL = ul.cloneUsers();
     }
 
+    
     /**
      *
      * @param userL
@@ -234,7 +234,7 @@ public class UserList implements Serializable {
             return false;
         }
         final UserList other = (UserList) obj;
-        if (!Objects.equals(this.userL, other.userL)) {
+        if (!Objects.equals(this.userL, other.cloneUsers())) {
             return false;
         }
         return true;
