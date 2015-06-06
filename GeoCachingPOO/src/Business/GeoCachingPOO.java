@@ -1,6 +1,7 @@
-package View;
+package Business;
 
 import Business.Core;
+import View.Menu;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
