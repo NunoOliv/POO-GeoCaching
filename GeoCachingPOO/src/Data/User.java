@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 /**
- *
  * @author Rafael Antunes
  * @author Nuno Oliveira
  * @author Rui Pereira
@@ -468,5 +467,7 @@ public class User implements Serializable {
     public User clone() {
         return new User(this);
     }
+    
+    
 
 }

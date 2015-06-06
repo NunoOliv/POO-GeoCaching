@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Data;
 
 import Exceptions.TipoDeCacheNaoExisteException;
@@ -10,18 +5,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.GregorianCalendar;
+import java.util.Objects;
 
 /**
- *
- * @author naso
+ * @author Rafael Antunes
+ * @author Nuno Oliveira
+ * @author Rui Pereira
  */
 public class AtivList implements Serializable {
 
     private final ArrayList<Atividade> atividades;
 
-    /**
-     *
-     */
     public AtivList() {
         this.atividades = new ArrayList<>();
     }
@@ -140,4 +134,51 @@ public class AtivList implements Serializable {
 
         return ret;
     }
+
+    /**
+     * Devolve todas as actividades.
+     *
+     * @return lista de actividades.
+     */
+    public ArrayList<Atividade> getAllAtividades() {
+        ArrayList<Atividade> ret = new ArrayList<>();
+
+        for (Atividade a : atividades) {
+            ret.add(a.clone());
+        }
+
+        return ret;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 19 * hash + Objects.hashCode(this.atividades);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AtivList other = (AtivList) obj;
+
+        ArrayList<Atividade> ativs2=other.getAllAtividades();
+        
+        if (this.atividades.size() != ativs2.size()) {
+            return false;
+        }
+
+        
+        for (int i = 0; i < this.atividades.size(); i++) {
+            if(!this.atividades.get(i).equals(ativs2.get(i)))return false;
+        }
+
+        return true;
+    }
+
 }

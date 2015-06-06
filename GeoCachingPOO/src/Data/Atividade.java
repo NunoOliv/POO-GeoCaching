@@ -7,12 +7,11 @@ import java.util.GregorianCalendar;
 import java.util.Objects;
 
 /**
- *
  * @author Rafael Antunes
  * @author Nuno Oliveira
  * @author Rui Pereira
  */
-class Atividade implements Serializable, Comparable<Atividade> {
+public class Atividade implements Serializable, Comparable<Atividade> {
 
     private GregorianCalendar date;
     private final String user;
@@ -234,7 +233,7 @@ class Atividade implements Serializable, Comparable<Atividade> {
 
     @Override
     public String toString() {
-        return atividade;
+        return this.atividade;
     }
 
     @Override
@@ -247,7 +246,7 @@ class Atividade implements Serializable, Comparable<Atividade> {
     }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    protected Atividade clone() {
         Atividade c = new Atividade((GregorianCalendar) date.clone(), user, atividade);
         return c;
     }
