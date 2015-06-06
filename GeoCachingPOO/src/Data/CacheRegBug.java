@@ -23,24 +23,47 @@ public class CacheRegBug implements Serializable {
     private GregorianCalendar date;
 
     //getters e setters
-    public String getCache() {
+
+    /**
+     *
+     * @return
+     */
+        public String getCache() {
         return cache;
     }
 
+    /**
+     *
+     * @param cache
+     */
     public void setCache(String cache) {
         this.cache = cache;
     }
 
+    /**
+     *
+     * @return
+     */
     public GregorianCalendar getDate() {
         return date;
     }
 
+    /**
+     *
+     * @param date
+     */
     public void setDate(GregorianCalendar date) {
         this.date = date;
     }
 
     //construtores
-    public CacheRegBug(String cache, GregorianCalendar date) {
+
+    /**
+     *
+     * @param cache
+     * @param date
+     */
+        public CacheRegBug(String cache, GregorianCalendar date) {
         this.cache = cache;
         this.date = date;
     }

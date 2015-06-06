@@ -17,12 +17,12 @@ public class TravelBugL implements Serializable {
 
     private HashMap<String, TravelBug> bugs;
 
+    /**
+     *
+     */
     public TravelBugL() {
         this.bugs = new HashMap<>();
     }
-
-    
-    
     
     /**
      * @return the bugs
@@ -38,6 +38,11 @@ public class TravelBugL implements Serializable {
         this.bugs = new HashMap<>(bugs);
     }
 
+    /**
+     *
+     * @param nome
+     * @return
+     */
     public boolean newTB(String nome) {
         TravelBug newTb = new TravelBug(nome);
         if (bugs.containsKey(nome)) {
@@ -47,15 +52,29 @@ public class TravelBugL implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @param bug
+     * @param cache
+     */
     public void addCacheRec(String bug, String cache) {
         bugs.get(bug).addCache(cache);
         bugs.get(bug).setCurrentCache(cache);
     }
 
+    /**
+     *
+     * @param bug
+     * @param cache
+     */
     public void takeFromCache(String bug, String cache) {
         bugs.get(bug).setCurrentCache(null);
     }
     
+    /**
+     *
+     * @return
+     */
     public ArrayList<String> getFreeBugs() {
         ArrayList<String> ret = new ArrayList<>();
         for(String tb : bugs.keySet()) {
@@ -66,14 +85,30 @@ public class TravelBugL implements Serializable {
         return ret;
     }
 
+    /**
+     *
+     * @param bug
+     * @return
+     */
     public boolean containsBug(String bug) {
          if(bugs.containsKey(bug) == true) return true; else return false;
     }
 
+    /**
+     *
+     * @param bug
+     * @return
+     */
     public String getBugDetails(String bug) {
         return bugs.get(bug).toString();
     }
     
+    /**
+     *
+     * @param bug
+     * @return
+     * @throws Exception
+     */
     public String getCurrCache(String bug) throws Exception {
         if(bugs.get(bug).getCurrentCache() !=null) return bugs.get(bug).getCurrentCache();
         else throw new Exception();

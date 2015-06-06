@@ -19,6 +19,10 @@ public class AutoSaveThread implements Runnable {
 
     private final Core core;
 
+    /**
+     *
+     * @param core
+     */
     public AutoSaveThread(Core core) {
         this.core = core;
     }
@@ -27,7 +31,7 @@ public class AutoSaveThread implements Runnable {
     public void run() {
         while (true) {
             try {
-                sleep(2 * 60 * 1000);//2 min * 60 segs * 1000 milisegundos.
+                sleep(5 * 60 * 1000);//2 min * 60 segs * 1000 milisegundos.
             } catch (InterruptedException ex) {
             }
             guardar();

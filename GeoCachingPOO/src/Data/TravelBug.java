@@ -37,23 +37,43 @@ public class TravelBug implements Serializable {
         this.currentCache = currentCache;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDescricao() {
         return descricao;
     }
 
+    /**
+     *
+     * @param descricao
+     */
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
 
+    /**
+     *
+     * @return
+     */
     public HashSet getCaches() {
         return new HashSet<>(caches);
     }
 
+    /**
+     *
+     * @param caches
+     */
     public void setCaches(HashSet caches) {
 
         this.caches = new HashSet<>(caches);
     }
 
+    /**
+     *
+     * @return
+     */
     public HashSet<CacheRegBug> cloneCaches() {
 
         HashSet<CacheRegBug> ret = new HashSet<>();
@@ -65,16 +85,30 @@ public class TravelBug implements Serializable {
     }
 
     //cosntrutores
-    public TravelBug(HashSet caches, String descrição) {
+
+    /**
+     *
+     * @param caches
+     * @param descrição
+     */
+        public TravelBug(HashSet caches, String descrição) {
         this.caches = caches;
         this.descricao = descrição;
     }
 
+    /**
+     *
+     * @param descrição
+     */
     public TravelBug(String descrição) {
         this.descricao = descrição;
         caches = new HashSet<>();
     }
 
+    /**
+     *
+     * @param tb
+     */
     public TravelBug(TravelBug tb) {
         this.caches = tb.cloneCaches();
         this.descricao = tb.getDescricao();
